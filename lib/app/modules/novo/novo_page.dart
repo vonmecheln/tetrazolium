@@ -35,7 +35,7 @@ class _NovoPageState extends State<NovoPage> {
               child: ElevatedButton(
                 child: Text('Salvar'),
                 onPressed: () {
-                  Modular.to.pushNamed('analise');
+                  Modular.to.pushNamed('/analise');
                 },
               ),
             )
