@@ -1,7 +1,4 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tetrazolium/app/modules/analise/analise_module.dart';
-import 'package:tetrazolium/app/modules/novo/novo_module.dart';
-
 import 'modules/home/home_module.dart';
 
 class AppModule extends Module {
@@ -11,7 +8,7 @@ class AppModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ModuleRoute(Modular.initialRoute, module: HomeModule()),
-    ModuleRoute('/novo', module: NovoModule()),
-    ModuleRoute('/analise', module: AnaliseModule()),
+    // ModuleRoute('/novo', module: NovoModule()),
+    // ModuleRoute('/analise', module: AnaliseModule()),
   ];
 }
