@@ -1,4 +1,4 @@
-class Damage {
+abstract class Damage {
   final String type;
   final bool main;
 

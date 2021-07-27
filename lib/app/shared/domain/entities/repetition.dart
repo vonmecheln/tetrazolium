@@ -1,4 +1,4 @@
-class Repetition {
+abstract class Repetition {
   final int number;
   final int viability;
   final int vigor;

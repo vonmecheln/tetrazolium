@@ -1,4 +1,4 @@
-class Photo {
+abstract class Photo {
   final String name;
 
   Photo({

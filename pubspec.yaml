@@ -27,19 +27,21 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: 
-  flutter_modular: 
-  flutter_triple: 
-  rxdart: 
-  dio: 
-  google_fonts:
-  mobx: ^2.0.1
+  cupertino_icons: ^1.0.3 
+  flutter_modular: ^3.3.1 
+  flutter_triple: ^1.2.3+1 
+  rxdart: ^0.27.1 
+  dio: ^4.0.0 
+  google_fonts: ^2.1.0
+  mobx: ^2.0.3
 
 dev_dependencies:
-  flutter_modular_test: 
+  build_runner: ^2.0.6 
+  flutter_modular_test: ^1.0.1 
   flutter_test:
     sdk: flutter
-  triple_test: 
+  json_serializable: ^4.1.4
+  triple_test: ^0.0.6 
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

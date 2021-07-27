@@ -1,6 +1,6 @@
 import 'repetition.dart';
 
-class Analysis {
+abstract class Analysis {
   final DateTime date;
   final String amostra;
   final String local;
