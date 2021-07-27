@@ -33,6 +33,7 @@ dependencies:
   rxdart: 
   dio: 
   google_fonts:
+  mobx: ^2.0.1
 
 dev_dependencies:
   flutter_modular_test: 
