@@ -1,5 +1,5 @@
-import 'package:tetrazolium/app/shared/domain/entities/index.dart';
 import 'package:json_annotation/json_annotation.dart';
+import '../../domain/entities/analysis.dart';
 
 part 'analysis_model.g.dart';
 
