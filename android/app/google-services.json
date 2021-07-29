@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1079604424773",
+    "firebase_url": "https://tetrazolium-vonseeds.firebaseio.com",
+    "project_id": "tetrazolium-vonseeds",
+    "storage_bucket": "tetrazolium-vonseeds.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079604424773:android:764e6a94d6021a6dc1732c",
+        "android_client_info": {
+          "package_name": "tetrazolium.vonseeds.com.br.tetrazolium"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079604424773-nnca2r0fi5dssavrhsojnk5e00n7s6ng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoALDHfwECnKwE-zBM5H6Dc40YDBYVWxA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079604424773-nnca2r0fi5dssavrhsojnk5e00n7s6ng.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
