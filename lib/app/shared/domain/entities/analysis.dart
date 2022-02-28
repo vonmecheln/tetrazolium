@@ -1,6 +1,6 @@
 import 'repetition.dart';
 
-class Analysis {
+class Analysis2 {
   final DateTime date;
   final String amostra;
   final String local;
@@ -9,7 +9,7 @@ class Analysis {
   final int vigor;
   final List<Repetition> repetition = [];
 
-  Analysis({
+  Analysis2({
     required this.date,
     required this.amostra,
     required this.local,

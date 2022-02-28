@@ -4,13 +4,13 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../domain/entities/analysis.dart';
 import '../../domain/errors/erros.dart';
 import '../../domain/repositories/analysis_repository.dart';
-import '../../infra/datasources/search_datasource.dart';
+import '../datasources/analysis_datasource.dart';
 
 part 'analise_repository_impl.g.dart';
 
 @Injectable(singleton: false)
 class AnalysisRepositoryImpl implements AnalysisRepository {
-  final SearchDatasource datasource;
+  final AnalysisDatasource datasource;
 
   AnalysisRepositoryImpl(this.datasource);
 
@@ -19,7 +19,7 @@ class AnalysisRepositoryImpl implements AnalysisRepository {
     int idUser,
   ) async {
     try {
-      final list = await datasource.listAnalise(idUser);
+      final list = await datasource.getAll(idUser);
       return list == null
           ? Left<FailureAnalysis, List<Analysis>>(DatasourceResultNull())
           : Right<FailureAnalysis, List<Analysis>>(list);

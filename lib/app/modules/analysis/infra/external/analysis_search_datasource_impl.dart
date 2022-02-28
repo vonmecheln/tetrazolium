@@ -1,13 +1,13 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import '../datasources/search_datasource.dart';
+import '../datasources/analysis_datasource.dart';
 import '../models/analysis_model.dart';
 
 part 'analysis_search_datasource_impl.g.dart';
 
 @Injectable()
-class AnalysisSearchDatasourceImpl extends SearchDatasource {
+class AnalysisSearchDatasourceImpl extends AnalysisDatasource {
   @override
-  Future<List<AnalysisModel>> listAnalise(int idUser) async {
+  Future<List<AnalysisModel>> getAll(int idUser) async {
     // TODO: implement listAnalise
     List<AnalysisModel> list = [];
     for (var i = 0; i < 3; i++) {
