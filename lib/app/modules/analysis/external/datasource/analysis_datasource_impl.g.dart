@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'analysis_search_datasource_impl.dart';
+part of 'analysis_datasource_impl.dart';
 
 // **************************************************************************
 // InjectionGenerator
 // **************************************************************************
 
-final $AnalysisSearchDatasourceImpl = BindInject(
-  (i) => AnalysisSearchDatasourceImpl(),
+final $AnalysisDatasourceImpl = BindInject(
+  (i) => AnalysisDatasourceImpl(),
   isSingleton: true,
   isLazy: true,
 );

@@ -7,7 +7,7 @@ part of 'list_your_analysis.dart';
 // **************************************************************************
 
 final $ListYourAnalysisImpl = BindInject(
-  (i) => ListYourAnalysisImpl(i<AnalysisRepository>()),
+  (i) => ListYourAnalysisImpl(i<IAnalysisRepository>()),
   isSingleton: false,
   isLazy: true,
 );

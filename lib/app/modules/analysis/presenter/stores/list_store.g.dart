@@ -7,7 +7,7 @@ part of 'list_store.dart';
 // **************************************************************************
 
 final $ListStore = BindInject(
-  (i) => ListStore(i<ListYourAnalysis>()),
+  (i) => ListStore(i<ListYourAnalysis>(), i<GetAnalysisRealtime>()),
   isSingleton: true,
   isLazy: true,
 );

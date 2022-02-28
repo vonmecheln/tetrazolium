@@ -14,7 +14,7 @@ mixin ListYourAnalysis {
 
 @Injectable(singleton: false)
 class ListYourAnalysisImpl implements ListYourAnalysis {
-  final AnalysisRepository repository;
+  final IAnalysisRepository repository;
 
   ListYourAnalysisImpl(this.repository);
 
@@ -23,7 +23,7 @@ class ListYourAnalysisImpl implements ListYourAnalysis {
     var option = optionOf(idUser);
 
     return option.fold(() => Left(InvalidIdUser()), (id) async {
-      var result = await repository.getAnalysis(id);
+      var result = await repository.getAnalysis();
       return result.fold(
           (l) => left(l), (r) => r.isEmpty ? left(EmptyList()) : right(r));
     });

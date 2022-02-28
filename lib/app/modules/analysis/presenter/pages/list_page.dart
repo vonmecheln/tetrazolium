@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/modules/analysis/domain/errors/erros.dart';
+import 'package:tetrazolium/app/modules/analysis/external/datasource/firebase/analysis_firebase_data_source.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/tetra_card.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/stores/list_store.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
@@ -20,57 +21,49 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.primaryColor,
-        automaticallyImplyLeading: true,
-        actions: [],
-        centerTitle: true,
-        elevation: 4,
-        title: Text("Tetrazólio"),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Modular.to.pushNamed('novo');
-        },
-        backgroundColor: FlutterFlowTheme.primaryColor,
-        elevation: 8,
-        child: Icon(Icons.add),
-      ),
-      drawer: Drawer(
-        elevation: 16,
-      ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 8, right: 8, left: 8),
-            child: TextField(
-              onChanged: store.getList,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Pesquise...",
-              ),
-            ),
-          ),
-          Expanded(
-            child: ScopedBuilder<ListStore, FailureAnalysis, List<Analysis>>(
-                store: store,
-                onLoading: (_) => Center(child: CircularProgressIndicator()),
-                onError: (_, error) {
-                  return _buildError(error!);
-                },
-                onState: (_, state) {
-                  if (state.isEmpty) {
-                    return Center(
-                      child: Text('Digita alguma coisa...'),
-                    );
-                  } else {
-                    return _buildList(state);
-                  }
-                }),
-          )
-        ],
-      ),
+        key: scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: FlutterFlowTheme.primaryColor,
+          automaticallyImplyLeading: true,
+          actions: [
+            IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: () {
+                  store.reloadData();
+                })
+          ],
+          centerTitle: true,
+          elevation: 4,
+          title: Text("Tetrazólio"),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Modular.to.pushNamed('novo');
+          },
+          backgroundColor: FlutterFlowTheme.primaryColor,
+          elevation: 8,
+          child: Icon(Icons.add),
+        ),
+        drawer: Drawer(
+          elevation: 16,
+        ),
+        body: ScopedBuilder<ListStore, FailureAnalysis,
+                List<Analysis>>.transition(
+            store: store,
+            onError: (_, error) => _buildError(error!),
+            onLoading: (context) => _buildLoading(context),
+            onState: (_, state) {
+              if (state.isEmpty) {
+                return Container();
+              }
+
+              return _buildList(state);
+            }));
+  }
+
+  Widget _buildLoading(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator.adaptive(),
     );
   }
 

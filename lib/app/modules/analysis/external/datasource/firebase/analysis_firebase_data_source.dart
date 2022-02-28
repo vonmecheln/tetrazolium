@@ -6,11 +6,11 @@ import 'package:tetrazolium/app/modules/analysis/external/firebase/base_firebase
 import 'package:tetrazolium/app/modules/analysis/infra/mappers/analysis_data_mapper.dart';
 
 class AnalysisFirebaseDataSource extends BaseFirebaseDataSource
-    implements AnalysisRepository {
+    implements IAnalysisRepository {
   static const String path = 'analysis';
 
   @override
-  Future<Either<FailureAnalysis, List<Analysis>>> getAnalysis(int idUser) {
+  Future<Either<FailureAnalysis, List<Analysis>>> getAnalysis() {
     getCollection(path)
         .snapshots()
         .map(
@@ -20,11 +20,10 @@ class AnalysisFirebaseDataSource extends BaseFirebaseDataSource
     // TODO: implement getAnalysis
     throw UnimplementedError();
   }
-//
 
-//   @override
-//   Future<List<Voucher>> getAll() {
-//     return getCollection(path).snapshots().map((snapshot) =>
-//         snapshot.documents.map(VoucherDataMapper.mapper).toList()).first;
-//   }
+  @override
+  Future<Stream<List<Analysis>>> getEventsRealtime() {
+    // TODO: implement getEventsRealtime
+    throw UnimplementedError();
+  }
 }
