@@ -4,4 +4,7 @@ import 'package:tetrazolium/app/app_module.dart';
 
 import 'app/app_widget.dart';
 
-void main() => runApp(ModularApp(module: AppModule(), child: AppWidget()));
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(ModularApp(module: AppModule(), child: AppWidget()));
+}
