@@ -1,4 +1,4 @@
-abstract class Analysis {
+class Analysis {
   final DateTime date;
   final String amostra;
   final String local;

@@ -2,7 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../datasources/search_datasource.dart';
 import '../models/analysis_model.dart';
 
-// part 'analysis_search_datasource_impl.g.dart';
+part 'analysis_search_datasource_impl.g.dart';
 
 @Injectable()
 class AnalysisSearchDatasourceImpl extends SearchDatasource {

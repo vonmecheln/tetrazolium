@@ -1,8 +1,24 @@
 import 'package:dartz/dartz.dart';
+import 'package:mobx_triple/mobx_triple.dart';
 
 import '../../domain/entities/analysis.dart';
 import '../../domain/errors/erros.dart';
 import '../../domain/repositories/analysis_repository.dart';
+
+class CustomEitherAdapter<R, L> implements EitherAdapter<R, L> {
+  final Either<R, L> usecase;
+  CustomEitherAdapter(this.usecase);
+
+  @override
+  T fold<T>(T Function(R l) leftF, T Function(L l) rightF) {
+    return usecase.fold(leftF, rightF);
+  }
+
+  static Future<EitherAdapter<L, R>> adapter<L, R>(
+      Future<Either<L, R>> usecase) {
+    return usecase.then((value) => CustomEitherAdapter(value));
+  }
+}
 
 mixin ListarSuasAnalises {
   Future<Either<FailureAnalysis, List<Analysis>>> call(int idUser);

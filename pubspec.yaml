@@ -29,36 +29,36 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3 
   
-  #responsible for the dependency injection system and route management #4.5.0
+  #responsible for the dependency injection system and route management
   flutter_modular: ^4.5.0
   
   # Maintaining the State with MobXStore (MobX) 
   # egmented State Pattern (SSP)
-  mobx_triple: any
-  flutter_mobx: any
+  mobx_triple: ^1.1.3+1
+  flutter_mobx: ^2.0.4
 
-
-  mobx: ^2.0.3
-  # flutter_triple: any  
+  mobx: ^2.0.6+1
   
   rxdart: ^0.27.1 
   dio: ^4.0.0 
-  google_fonts: ^2.1.0
+  google_fonts: ^2.3.1
   
   dartz: ^0.10.0
-  cloud_firestore: ^3.1.0
-  firebase_core: ^1.4.0
-  json_annotation : any
+  cloud_firestore: ^3.1.10
+  firebase_core: ^1.13.1
+  json_annotation : ^4.4.0
   
-  async: any
+  async:
   
 
 dev_dependencies:
-  build_runner: ^2.0.6 
+  modular_codegen: 
+  mobx_codegen: 
+  build_runner: 
   # flutter_modular_test: 
   flutter_test:
     sdk: flutter
-  json_serializable: any
+  json_serializable: ^6.1.4
   # triple_test: ^0.0.6 
 
 # For information on the generic Dart part of this file, see the
@@ -66,10 +66,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
@@ -102,20 +98,28 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-scripts:
-  mobx: fvm flutter pub get & fvm flutter pub run build_runner watch  --delete-conflicting-outputs
-  mobb: flutter pub get & flutter pub run build_runner build  --delete-conflicting-outputs
-  mobd: flutter pub get & flutter pub run build_runner build
-  mobw: fvm flutter pub get & fvm flutter pub run build_runner watch
-  build_apk: flutter pub get & flutter build apk -t lib/main_production.dart --release
-  build_apk_qa: fvm flutter pub get & fvm flutter build apk --flavor qa -t  lib/main_qa.dart --release
-  build_apk_prod: fvm flutter pub get & fvm flutter build apk --flavor prod -t  lib/main_production.dart --release
-  build_ios: flutter pub get &  flutter build ios -t lib/main_production.dart --flavor prod --release
-  build_web: flutter pub get & flutter build web -t lib/main_production.dart --release
-  localization: dart lib\app\commands\localization.dart
-  test: flutter pub get
-  test_error: flutter pub get2
-  print: echo $name
 vars:
-  name: jacob
+  clean: fvm flutter clean
+  pub: fvm flutter pub
+  get: fvm flutter pub get
+  runner: fvm flutter pub run build_runner
+  version: fvm flutter --version
+  name: von 
+scripts:
+  clear: $clean & $pub cache repair & $runner clean
+  mobx: $get & $runner watch --delete-conflicting-outputs
+  mobb: $get & $runner build --delete-conflicting-outputs
+  mobd: $get & $runner build
+  mobw: $get & $runner watch
+  build_apk: $get & flutter build apk -t lib/main_production.dart --release
+  build_apk_qa: $get & flutter build apk --flavor qa -t lib/main_qa.dart --release
+  build_apk_prod: $get & flutter build apk --flavor prod -t  ib/main_production.dart --release
+  build_ios: $get & flutter build ios -t lib/main_production.dart --flavor prod --release
+  build_web: $get & flutter build web -t lib/main_production.dart --release
+  localization: dart lib\app\commands\localization.dart
+  test: $get
+  test_error: $get2
+  print: echo $name
+  flu: $version
+  
   
