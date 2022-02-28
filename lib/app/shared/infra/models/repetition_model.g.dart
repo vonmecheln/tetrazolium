@@ -6,13 +6,12 @@ part of 'repetition_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RepetitionModel _$RepetitionModelFromJson(Map<String, dynamic> json) {
-  return RepetitionModel(
-    number: json['number'] as int,
-    viability: json['viability'] as int,
-    vigor: json['vigor'] as int,
-  );
-}
+RepetitionModel _$RepetitionModelFromJson(Map<String, dynamic> json) =>
+    RepetitionModel(
+      number: json['number'] as int,
+      viability: json['viability'] as int,
+      vigor: json['vigor'] as int,
+    );
 
 Map<String, dynamic> _$RepetitionModelToJson(RepetitionModel instance) =>
     <String, dynamic>{

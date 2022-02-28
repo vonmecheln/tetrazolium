@@ -1,7 +1,7 @@
 import 'package:tetrazolium/app/shared/domain/entities/index.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'damage_model.g.dart';
+// part 'damage_model.g.dart';
 
 @JsonSerializable()
 class DamageModel extends Damage {
@@ -13,7 +13,7 @@ class DamageModel extends Damage {
           main: main,
         );
 
-  factory DamageModel.fromJson(Map<String, dynamic> json) =>
-      _$DamageModelFromJson(json);
-  Map<String, dynamic> toJson() => _$DamageModelToJson(this);
+  // factory DamageModel.fromJson(Map<String, dynamic> json) =>
+  //     _$DamageModelFromJson(json);
+  // Map<String, dynamic> toJson() => _$DamageModelToJson(this);
 }

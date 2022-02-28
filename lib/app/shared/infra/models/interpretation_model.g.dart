@@ -6,11 +6,10 @@ part of 'interpretation_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-InterpretationModel _$InterpretationModelFromJson(Map<String, dynamic> json) {
-  return InterpretationModel(
-    classification: json['classification'] as int,
-  );
-}
+InterpretationModel _$InterpretationModelFromJson(Map<String, dynamic> json) =>
+    InterpretationModel(
+      classification: json['classification'] as int,
+    );
 
 Map<String, dynamic> _$InterpretationModelToJson(
         InterpretationModel instance) =>

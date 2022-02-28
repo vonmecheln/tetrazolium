@@ -6,11 +6,9 @@ part of 'photo_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PhotoModel _$PhotoModelFromJson(Map<String, dynamic> json) {
-  return PhotoModel(
-    name: json['name'] as String,
-  );
-}
+PhotoModel _$PhotoModelFromJson(Map<String, dynamic> json) => PhotoModel(
+      name: json['name'] as String,
+    );
 
 Map<String, dynamic> _$PhotoModelToJson(PhotoModel instance) =>
     <String, dynamic>{

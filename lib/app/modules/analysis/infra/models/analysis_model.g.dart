@@ -6,16 +6,15 @@ part of 'analysis_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AnalysisModel _$AnalysisModelFromJson(Map<String, dynamic> json) {
-  return AnalysisModel(
-    date: DateTime.parse(json['date'] as String),
-    amostra: json['amostra'] as String,
-    local: json['local'] as String,
-    concentration: (json['concentration'] as num).toDouble(),
-    viability: json['viability'] as int,
-    vigor: json['vigor'] as int,
-  );
-}
+AnalysisModel _$AnalysisModelFromJson(Map<String, dynamic> json) =>
+    AnalysisModel(
+      date: DateTime.parse(json['date'] as String),
+      amostra: json['amostra'] as String,
+      local: json['local'] as String,
+      concentration: (json['concentration'] as num).toDouble(),
+      viability: json['viability'] as int,
+      vigor: json['vigor'] as int,
+    );
 
 Map<String, dynamic> _$AnalysisModelToJson(AnalysisModel instance) =>
     <String, dynamic>{
