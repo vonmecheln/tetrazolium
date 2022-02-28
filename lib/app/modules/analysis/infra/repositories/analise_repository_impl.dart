@@ -1,11 +1,14 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../domain/entities/analysis.dart';
 import '../../domain/errors/erros.dart';
 import '../../domain/repositories/analysis_repository.dart';
 import '../../infra/datasources/search_datasource.dart';
-import '../../infra/models/analysis_model.dart';
 
+part 'analise_repository_impl.g.dart';
+
+@Injectable(singleton: false)
 class AnalysisRepositoryImpl implements AnalysisRepository {
   final SearchDatasource datasource;
 
@@ -13,15 +16,15 @@ class AnalysisRepositoryImpl implements AnalysisRepository {
 
   @override
   Future<Either<FailureAnalysis, List<Analysis>>> getAnalysis(
-      int idUser) async {
-    List<AnalysisModel> list;
-
+    int idUser,
+  ) async {
     try {
-      list = await datasource.listAnalise(idUser);
+      final list = await datasource.listAnalise(idUser);
+      return list == null
+          ? Left<FailureAnalysis, List<Analysis>>(DatasourceResultNull())
+          : Right<FailureAnalysis, List<Analysis>>(list);
     } catch (e) {
-      return left(ErrorList());
+      return Left<FailureAnalysis, List<Analysis>>(ErrorList());
     }
-
-    return list == null ? left(DatasourceResultNull()) : right(list);
   }
 }

@@ -1,9 +1,34 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx_triple/mobx_triple.dart';
 
 import '../../domain/entities/analysis.dart';
 import '../../domain/errors/erros.dart';
 import '../../domain/repositories/analysis_repository.dart';
+
+part 'list_your_analysis.g.dart';
+
+mixin ListYourAnalysis {
+  Future<Either<FailureAnalysis, List<Analysis>>> call(int idUser);
+}
+
+@Injectable(singleton: false)
+class ListYourAnalysisImpl implements ListYourAnalysis {
+  final AnalysisRepository repository;
+
+  ListYourAnalysisImpl(this.repository);
+
+  @override
+  Future<Either<FailureAnalysis, List<Analysis>>> call(int idUser) async {
+    var option = optionOf(idUser);
+
+    return option.fold(() => Left(InvalidIdUser()), (id) async {
+      var result = await repository.getAnalysis(id);
+      return result.fold(
+          (l) => left(l), (r) => r.isEmpty ? left(EmptyList()) : right(r));
+    });
+  }
+}
 
 class CustomEitherAdapter<R, L> implements EitherAdapter<R, L> {
   final Either<R, L> usecase;
@@ -17,27 +42,5 @@ class CustomEitherAdapter<R, L> implements EitherAdapter<R, L> {
   static Future<EitherAdapter<L, R>> adapter<L, R>(
       Future<Either<L, R>> usecase) {
     return usecase.then((value) => CustomEitherAdapter(value));
-  }
-}
-
-mixin ListarSuasAnalises {
-  Future<Either<FailureAnalysis, List<Analysis>>> call(int idUser);
-}
-
-// @Injectable(singleton: false)
-class ListarSuasAnalisesImpl implements ListarSuasAnalises {
-  final AnalysisRepository repository;
-
-  ListarSuasAnalisesImpl(this.repository);
-
-  @override
-  Future<Either<FailureAnalysis, List<Analysis>>> call(int idUser) async {
-    var option = optionOf(idUser);
-
-    return option.fold(() => Left(InvalidIdUser()), (id) async {
-      var result = await repository.getAnalysis(id);
-      return result.fold(
-          (l) => left(l), (r) => r.isEmpty ? left(EmptyList()) : right(r));
-    });
   }
 }

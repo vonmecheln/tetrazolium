@@ -8,13 +8,13 @@ part 'list_store.g.dart';
 
 @Injectable()
 class ListStore extends MobXStore<FailureAnalysis, List<Analysis>> {
-  final ListarSuasAnalises listByText;
+  final ListYourAnalysis listYourAnalysis;
 
-  ListStore(this.listByText) : super([]);
+  ListStore(this.listYourAnalysis) : super([]);
 
-  void setSearchText(int value) {
+  void getList(String value) {
     executeEither(
-      () => CustomEitherAdapter.adapter(listByText(value)),
+      () => CustomEitherAdapter.adapter(listYourAnalysis(0)),
       delay: Duration(milliseconds: 500),
     );
   }

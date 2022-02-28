@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'list_store.dart';
+part of 'analise_repository_impl.dart';
 
 // **************************************************************************
 // InjectionGenerator
 // **************************************************************************
 
-final $ListStore = BindInject(
-  (i) => ListStore(i<ListYourAnalysis>()),
-  isSingleton: true,
+final $AnalysisRepositoryImpl = BindInject(
+  (i) => AnalysisRepositoryImpl(i<SearchDatasource>()),
+  isSingleton: false,
   isLazy: true,
 );
