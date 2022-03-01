@@ -19,7 +19,7 @@ AnalysisModel _$AnalysisModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AnalysisModelToJson(AnalysisModel instance) =>
     <String, dynamic>{
       'date': instance.date.toIso8601String(),
-      'amostra': instance.amostra,
+      'amostra': instance.sample,
       'local': instance.local,
       'concentration': instance.concentration,
       'viability': instance.viability,

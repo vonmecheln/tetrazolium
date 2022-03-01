@@ -2,7 +2,7 @@ import 'repetition.dart';
 
 class Analysis2 {
   final DateTime date;
-  final String amostra;
+  final String sample;
   final String local;
   final double concentration;
   final int viability;
@@ -11,7 +11,7 @@ class Analysis2 {
 
   Analysis2({
     required this.date,
-    required this.amostra,
+    required this.sample,
     required this.local,
     required this.concentration,
     required this.viability,

@@ -28,7 +28,7 @@ class AddAnalysisController {
     try {
       var result = await _addNewAnalysis(
         Analysis(
-          amostra: description.value,
+          sample: description.value,
           concentration: 0,
           date: DateTime.now(),
           local: description.value,

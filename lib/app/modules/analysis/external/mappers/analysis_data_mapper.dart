@@ -1,20 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/modules/analysis/external/datasource/datasource.dart';
-import 'package:tetrazolium/app/modules/analysis/infra/models/analysis_model.dart';
-
-abstract class AnalysisDataMapper {
-  static Analysis mapper(DocumentSnapshot documentSnapshot) {
-    return AnalysisModel(
-      amostra: documentSnapshot['amostra'],
-      concentration: documentSnapshot['concentration'],
-      date: documentSnapshot['date'],
-      local: documentSnapshot['local'],
-      viability: documentSnapshot['viability'],
-      vigor: documentSnapshot['vigor'],
-    );
-  }
-}
 
 mixin AnalysisMapper implements Mapper<Analysis> {
   Map<String, dynamic> toMap(Analysis analysis) {
@@ -31,7 +17,7 @@ mixin AnalysisMapper implements Mapper<Analysis> {
   Analysis fromMap(Map<dynamic, dynamic> map) {
     return Analysis(
       id: map['id'],
-      amostra: '',
+      sample: '',
       concentration: 0,
       date: DateTime.now(),
       local: '',

@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 
 class Analysis extends Entity {
   final DateTime date;
-  final String amostra;
+  final String sample;
   final String local;
   final double concentration;
   final int viability;
@@ -14,7 +14,7 @@ class Analysis extends Entity {
   Analysis({
     String? id,
     required this.date,
-    required this.amostra,
+    required this.sample,
     required this.local,
     required this.concentration,
     required this.viability,

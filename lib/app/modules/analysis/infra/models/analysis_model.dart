@@ -14,7 +14,7 @@ class AnalysisModel extends Analysis {
     required int vigor,
   }) : super(
           date: date,
-          amostra: amostra,
+          sample: amostra,
           local: local,
           concentration: concentration,
           viability: viability,
