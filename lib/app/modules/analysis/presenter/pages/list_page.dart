@@ -43,7 +43,7 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Modular.to.pushNamed('novo');
+            Modular.to.pushNamed('/form/new');
           },
           backgroundColor: FlutterFlowTheme.primaryColor,
           elevation: 8,

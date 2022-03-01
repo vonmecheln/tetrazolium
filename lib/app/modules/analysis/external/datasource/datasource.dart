@@ -7,8 +7,8 @@ abstract class Datasource<T extends Entity> extends Mapper<T> {
     collection = FirebaseFirestore.instance.collection(_collection);
   }
 
-  Future<bool> addOrUpdate(T eventEntity) async {
-    collection.doc('${eventEntity.id}').set(toMap(eventEntity));
+  Future<bool> addOrUpdate(T entity) async {
+    collection.doc('${entity.id}').set(toMap(entity));
     return true;
   }
 
@@ -29,12 +29,12 @@ abstract class Datasource<T extends Entity> extends Mapper<T> {
 
   Future<Stream<List<T>>> getStream() async {
     var result = collection.snapshots();
-    return result.map(
-        (events) => events.docs.map((e) => fromMap(e.data() as Map)).toList());
+    return result.map((analysis) =>
+        analysis.docs.map((e) => fromMap(e.data() as Map)).toList());
   }
 }
 
 abstract class Mapper<T> {
-  Map<String, dynamic> toMap(T event);
+  Map<String, dynamic> toMap(T analysis);
   T fromMap(Map<dynamic, dynamic> map);
 }

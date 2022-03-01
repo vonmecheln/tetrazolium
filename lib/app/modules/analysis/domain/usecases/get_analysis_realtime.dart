@@ -6,11 +6,11 @@ part 'get_analysis_realtime.g.dart';
 
 @Injectable(singleton: false)
 class GetAnalysisRealtime {
-  final IAnalysisRepository _eventRepository;
+  final IAnalysisRepository _analysisRepository;
 
-  GetAnalysisRealtime(this._eventRepository);
+  GetAnalysisRealtime(this._analysisRepository);
 
   Future<Stream<List<Analysis>>> call() async {
-    return await _eventRepository.getEventsRealtime();
+    return await _analysisRepository.getAnalysisRealtime();
   }
 }

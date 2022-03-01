@@ -27,7 +27,24 @@ class AnalysisRepositoryImpl implements IAnalysisRepository {
   }
 
   @override
-  Future<Stream<List<Analysis>>> getEventsRealtime() async {
+  Future<Stream<List<Analysis>>> getAnalysisRealtime() async {
     return await _datasource.getStream();
+  }
+
+  @override
+  Future<Either<FailureAnalysis, Analysis>> addNewAnalysis(
+      Analysis analysis) async {
+    try {
+      await _datasource.addOrUpdate(analysis);
+      return Right(analysis);
+    } catch (e) {
+      return Left(DatasourceError(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<FailureAnalysis, Analysis>> updateAnalysis(Analysis analysis) {
+    // TODO: implement updateAnalysis
+    throw UnimplementedError();
   }
 }

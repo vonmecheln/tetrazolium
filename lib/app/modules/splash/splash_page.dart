@@ -36,12 +36,26 @@ class SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(
-        children: <Widget>[],
+    return Material(
+      color: Color(0xffFFFFFF),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FlutterLogo(
+              size: 100,
+              textColor: Colors.amber,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(
+                Colors.amber,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

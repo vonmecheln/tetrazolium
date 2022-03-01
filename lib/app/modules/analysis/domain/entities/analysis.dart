@@ -1,6 +1,6 @@
 import 'package:tetrazolium/app/modules/analysis/domain/entities/entity.dart';
 
-// import 'package:uuid/uuid.dart';
+import 'package:uuid/uuid.dart';
 
 class Analysis extends Entity {
   final DateTime date;
@@ -19,5 +19,5 @@ class Analysis extends Entity {
     required this.concentration,
     required this.viability,
     required this.vigor,
-  }) : super(id ?? '');
+  }) : super(id ?? Uuid().v4());
 }
