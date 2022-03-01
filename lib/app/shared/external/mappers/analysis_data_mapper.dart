@@ -1,6 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
-import 'package:tetrazolium/app/modules/analysis/external/datasource/datasource.dart';
+import 'package:tetrazolium/app/shared/external/datasource/datasource.dart';
 
 mixin AnalysisMapper implements Mapper<Analysis> {
   Map<String, dynamic> toMap(Analysis analysis) {
