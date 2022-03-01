@@ -9,10 +9,10 @@ part 'list_store.g.dart';
 
 @Injectable()
 class ListStore extends MobXStore<FailureAnalysis, List<Analysis>> {
-  final ListYourAnalysis listYourAnalysis;
+  // final ListYourAnalysis listYourAnalysis;
   final GetAnalysisRealtime _getEventsRealtime;
 
-  ListStore(this.listYourAnalysis, this._getEventsRealtime) : super([]);
+  ListStore(this._getEventsRealtime) : super([]);
 
   void reloadData() async => executeStream(await _getEventsRealtime());
 }

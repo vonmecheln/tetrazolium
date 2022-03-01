@@ -47,17 +47,18 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
           elevation: 16,
         ),
         body: ScopedBuilder<ListStore, FailureAnalysis,
-                List<Analysis>>.transition(
-            store: store,
-            onError: (_, error) => _buildError(error!),
-            onLoading: (context) => _buildLoading(context),
-            onState: (_, state) {
-              if (state.isEmpty) {
-                return Container();
-              }
+            List<Analysis>>.transition(
+          store: store,
+          onError: (_, error) => _buildError(error!),
+          onLoading: (context) => _buildLoading(context),
+          onState: (_, state) {
+            if (state.isEmpty) {
+              return Container();
+            }
 
-              return _buildList(state);
-            }));
+            return _buildList(state);
+          },
+        ));
   }
 
   Widget _buildLoading(BuildContext context) {

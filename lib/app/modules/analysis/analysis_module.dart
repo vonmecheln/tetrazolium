@@ -1,5 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tetrazolium/app/modules/analysis/domain/usecases/list_your_analysis.dart';
+import 'package:tetrazolium/app/modules/analysis/domain/usecases/get_analysis_realtime.dart';
 import 'package:tetrazolium/app/modules/analysis/external/datasource/analysis_datasource_impl.dart';
 import 'package:tetrazolium/app/modules/analysis/infra/repositories/analise_repository_impl.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/stores/list_store.dart';
@@ -9,7 +9,7 @@ class AnalysisModule extends Module {
   @override
   final List<Bind> binds = [
     $ListStore,
-    $ListYourAnalysisImpl,
+    $GetAnalysisRealtime,
     $AnalysisRepositoryImpl,
     $AnalysisDatasourceImpl,
   ];

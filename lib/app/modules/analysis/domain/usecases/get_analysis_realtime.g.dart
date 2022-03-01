@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'list_store.dart';
+part of 'get_analysis_realtime.dart';
 
 // **************************************************************************
 // InjectionGenerator
 // **************************************************************************
 
-final $ListStore = BindInject(
-  (i) => ListStore(i<GetAnalysisRealtime>()),
-  isSingleton: true,
+final $GetAnalysisRealtime = BindInject(
+  (i) => GetAnalysisRealtime(i<IAnalysisRepository>()),
+  isSingleton: false,
   isLazy: true,
 );
