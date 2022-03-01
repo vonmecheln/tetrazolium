@@ -10,7 +10,7 @@ class AppModule extends Module {
   final List<ModularRoute> routes = [
     ModuleRoute(Modular.initialRoute, module: SplashModule()),
     ModuleRoute('/home', module: AnalysisModule()),
-    // ModuleRoute('/novo', module: AnaliseModule()),
+    // ModuleRoute('/new', module: FormAnalysisModule()),
     // ModuleRoute('/analise', module: AnaliseModule()),
   ];
 }

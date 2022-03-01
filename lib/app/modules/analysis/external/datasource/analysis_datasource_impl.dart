@@ -10,5 +10,5 @@ part 'analysis_datasource_impl.g.dart';
 class AnalysisDatasourceImpl extends Datasource<Analysis>
     with AnalysisMapper
     implements IAnalysisDatasource {
-  AnalysisDatasourceImpl() : super('analysis');
+  AnalysisDatasourceImpl() : super('analises');
 }

@@ -18,6 +18,12 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    super.initState();
+    store.reloadData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: scaffoldKey,
@@ -43,9 +49,7 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
           elevation: 8,
           child: Icon(Icons.add),
         ),
-        drawer: Drawer(
-          elevation: 16,
-        ),
+        drawer: Drawer(elevation: 16),
         body: ScopedBuilder<ListStore, FailureAnalysis,
             List<Analysis>>.transition(
           store: store,
@@ -87,7 +91,9 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
     return ListView.builder(
       itemCount: list.length,
       itemBuilder: (_, index) {
-        return TetraCard();
+        return TetraCard(onSelect: (() {
+          Modular.to.pushNamed('./details', arguments: list[index]);
+        }));
 
         // var item = list[index];
         // return ListTile(

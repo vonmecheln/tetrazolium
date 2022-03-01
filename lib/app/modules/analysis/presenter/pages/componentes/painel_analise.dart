@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 
 class PainelAnalise extends StatelessWidget {
+  final void Function()? onSelect;
+
   const PainelAnalise({
     Key? key,
+    this.onSelect,
   }) : super(key: key);
 
   @override
@@ -16,24 +19,27 @@ class PainelAnalise extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Lote 01-54',
-                  style: FlutterFlowTheme.subtitle1.apply(
-                    fontFamily: 'Poppins',
+            child: InkWell(
+              onTap: onSelect,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Lote 01-54',
+                    style: FlutterFlowTheme.subtitle1.apply(
+                      fontFamily: 'Poppins',
+                    ),
                   ),
-                ),
-                Text(
-                  '02/07/2019',
-                  style: FlutterFlowTheme.subtitle2.apply(
-                    fontFamily: 'Roboto',
-                  ),
-                )
-              ],
+                  Text(
+                    '02/07/2019',
+                    style: FlutterFlowTheme.subtitle2.apply(
+                      fontFamily: 'Roboto',
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           Text(

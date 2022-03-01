@@ -31,12 +31,12 @@ mixin AnalysisMapper implements Mapper<Analysis> {
   Analysis fromMap(Map<dynamic, dynamic> map) {
     return Analysis(
       id: map['id'],
-      amostra: map['amostra'],
-      concentration: map['concentration'],
-      date: map['date'],
-      local: map['local'],
-      viability: map['viability'],
-      vigor: map['vigor'],
+      amostra: '',
+      concentration: 0,
+      date: DateTime.now(),
+      local: '',
+      viability: 0,
+      vigor: 0,
 
       // name: map['name'],
       // points: map['points'],
