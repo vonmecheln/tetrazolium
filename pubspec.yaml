@@ -54,6 +54,7 @@ dependencies:
   uuid: 3.0.6
   intl: ^0.17.0
   asuka: ^2.0.0+1
+  flutter_svg: ^1.0.3
   
 
 dev_dependencies:

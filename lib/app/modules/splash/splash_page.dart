@@ -1,6 +1,8 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
+import 'package:tetrazolium/app/constants.dart';
 import 'package:tetrazolium/app/modules/splash/splash_store.dart';
+import 'package:tetrazolium/app/shared/widgets/logo_widget.dart';
 
 class SplashPage extends StatefulWidget {
   final String title;
@@ -33,22 +35,28 @@ class SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Color(0xffFFFFFF),
-      child: Center(
+      child: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+              Color(COLOR_GRAD_BEG),
+              Color(COLOR_GRAD_END),
+            ])),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FlutterLogo(
-              size: 100,
-              textColor: Colors.amber,
-            ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            LogoWidget(),
             SizedBox(
-              height: 20,
+              height: 35,
             ),
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(
-                Colors.amber,
-              ),
+            Text(
+              "Tetrazólio",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.normal),
             )
           ],
         ),
