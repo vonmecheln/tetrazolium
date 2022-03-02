@@ -97,7 +97,7 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
 
         // var item = list[index];
         // return ListTile(
-        //   title: Text(item.amostra),
+        //   title: Text(item.sample),
         //   onTap: () {
         //     Modular.to.pushNamed('/details', arguments: item);
         //   },

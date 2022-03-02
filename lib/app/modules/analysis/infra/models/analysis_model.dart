@@ -7,15 +7,17 @@ part 'analysis_model.g.dart';
 class AnalysisModel extends Analysis {
   AnalysisModel({
     required DateTime date,
-    required String amostra,
+    required String sample,
     required String local,
+    required String numberSeeds,
     required double concentration,
     required int viability,
     required int vigor,
   }) : super(
           date: date,
-          sample: amostra,
+          sample: sample,
           local: local,
+          numberSeeds: numberSeeds,
           concentration: concentration,
           viability: viability,
           vigor: vigor,

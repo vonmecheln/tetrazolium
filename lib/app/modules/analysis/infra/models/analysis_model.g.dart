@@ -9,8 +9,9 @@ part of 'analysis_model.dart';
 AnalysisModel _$AnalysisModelFromJson(Map<String, dynamic> json) =>
     AnalysisModel(
       date: DateTime.parse(json['date'] as String),
-      amostra: json['amostra'] as String,
+      sample: json['sample'] as String,
       local: json['local'] as String,
+      numberSeeds: json['numberSeeds'] as String,
       concentration: (json['concentration'] as num).toDouble(),
       viability: json['viability'] as int,
       vigor: json['vigor'] as int,
@@ -19,8 +20,9 @@ AnalysisModel _$AnalysisModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AnalysisModelToJson(AnalysisModel instance) =>
     <String, dynamic>{
       'date': instance.date.toIso8601String(),
-      'amostra': instance.sample,
+      'sample': instance.sample,
       'local': instance.local,
+      'numberSeeds': instance.numberSeeds,
       'concentration': instance.concentration,
       'viability': instance.viability,
       'vigor': instance.vigor,

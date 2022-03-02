@@ -20,6 +20,7 @@ mixin AnalysisMapper implements Mapper<Analysis> {
       concentration: 0,
       date: DateTime.now(),
       local: '',
+      numberSeeds: '',
       viability: 0,
       vigor: 0,
 

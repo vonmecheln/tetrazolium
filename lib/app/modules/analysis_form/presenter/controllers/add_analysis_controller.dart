@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
@@ -32,6 +31,7 @@ class AddAnalysisController {
           concentration: 0,
           date: DateTime.now(),
           local: description.value,
+          numberSeeds: '',
           viability: 1,
           vigor: 0,
         ),
