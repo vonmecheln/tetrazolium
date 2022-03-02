@@ -31,15 +31,15 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
           backgroundColor: FlutterFlowTheme.primaryColor,
           automaticallyImplyLeading: true,
           actions: [
-            IconButton(
-                icon: Icon(Icons.refresh),
-                onPressed: () {
-                  store.reloadData();
-                })
+            // IconButton(
+            //     icon: Icon(Icons.refresh),
+            //     onPressed: () {
+            //       store.reloadData();
+            //     })
           ],
-          centerTitle: true,
+          centerTitle: false,
           elevation: 4,
-          title: Text("Tetrazólio"),
+          title: Text("Análises"),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {

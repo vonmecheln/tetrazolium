@@ -11,28 +11,29 @@ class AddAnalysisController {
 
   AddAnalysisController(this._addNewAnalysis);
 
-  RxNotifier<String> description = RxNotifier<String>('');
+  RxNotifier<String> sample = RxNotifier<String>('');
+  RxNotifier<String> local = RxNotifier<String>('');
+  RxNotifier<String> numberSeeds = RxNotifier<String>('');
+  RxNotifier<double> concentration = RxNotifier<double>(0);
+  late RxNotifier<DateTime> date;
+  setInitDate(DateTime _date) => date = RxNotifier<DateTime>(_date);
 
-  late RxNotifier<DateTime> initTime;
-
-  late RxNotifier<DateTime> endTime;
-
-  setInitDate(DateTime date) => initTime = RxNotifier<DateTime>(date);
-
-  setEndDate(DateTime date) => endTime = RxNotifier<DateTime>(date);
-
-  setDescription(String _description) => description.value = _description;
+  setSample(String _value) => sample.value = _value;
+  setLocal(String _value) => local.value = _value;
+  setNumberSeeds(String _value) => numberSeeds.value = _value;
+  setConcentration(String _value) =>
+      concentration.value = double.parse(_value, (_) => 0);
 
   Future<bool> addNewAnalysis() async {
     try {
       var result = await _addNewAnalysis(
         Analysis(
-          sample: description.value,
-          concentration: 0,
-          date: DateTime.now(),
-          local: description.value,
-          numberSeeds: '',
-          viability: 1,
+          sample: sample.value,
+          concentration: concentration.value,
+          date: date.value,
+          local: local.value,
+          numberSeeds: numberSeeds.value,
+          viability: 0,
           vigor: 0,
         ),
       );

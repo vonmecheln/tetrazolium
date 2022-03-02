@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tetrazolium/app/modules/analysis/domain/entities/entity.dart';
 
 abstract class Datasource<T extends Entity> extends Mapper<T> {
+  final FirebaseFirestore firestore;
   late CollectionReference collection;
-  Datasource(String _collection) {
-    collection = FirebaseFirestore.instance.collection(_collection);
+
+  Datasource(String _collection, this.firestore) {
+    collection = this.firestore.collection(_collection);
   }
 
   Future<bool> addOrUpdate(T entity) async {

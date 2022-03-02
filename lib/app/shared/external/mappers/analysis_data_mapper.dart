@@ -5,9 +5,14 @@ mixin AnalysisMapper implements Mapper<Analysis> {
   Map<String, dynamic> toMap(Analysis analysis) {
     return {
       'id': analysis.id,
-      // 'name': Analysis.name,
-      // 'points': Analysis.points,
-      // 'dateanalysis': Analysis.dateAnalysis.millisecondsSinceEpoch,
+      'date': analysis.date.millisecondsSinceEpoch,
+      'sample': analysis.sample,
+      'local': analysis.local,
+      'numberSeeds': analysis.numberSeeds,
+      'concentration': analysis.concentration,
+      'viability': analysis.viability,
+      'vigor': analysis.vigor,
+
       // 'completed': Analysis.completed,
       // 'addresses': Analysis.addresses.map((e) => AddressMapper.toMap(e)).toList()
     };
@@ -16,17 +21,14 @@ mixin AnalysisMapper implements Mapper<Analysis> {
   Analysis fromMap(Map<dynamic, dynamic> map) {
     return Analysis(
       id: map['id'],
-      sample: '',
-      concentration: 0,
-      date: DateTime.now(),
-      local: '',
-      numberSeeds: '',
-      viability: 0,
-      vigor: 0,
+      sample: map['sample'],
+      concentration: map['concentration'],
+      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
+      local: map['local'],
+      numberSeeds: map['numberSeeds'],
+      viability: map['viability'],
+      vigor: map['vigor'],
 
-      // name: map['name'],
-      // points: map['points'],
-      // dateanalysis: DateTime.fromMillisecondsSinceEpoch(map['dateanalysis']),
       // completed: map['completed'],
       // addresses: map['addresses'] == null ? [] : (map['addresses'] as List).map((e) => AddressMapper.fromMap(e as Map)).toList(),
     );

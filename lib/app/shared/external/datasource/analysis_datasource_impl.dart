@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/modules/analysis/infra/datasource/analysis_datasource.dart';
@@ -10,5 +11,6 @@ part 'analysis_datasource_impl.g.dart';
 class AnalysisDatasourceImpl extends Datasource<Analysis>
     with AnalysisMapper
     implements IAnalysisDatasource {
-  AnalysisDatasourceImpl() : super('analises');
+  AnalysisDatasourceImpl(FirebaseFirestore firestore)
+      : super('analises', firestore);
 }

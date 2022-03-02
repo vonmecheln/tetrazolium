@@ -7,7 +7,7 @@ part of 'analysis_datasource_impl.dart';
 // **************************************************************************
 
 final $AnalysisDatasourceImpl = BindInject(
-  (i) => AnalysisDatasourceImpl(),
+  (i) => AnalysisDatasourceImpl(i<FirebaseFirestore>()),
   isSingleton: true,
   isLazy: true,
 );
