@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
+import 'package:tetrazolium/app/shared/util/date.dart';
 
 class PainelAnalise extends StatelessWidget {
+  final Analysis item;
   final void Function()? onSelect;
 
   const PainelAnalise({
     Key? key,
     this.onSelect,
+    required this.item,
   }) : super(key: key);
 
   @override
@@ -27,13 +31,13 @@ class PainelAnalise extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Lote 01-54',
+                    item.sample,
                     style: FlutterFlowTheme.subtitle1.apply(
                       fontFamily: 'Poppins',
                     ),
                   ),
                   Text(
-                    '02/07/2019',
+                    dateFormat.format(item.date),
                     style: FlutterFlowTheme.subtitle2.apply(
                       fontFamily: 'Roboto',
                     ),
@@ -49,7 +53,7 @@ class PainelAnalise extends StatelessWidget {
             ),
           ),
           Text(
-            '86',
+            item.vigor.toString(),
             textAlign: TextAlign.center,
             style: FlutterFlowTheme.title1.apply(
               fontFamily: 'Roboto',
@@ -72,7 +76,7 @@ class PainelAnalise extends StatelessWidget {
             ),
           ),
           Text(
-            '93',
+            item.viability.toString(),
             textAlign: TextAlign.center,
             style: FlutterFlowTheme.title1.apply(
               fontFamily: 'Roboto',

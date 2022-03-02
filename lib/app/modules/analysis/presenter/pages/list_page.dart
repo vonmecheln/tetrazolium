@@ -31,11 +31,11 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
           backgroundColor: FlutterFlowTheme.primaryColor,
           automaticallyImplyLeading: true,
           actions: [
-            // IconButton(
-            //     icon: Icon(Icons.refresh),
-            //     onPressed: () {
-            //       store.reloadData();
-            //     })
+            IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: () {
+                  store.reloadData();
+                })
           ],
           centerTitle: false,
           elevation: 4,
@@ -91,9 +91,11 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
     return ListView.builder(
       itemCount: list.length,
       itemBuilder: (_, index) {
-        return TetraCard(onSelect: (() {
-          Modular.to.pushNamed('./details', arguments: list[index]);
-        }));
+        return TetraCard(
+            item: list[index],
+            onSelect: (() {
+              Modular.to.pushNamed('./details', arguments: list[index]);
+            }));
 
         // var item = list[index];
         // return ListTile(

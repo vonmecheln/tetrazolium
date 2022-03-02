@@ -22,10 +22,10 @@ class ListYourAnalysisImpl implements ListYourAnalysis {
   Future<Either<FailureAnalysis, List<Analysis>>> call(int idUser) async {
     var option = optionOf(idUser);
 
-    return option.fold(() => Left(InvalidIdUser()), (id) async {
+    return option.fold(() => Left(InvalidIdUser(message: '')), (id) async {
       var result = await repository.getAnalysis();
-      return result.fold(
-          (l) => left(l), (r) => r.isEmpty ? left(EmptyList()) : right(r));
+      return result.fold((l) => left(l),
+          (r) => r.isEmpty ? left(EmptyList(message: '')) : right(r));
     });
   }
 }

@@ -19,10 +19,11 @@ class AnalysisRepositoryImpl implements IAnalysisRepository {
     try {
       final list = await _datasource.getAll();
       return list == null
-          ? Left<FailureAnalysis, List<Analysis>>(DatasourceResultNull())
+          ? Left<FailureAnalysis, List<Analysis>>(
+              DatasourceResultNull(message: ''))
           : Right<FailureAnalysis, List<Analysis>>(list);
     } catch (e) {
-      return Left<FailureAnalysis, List<Analysis>>(ErrorList());
+      return Left<FailureAnalysis, List<Analysis>>(ErrorList(message: ''));
     }
   }
 

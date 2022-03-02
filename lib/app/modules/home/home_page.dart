@@ -91,8 +91,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
             itemCount: analises.length,
             itemBuilder: (_, __) {
-              // return Container(height: 100, color: Colors.amber);
-              return TetraCard();
+              return Container(height: 100, color: Colors.amber);
+              // return TetraCard();
             }),
       ),
     );

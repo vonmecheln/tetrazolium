@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/modules/analysis_form/domain/usecase/add_new_analysis.dart';
+import 'package:asuka/asuka.dart' as asuka;
 
 part 'add_analysis_controller.g.dart';
 
@@ -40,14 +42,14 @@ class AddAnalysisController {
 
       return result.fold(
         (left) {
-          // asuka.showSnackBar(SnackBar(content: Text(left.message)));
+          asuka.showSnackBar(SnackBar(content: Text(left.message)));
           return false;
         },
         (right) => true,
       );
     } catch (e) {
       print(e);
-      // asuka.showSnackBar(SnackBar(content: Text(e.toString())));
+      asuka.showSnackBar(SnackBar(content: Text(e.toString())));
       return false;
     }
   }
