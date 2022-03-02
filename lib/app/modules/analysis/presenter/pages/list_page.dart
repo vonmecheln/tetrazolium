@@ -27,7 +27,18 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: scaffoldKey,
-        appBar: AppBar(
+        appBar:
+            //   GradientAppBar(
+            //   title: Text("ANÁLISES"),
+            //   gradient: LinearGradient(
+            //       begin: Alignment.topRight,
+            //       end: Alignment.bottomLeft,
+            //       colors: [
+            //         Color(COLOR_GRAD_BEG),
+            //         Color(COLOR_GRAD_END),
+            //       ])),
+
+            AppBar(
           backgroundColor: FlutterFlowTheme.primaryColor,
           automaticallyImplyLeading: true,
           actions: [
@@ -88,7 +99,7 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
   }
 
   Widget _buildList(List<Analysis> list) {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: list.length,
       itemBuilder: (_, index) {
         return TetraCard(
@@ -104,6 +115,12 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
         //     Modular.to.pushNamed('/details', arguments: item);
         //   },
         // );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return Container(
+          height: 0,
+          color: Colors.grey[200],
+        );
       },
     );
   }

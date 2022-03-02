@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 
 class DisplayDano extends StatelessWidget {
+  final String type;
+  final int value;
+
   const DisplayDano({
+    required this.type,
+    required this.value,
     Key? key,
   }) : super(key: key);
 
@@ -16,13 +22,9 @@ class DisplayDano extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(
-            Icons.settings_outlined,
-            color: FlutterFlowTheme.primaryColor,
-            size: 35,
-          ),
+          SvgPicture.asset("img/$type.svg"),
           Text(
-            '11',
+            '$value',
             style: FlutterFlowTheme.bodyText1.apply(
               fontFamily: 'Roboto',
             ),
