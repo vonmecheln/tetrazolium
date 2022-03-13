@@ -55,12 +55,17 @@ dependencies:
   intl: ^0.17.0
   asuka: ^2.0.0+1
   flutter_svg: ^1.0.3
+  string_validator: ^0.3.0
+  equatable: ^2.0.3
+  firebase_auth: ^3.3.10
+  connectivity: ^3.0.6
   
 
 dev_dependencies:
   modular_codegen: 
   mobx_codegen: 
   build_runner: 
+  modular_test:
   # flutter_modular_test: 
   flutter_test:
     sdk: flutter
