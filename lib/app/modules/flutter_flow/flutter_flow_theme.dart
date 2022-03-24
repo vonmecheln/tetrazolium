@@ -32,4 +32,11 @@ class FlutterFlowTheme {
     fontSize: 14,
     fontFamily: 'Roboto',
   );
+
+  static TextStyle numero = TextStyle(
+    color: Color(0xFFD3D3D3),
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
+    fontFamily: 'Roboto',
+  );
 }

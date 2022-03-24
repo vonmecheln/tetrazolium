@@ -59,6 +59,8 @@ dependencies:
   equatable: ^2.0.3
   firebase_auth: ^3.3.10
   connectivity: ^3.0.6
+
+  # material_color_utilities
   
 
 dev_dependencies:
