@@ -1,9 +1,11 @@
-// TODO Implement this library.
-
 import 'package:flutter/material.dart';
 
 class FlutterFlowTheme {
   static Color primaryColor = Color(0xffc62828);
+
+  static Color color2 = Color(0xFFD74745);
+  static Color color3 = Color(0xFF515151);
+  static Color color4 = Color(0xFFD3D3D3);
 
   static TextStyle subtitle1 = TextStyle(
     color: Color(0xFF3f3f3f),

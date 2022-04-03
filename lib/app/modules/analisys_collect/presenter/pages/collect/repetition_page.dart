@@ -32,6 +32,7 @@ class Coleta {
         'engine': danoMecanico,
         'humidity': danoUmidade,
       },
+      'dura': dura,
 
       // 'completed': Analysis.completed,
       // 'addresses': Analysis.addresses.map((e) => AddressMapper.toMap(e)).toList()
@@ -158,14 +159,64 @@ class ColetaForm extends StatelessWidget {
             onChange: onChageClassification,
           ),
           PainelSeparator(),
-          PainelDanos(),
+          PainelDanos(onTap: onDamageChange),
         ],
       ),
     );
   }
 
+  void onDamageChange(d) {
+    if (d == DamageType.diamont) {
+      coleta.danoMecanico = 0;
+      coleta.danoPercevejo = 0;
+      coleta.danoUmidade = 0;
+      coleta.dura = coleta.dura == 0 ? 1 : 0;
+    } else {
+      coleta.dura = 0;
+    }
+
+    if (d == DamageType.bug) {
+      coleta.danoPercevejo += 1;
+
+      if (coleta.danoPercevejo > 2) {
+        coleta.danoPercevejo = 0;
+      } else if (coleta.danoPercevejo == 2) {
+        if (coleta.danoMecanico > 1) coleta.danoMecanico -= 1;
+        if (coleta.danoUmidade > 1) coleta.danoUmidade -= 1;
+      }
+    }
+
+    if (d == DamageType.drop) {
+      coleta.danoUmidade += 1;
+
+      if (coleta.danoUmidade > 2) {
+        coleta.danoUmidade = 0;
+      } else if (coleta.danoUmidade == 2) {
+        if (coleta.danoMecanico > 1) coleta.danoMecanico -= 1;
+        if (coleta.danoPercevejo > 1) coleta.danoPercevejo -= 1;
+      }
+    }
+
+    if (d == DamageType.engine) {
+      coleta.danoMecanico += 1;
+
+      if (coleta.danoMecanico > 2) {
+        coleta.danoMecanico = 0;
+      } else if (coleta.danoMecanico == 2) {
+        if (coleta.danoUmidade > 1) coleta.danoUmidade -= 1;
+        if (coleta.danoPercevejo > 1) coleta.danoPercevejo -= 1;
+      }
+    }
+
+    updateColeta();
+  }
+
   void onChageClassification(int value) {
     this.coleta.classificacao = value;
+    updateColeta();
+  }
+
+  void updateColeta() {
     if (this.onChange != null) this.onChange!(this.coleta);
   }
 }
@@ -312,9 +363,21 @@ class _PainelNumeroState extends State<PainelNumero> {
   }
 }
 
+enum DamageType {
+  bug,
+  engine,
+  drop,
+  diamont,
+}
+
 class PainelDanos extends StatelessWidget {
+  final void Function(DamageType damage)? onTap;
+  final Map<DamageType, int>? damages;
+
   const PainelDanos({
     Key? key,
+    this.onTap,
+    this.damages,
   }) : super(key: key);
 
   @override
@@ -326,13 +389,37 @@ class PainelDanos extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
         children: [
-          ItemDano(type: "engine", text: 'Mecânico'),
-          ItemDano(type: "drop", text: 'Umidade'),
-          ItemDano(type: "bug", text: 'Percevejo'),
-          ItemDano(type: "diamont", text: 'Dura'),
+          ItemDano(
+            color: FlutterFlowTheme.color3,
+            type: "engine",
+            text: 'Mecânico',
+            onTap: () => onItemTap(DamageType.engine),
+          ),
+          ItemDano(
+            color: FlutterFlowTheme.color2,
+            type: "drop",
+            text: 'Umidade',
+            onTap: () => onItemTap(DamageType.drop),
+          ),
+          ItemDano(
+            color: FlutterFlowTheme.color4,
+            type: "bug",
+            text: 'Percevejo',
+            onTap: () => onItemTap(DamageType.bug),
+          ),
+          ItemDano(
+            color: FlutterFlowTheme.color4,
+            type: "diamont",
+            text: 'Dura',
+            onTap: () => onItemTap(DamageType.diamont),
+          ),
         ],
       ),
     );
+  }
+
+  void onItemTap(DamageType damage) {
+    if (onTap != null) onTap!(damage);
   }
 }
 
