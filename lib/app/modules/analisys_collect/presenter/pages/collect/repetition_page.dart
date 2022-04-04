@@ -67,7 +67,41 @@ class RepetitionPageState extends State<RepetitionPage> {
   @override
   void initState() {
     super.initState();
-    for (var i = 1; i <= numRept; i++) {
+  }
+
+  Future _getColetas() async {
+    var collection = FirebaseFirestore.instance.collection(
+        'analises/c36342b3-b981-471b-8554-142c3d82dd28/repeticao/1/coleta');
+    // var doc = collection.doc(atual.toString());
+
+    var docs = await collection.get();
+
+    docs.docs.forEach((e) {
+      int id = int.tryParse(e.id) ?? 0;
+
+      int extract(
+        QueryDocumentSnapshot<Map<String, dynamic>> e,
+        String field,
+        int defvalue,
+      ) {
+        if (!e.data().containsKey(field)) return defvalue;
+        var value = e.get(field);
+        if (value == null) return defvalue;
+
+        return int.tryParse(value.toString()) ?? defvalue;
+      }
+
+      coletas.add(
+        Coleta(id)
+          ..classificacao = extract(e, 'classification', 1)
+          ..dura = extract(e, 'dura', 0)
+          ..danoMecanico = e['damage']['engine']
+          ..danoUmidade = e['damage']['humidity']
+          ..danoPercevejo = e['damage']['bug'],
+      );
+    });
+
+    for (var i = coletas.length + 1; i <= numRept; i++) {
       coletas.add(Coleta(i)..classificacao = 1);
     }
   }
@@ -88,28 +122,32 @@ class RepetitionPageState extends State<RepetitionPage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          PainelNumero(
-            onBackPressed: onBackPressed,
-            onForwardPressed: onForwardPressed,
-            atual: this.atual,
-            max: this.numRept,
-          ),
-          Expanded(
-              child: PageView(
-            controller: pg,
-            children: coletas
-                .map((c) => ColetaForm(c, onChange: onChangeColeta))
-                .toList(),
-          )
-              // Container(),
-              // PageView(children: coletas.map((e) => Container()).toList()),
-              ),
-          PainelSeparator(),
-          PainelLegenda()
-        ],
-      ),
+      body: FutureBuilder(
+          future: _getColetas(),
+          builder: (context, _snap) {
+            return Column(
+              children: [
+                PainelNumero(
+                  onBackPressed: onBackPressed,
+                  onForwardPressed: onForwardPressed,
+                  atual: this.atual,
+                  max: this.numRept,
+                ),
+                Expanded(
+                    child: PageView(
+                  controller: pg,
+                  children: coletas
+                      .map((c) => ColetaForm(c, onChange: onChangeColeta))
+                      .toList(),
+                )
+                    // Container(),
+                    // PageView(children: coletas.map((e) => Container()).toList()),
+                    ),
+                PainelSeparator(),
+                PainelLegenda()
+              ],
+            );
+          }),
       drawer: Drawer(),
     );
   }
