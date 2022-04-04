@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/item_dano.dart';
@@ -11,6 +12,13 @@ class RepetitionPage extends StatefulWidget {
   const RepetitionPage({Key? key, this.title = 'Lote 01-56'}) : super(key: key);
   @override
   RepetitionPageState createState() => RepetitionPageState();
+}
+
+enum DamageType {
+  bug,
+  engine,
+  drop,
+  diamont,
 }
 
 class Coleta {
@@ -36,6 +44,15 @@ class Coleta {
 
       // 'completed': Analysis.completed,
       // 'addresses': Analysis.addresses.map((e) => AddressMapper.toMap(e)).toList()
+    };
+  }
+
+  Map<DamageType, int> damageMap() {
+    return {
+      DamageType.bug: danoPercevejo,
+      DamageType.engine: danoMecanico,
+      DamageType.drop: danoUmidade,
+      DamageType.diamont: dura,
     };
   }
 }
@@ -110,7 +127,7 @@ class RepetitionPageState extends State<RepetitionPage> {
       atual = page + 1;
     });
 
-    print(page);
+    // print(page);
   }
 
   void onForwardPressed() {
@@ -125,20 +142,28 @@ class RepetitionPageState extends State<RepetitionPage> {
     setState(() {
       atual = page + 1;
     });
-    print(page);
+    // print(page);
   }
 
-  void onChangeColeta(Coleta coleta) {
-    print(coleta.classificacao);
+  RestartableTimer? _timer;
 
-    var collection = FirebaseFirestore.instance.collection(
-        'analises/c36342b3-b981-471b-8554-142c3d82dd28/repeticao/1/coleta');
-    var doc = collection.doc(atual.toString());
-    doc.set(coleta.toMap());
+  void onChangeColeta(Coleta coleta) {
+    if (_timer == null || !_timer!.isActive) {
+      _timer = RestartableTimer(Duration(seconds: 1), () {
+        print(coleta.toMap());
+
+        var collection = FirebaseFirestore.instance.collection(
+            'analises/c36342b3-b981-471b-8554-142c3d82dd28/repeticao/1/coleta');
+        var doc = collection.doc(atual.toString());
+        doc.set(coleta.toMap());
+      });
+    } else {
+      _timer!.reset();
+    }
   }
 }
 
-class ColetaForm extends StatelessWidget {
+class ColetaForm extends StatefulWidget {
   final Coleta coleta;
   final void Function(Coleta)? onChange;
 
@@ -149,17 +174,25 @@ class ColetaForm extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ColetaForm> createState() => _ColetaFormState();
+}
+
+class _ColetaFormState extends State<ColetaForm> {
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: <Widget>[
           Expanded(child: PainelFoto()),
           PainelClasse(
-            this.coleta.classificacao,
+            this.widget.coleta.classificacao,
             onChange: onChageClassification,
           ),
           PainelSeparator(),
-          PainelDanos(onTap: onDamageChange),
+          PainelDanos(
+            onTap: onDamageChange,
+            damages: widget.coleta.damageMap(),
+          ),
         ],
       ),
     );
@@ -167,57 +200,64 @@ class ColetaForm extends StatelessWidget {
 
   void onDamageChange(d) {
     if (d == DamageType.diamont) {
-      coleta.danoMecanico = 0;
-      coleta.danoPercevejo = 0;
-      coleta.danoUmidade = 0;
-      coleta.dura = coleta.dura == 0 ? 1 : 0;
+      widget.coleta.danoMecanico = 0;
+      widget.coleta.danoPercevejo = 0;
+      widget.coleta.danoUmidade = 0;
+      widget.coleta.dura = widget.coleta.dura == 0 ? 1 : 0;
     } else {
-      coleta.dura = 0;
+      widget.coleta.dura = 0;
     }
 
-    if (d == DamageType.bug) {
-      coleta.danoPercevejo += 1;
+    bool zero = widget.coleta.danoMecanico +
+            widget.coleta.danoPercevejo +
+            widget.coleta.danoUmidade ==
+        0;
 
-      if (coleta.danoPercevejo > 2) {
-        coleta.danoPercevejo = 0;
-      } else if (coleta.danoPercevejo == 2) {
-        if (coleta.danoMecanico > 1) coleta.danoMecanico -= 1;
-        if (coleta.danoUmidade > 1) coleta.danoUmidade -= 1;
+    if (d == DamageType.bug) {
+      widget.coleta.danoPercevejo = zero ? 2 : widget.coleta.danoPercevejo + 1;
+
+      if (widget.coleta.danoPercevejo > 2) {
+        widget.coleta.danoPercevejo = 0;
+      } else if (widget.coleta.danoPercevejo == 2) {
+        if (widget.coleta.danoMecanico > 1) widget.coleta.danoMecanico -= 1;
+        if (widget.coleta.danoUmidade > 1) widget.coleta.danoUmidade -= 1;
       }
     }
 
     if (d == DamageType.drop) {
-      coleta.danoUmidade += 1;
+      widget.coleta.danoUmidade = zero ? 2 : widget.coleta.danoUmidade + 1;
 
-      if (coleta.danoUmidade > 2) {
-        coleta.danoUmidade = 0;
-      } else if (coleta.danoUmidade == 2) {
-        if (coleta.danoMecanico > 1) coleta.danoMecanico -= 1;
-        if (coleta.danoPercevejo > 1) coleta.danoPercevejo -= 1;
+      if (widget.coleta.danoUmidade > 2) {
+        widget.coleta.danoUmidade = 0;
+      } else if (widget.coleta.danoUmidade == 2) {
+        if (widget.coleta.danoMecanico > 1) widget.coleta.danoMecanico -= 1;
+        if (widget.coleta.danoPercevejo > 1) widget.coleta.danoPercevejo -= 1;
       }
     }
 
     if (d == DamageType.engine) {
-      coleta.danoMecanico += 1;
+      widget.coleta.danoMecanico = zero ? 2 : widget.coleta.danoMecanico + 1;
 
-      if (coleta.danoMecanico > 2) {
-        coleta.danoMecanico = 0;
-      } else if (coleta.danoMecanico == 2) {
-        if (coleta.danoUmidade > 1) coleta.danoUmidade -= 1;
-        if (coleta.danoPercevejo > 1) coleta.danoPercevejo -= 1;
+      if (widget.coleta.danoMecanico > 2) {
+        widget.coleta.danoMecanico = 0;
+      } else if (widget.coleta.danoMecanico == 2) {
+        if (widget.coleta.danoUmidade > 1) widget.coleta.danoUmidade -= 1;
+        if (widget.coleta.danoPercevejo > 1) widget.coleta.danoPercevejo -= 1;
       }
     }
+
+    setState(() {});
 
     updateColeta();
   }
 
   void onChageClassification(int value) {
-    this.coleta.classificacao = value;
+    this.widget.coleta.classificacao = value;
     updateColeta();
   }
 
-  void updateColeta() {
-    if (this.onChange != null) this.onChange!(this.coleta);
+  void updateColeta() async {
+    if (this.widget.onChange != null) this.widget.onChange!(this.widget.coleta);
   }
 }
 
@@ -363,58 +403,44 @@ class _PainelNumeroState extends State<PainelNumero> {
   }
 }
 
-enum DamageType {
-  bug,
-  engine,
-  drop,
-  diamont,
-}
-
 class PainelDanos extends StatelessWidget {
   final void Function(DamageType damage)? onTap;
   final Map<DamageType, int>? damages;
 
-  const PainelDanos({
+  PainelDanos({
     Key? key,
     this.onTap,
     this.damages,
   }) : super(key: key);
 
+  Map<int, Color> colorMap = {
+    0: FlutterFlowTheme.color4,
+    1: FlutterFlowTheme.color3,
+    2: FlutterFlowTheme.color2,
+  };
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> itens = [];
+
+    if (damages != null)
+      damages?.forEach((type, value) {
+        itens.add(
+          ItemDano(
+            color: colorMap[value],
+            type: type,
+            onTap: () => onItemTap(type),
+          ),
+        );
+      });
+
     return Container(
       height: 98,
       color: Color(0xFFF2F2F2),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          ItemDano(
-            color: FlutterFlowTheme.color3,
-            type: "engine",
-            text: 'Mecânico',
-            onTap: () => onItemTap(DamageType.engine),
-          ),
-          ItemDano(
-            color: FlutterFlowTheme.color2,
-            type: "drop",
-            text: 'Umidade',
-            onTap: () => onItemTap(DamageType.drop),
-          ),
-          ItemDano(
-            color: FlutterFlowTheme.color4,
-            type: "bug",
-            text: 'Percevejo',
-            onTap: () => onItemTap(DamageType.bug),
-          ),
-          ItemDano(
-            color: FlutterFlowTheme.color4,
-            type: "diamont",
-            text: 'Dura',
-            onTap: () => onItemTap(DamageType.diamont),
-          ),
-        ],
-      ),
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          children: itens),
     );
   }
 
