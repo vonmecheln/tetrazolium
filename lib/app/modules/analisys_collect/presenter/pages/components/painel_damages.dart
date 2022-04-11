@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/collect/repetition_page.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/domain/entities/collect.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/item_damage.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 

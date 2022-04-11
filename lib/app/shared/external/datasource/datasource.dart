@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tetrazolium/app/modules/analysis/domain/entities/entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/entity.dart';
 
 abstract class Datasource<T extends Entity> extends Mapper<T> {
   final FirebaseFirestore firestore;

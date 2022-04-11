@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/domain/entities/collect.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/form_collect.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_legend.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_separator.dart';
@@ -14,53 +15,10 @@ class RepetitionPage extends StatefulWidget {
   RepetitionPageState createState() => RepetitionPageState();
 }
 
-enum DamageType {
-  bug,
-  engine,
-  drop,
-  diamont,
-}
-
-class Coleta {
-  final String numero;
-  int classificacao = 0;
-  int danoMecanico = 0;
-  int danoUmidade = 0;
-  int danoPercevejo = 0;
-  int dura = 0;
-
-  Coleta(this.numero);
-
-  Map<String, dynamic> toMap() {
-    return {
-      'number': numero,
-      'classification': classificacao,
-      'damage': {
-        'bug': danoPercevejo,
-        'engine': danoMecanico,
-        'humidity': danoUmidade,
-      },
-      'dura': dura,
-
-      // 'completed': Analysis.completed,
-      // 'addresses': Analysis.addresses.map((e) => AddressMapper.toMap(e)).toList()
-    };
-  }
-
-  Map<DamageType, int> damageMap() {
-    return {
-      DamageType.bug: danoPercevejo,
-      DamageType.engine: danoMecanico,
-      DamageType.drop: danoUmidade,
-      DamageType.diamont: dura,
-    };
-  }
-}
-
 class RepetitionPageState extends State<RepetitionPage> {
   PageController pg = PageController(initialPage: 0);
 
-  List<Coleta> coletas = [];
+  List<Collect> coletas = [];
   int atual = 1;
   int numRept = 10;
 
@@ -95,12 +53,12 @@ class RepetitionPageState extends State<RepetitionPage> {
       }
 
       coletas.add(
-        Coleta(id)
-          ..classificacao = extract(e, 'classification', 1)
-          ..dura = extract(e, 'dura', 0)
-          ..danoMecanico = e['damage']['engine']
-          ..danoUmidade = e['damage']['humidity']
-          ..danoPercevejo = e['damage']['bug'],
+        Collect(id)
+          ..classification = extract(e, 'classification', 1)
+          ..hard = extract(e, 'dura', 0)
+          ..damageEngine = e['damage']['engine']
+          ..damageHumidity = e['damage']['humidity']
+          ..damageBug = e['damage']['bug'],
       );
     });
 
@@ -108,7 +66,7 @@ class RepetitionPageState extends State<RepetitionPage> {
 
     for (var i = coletas.length; i < numRept; i++) {
       String id = (i + 1).toString().padLeft(3, '0');
-      coletas.add(Coleta(id)..classificacao = 1);
+      coletas.add(Collect(id)..classification = 1);
     }
 
     coletas.forEach((c) {
@@ -223,10 +181,10 @@ class RepetitionPageState extends State<RepetitionPage> {
 
   Map<String, RestartableTimer?> _timers = Map();
 
-  void onChangeColeta(Coleta coleta) {
+  void onChangeColeta(Collect coleta) {
     RestartableTimer? _timer;
-    if (_timers.containsKey(coleta.numero)) {
-      _timer = _timers[coleta.numero];
+    if (_timers.containsKey(coleta.number)) {
+      _timer = _timers[coleta.number];
     }
 
     if (_timer == null || !_timer.isActive) {
@@ -235,10 +193,10 @@ class RepetitionPageState extends State<RepetitionPage> {
 
         var collection = FirebaseFirestore.instance.collection(
             'analises/c36342b3-b981-471b-8554-142c3d82dd28/repeticao/1/coleta');
-        var doc = collection.doc(coleta.numero);
+        var doc = collection.doc(coleta.number);
         doc.set(coleta.toMap());
       });
-      _timers[coleta.numero] = _timer;
+      _timers[coleta.number] = _timer;
     } else {
       _timer.reset();
     }

@@ -1,4 +1,4 @@
-import 'package:tetrazolium/app/modules/analysis/domain/entities/entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/entity.dart';
 
 import 'package:uuid/uuid.dart';
 
