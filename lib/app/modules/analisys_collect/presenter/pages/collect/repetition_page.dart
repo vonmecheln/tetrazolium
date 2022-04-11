@@ -22,7 +22,7 @@ enum DamageType {
 }
 
 class Coleta {
-  final int numero;
+  final String numero;
   int classificacao = 0;
   int danoMecanico = 0;
   int danoUmidade = 0;
@@ -33,7 +33,7 @@ class Coleta {
 
   Map<String, dynamic> toMap() {
     return {
-      // 'number': numero,
+      'number': numero,
       'classification': classificacao,
       'damage': {
         'bug': danoPercevejo,
@@ -77,7 +77,8 @@ class RepetitionPageState extends State<RepetitionPage> {
     var docs = await collection.get();
 
     docs.docs.forEach((e) {
-      int id = int.tryParse(e.id) ?? 0;
+      // int id = int.tryParse(e.id) ?? 0;
+      String id = e.id;
 
       int extract(
         QueryDocumentSnapshot<Map<String, dynamic>> e,
@@ -101,9 +102,14 @@ class RepetitionPageState extends State<RepetitionPage> {
       );
     });
 
-    for (var i = coletas.length + 1; i <= numRept; i++) {
-      coletas.add(Coleta(i)..classificacao = 1);
+    print(coletas.length);
+
+    for (var i = coletas.length; i < numRept; i++) {
+      String id = (i + 1).toString().padLeft(3, '0');
+      coletas.add(Coleta(id)..classificacao = 1);
     }
+
+    print(coletas.length);
   }
 
   @override
@@ -192,7 +198,7 @@ class RepetitionPageState extends State<RepetitionPage> {
 
         var collection = FirebaseFirestore.instance.collection(
             'analises/c36342b3-b981-471b-8554-142c3d82dd28/repeticao/1/coleta');
-        var doc = collection.doc(atual.toString());
+        var doc = collection.doc(coleta.numero);
         doc.set(coleta.toMap());
       });
     } else {
