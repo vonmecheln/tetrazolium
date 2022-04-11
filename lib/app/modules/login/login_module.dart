@@ -1,9 +1,9 @@
 import 'package:tetrazolium/app/modules/login/presenter/utils/input_store.dart';
 import 'package:tetrazolium/app/modules/login/presenter/pages/login/login_page.dart';
 
-import 'external/datasource/firebase_datasource.dart';
-import 'package:tetrazolium/app/modules/login/infra/repositories/login_repository_impl.dart';
-import 'package:tetrazolium/app/modules/login/domain/usecases/login_with_email.dart';
+// import 'external/datasource/firebase_datasource.dart';
+// import 'package:tetrazolium/app/modules/login/infra/repositories/login_repository_impl.dart';
+// import 'package:tetrazolium/app/modules/login/domain/usecases/login_with_email.dart';
 import 'package:tetrazolium/app/modules/login/presenter/pages/login/login_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 

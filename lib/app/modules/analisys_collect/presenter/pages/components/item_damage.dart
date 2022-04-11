@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/collect/repetition_page.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 
-class ItemDano extends StatelessWidget {
+class ItemDamage extends StatelessWidget {
   final DamageType type;
   final Color? color;
   final GestureTapCallback? onTap;
@@ -11,7 +11,7 @@ class ItemDano extends StatelessWidget {
   late String assetName;
   late String text;
 
-  ItemDano({
+  ItemDamage({
     required this.type,
     required this.color,
     Key? key,

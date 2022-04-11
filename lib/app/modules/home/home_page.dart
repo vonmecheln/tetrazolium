@@ -6,7 +6,7 @@
 import 'dart:math';
 
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/tetra_card.dart';
+// import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/tetra_card.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
 // import '../flutter_flow/flutter_flow_util.dart';
