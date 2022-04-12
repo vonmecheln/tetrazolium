@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:tetrazolium/app/shared/domain/errors/errors.dart';
 
-import '../errors/erros.dart';
 import '../entities/analysis.dart';
 
 abstract class IAnalysisRepository {

@@ -1,3 +1,6 @@
+import 'package:tetrazolium/app/shared/domain/entities/entity.dart';
+import 'package:uuid/uuid.dart';
+
 enum DamageType {
   bug,
   engine,
@@ -5,7 +8,7 @@ enum DamageType {
   diamont,
 }
 
-class Collect {
+class Collect extends Entity {
   final String number;
   int classification = 0;
   int damageEngine = 0;
@@ -13,7 +16,10 @@ class Collect {
   int damageBug = 0;
   int hard = 0;
 
-  Collect(this.number);
+  Collect(
+    this.number, {
+    String? id,
+  }) : super(id ?? Uuid().v4());
 
   Map<String, dynamic> toMap() {
     return {
