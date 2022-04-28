@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:tetrazolium/app/modules/analisys_collect/domain/entities/collect.dart';
+import 'package:tetrazolium/app/shared/domain/entities/collect.dart';
 import 'package:tetrazolium/app/shared/domain/errors/errors.dart';
 
 abstract class ICollectRepository {

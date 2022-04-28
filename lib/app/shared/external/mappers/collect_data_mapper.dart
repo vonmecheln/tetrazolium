@@ -1,4 +1,4 @@
-import 'package:tetrazolium/app/modules/analisys_collect/domain/entities/collect.dart';
+import 'package:tetrazolium/app/shared/domain/entities/collect.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/shared/external/datasource/datasource.dart';
 

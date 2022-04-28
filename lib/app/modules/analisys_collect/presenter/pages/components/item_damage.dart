@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tetrazolium/app/modules/analisys_collect/domain/entities/collect.dart';
+import 'package:tetrazolium/app/shared/domain/entities/collect.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 
 class ItemDamage extends StatelessWidget {

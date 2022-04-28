@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tetrazolium/app/modules/analisys_collect/domain/entities/collect.dart';
+import 'package:tetrazolium/app/shared/domain/entities/collect.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/infra/datasource/collect_datasource.dart';
 import 'package:tetrazolium/app/shared/external/datasource/datasource.dart';
 import 'package:tetrazolium/app/shared/external/datasource/datasource2.dart';

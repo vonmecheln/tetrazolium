@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tetrazolium/app/modules/analisys_collect/domain/entities/collect.dart';
+import 'package:tetrazolium/app/shared/domain/entities/collect.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_classification.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_damages.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_photo.dart';
