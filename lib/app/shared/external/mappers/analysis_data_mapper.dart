@@ -1,4 +1,4 @@
-import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/shared/external/datasource/datasource.dart';
 
 mixin AnalysisMapper implements Mapper<Analysis> {

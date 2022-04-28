@@ -1,4 +1,4 @@
-import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
 
 abstract class IAnalysisDatasource {
   // Future<List<Analysis>?> getAll(int idUser);

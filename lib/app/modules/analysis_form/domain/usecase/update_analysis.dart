@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/shared/domain/errors/errors.dart';
 import 'package:tetrazolium/app/modules/analysis/domain/repositories/analysis_repository.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
 
 class DetailsPage extends StatefulWidget {
   final Analysis analysis;

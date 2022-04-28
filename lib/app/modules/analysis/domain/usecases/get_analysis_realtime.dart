@@ -1,5 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
 import '../repositories/analysis_repository.dart';
 
 part 'get_analysis_realtime.g.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tetrazolium/app/modules/analysis/domain/entities/analysis.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/painel_analise.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/painel_dados.dart';
 
