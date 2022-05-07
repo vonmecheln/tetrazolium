@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'damage_model.g.dart';
 
 @JsonSerializable()
-class DamageModel extends Damage {
+class DamageModel extends DamageEntity {
   DamageModel({
     required String type,
     required bool main,

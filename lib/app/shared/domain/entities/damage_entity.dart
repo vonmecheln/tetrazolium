@@ -1,9 +1,16 @@
-abstract class Damage {
+class DamageEntity {
   final String type;
   final bool main;
 
-  Damage({
+  DamageEntity({
     required this.type,
     required this.main,
   });
+}
+
+enum DamageType {
+  bug,
+  engine,
+  drop,
+  diamont,
 }

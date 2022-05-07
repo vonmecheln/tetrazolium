@@ -1,7 +1,7 @@
-abstract class Photo {
+class PhotoEntity {
   final String name;
 
-  Photo({
+  PhotoEntity({
     required this.name,
   });
 }

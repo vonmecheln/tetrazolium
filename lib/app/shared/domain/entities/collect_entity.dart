@@ -1,12 +1,6 @@
+import 'package:tetrazolium/app/shared/domain/entities/damage_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/entity.dart';
 import 'package:uuid/uuid.dart';
-
-enum DamageType {
-  bug,
-  engine,
-  drop,
-  diamont,
-}
 
 class CollectEntity extends Entity {
   final String number;

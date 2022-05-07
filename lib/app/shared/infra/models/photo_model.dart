@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'photo_model.g.dart';
 
 @JsonSerializable()
-class PhotoModel extends Photo {
+class PhotoModel extends PhotoEntity {
   PhotoModel({
     required String name,
   }) : super(

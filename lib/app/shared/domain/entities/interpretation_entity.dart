@@ -1,10 +1,10 @@
-import 'damage.dart';
-import 'photo.dart';
+import 'damage_entity.dart';
+import 'photo_entity.dart';
 
 class InterpretationEntity {
   final int classification;
-  final List<Photo> photos;
-  final List<Damage> damages;
+  final List<PhotoEntity> photos;
+  final List<DamageEntity> damages;
 
   InterpretationEntity({
     required this.classification,

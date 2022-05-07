@@ -1,5 +1,5 @@
 export 'analysis_entity.dart';
-export 'damage.dart';
+export 'damage_entity.dart';
 export 'interpretation_entity.dart';
-export 'photo.dart';
+export 'photo_entity.dart';
 export 'repetition_entity.dart';

@@ -6,6 +6,7 @@ class RepetitionMapper {
       number: map['number'],
       viability: map['viability'],
       vigor: map['vigor'],
+      interpretation: [],
     );
   }
 
@@ -15,6 +16,7 @@ class RepetitionMapper {
       'number': entity.number,
       'viability': entity.viability,
       'vigor': entity.vigor,
+      'interpretation': ''
     };
   }
 }
