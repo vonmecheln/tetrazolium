@@ -37,6 +37,6 @@ abstract class Datasource<T extends Entity> extends Mapper<T> {
 }
 
 abstract class Mapper<T> {
-  Map<String, dynamic> toMap(T analysis);
+  Map<String, dynamic> toMap(T entity);
   T fromMap(Map<dynamic, dynamic> map);
 }

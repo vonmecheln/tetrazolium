@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'repetition_model.g.dart';
 
 @JsonSerializable()
-class RepetitionModel extends Repetition {
+class RepetitionModel extends RepetitionEntity {
   RepetitionModel({
     required int number,
     required int viability,

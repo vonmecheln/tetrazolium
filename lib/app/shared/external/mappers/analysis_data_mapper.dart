@@ -1,19 +1,20 @@
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/shared/external/datasource/datasource.dart';
+import 'package:tetrazolium/app/shared/external/mappers/repetition_data_mapper.dart';
 
 mixin AnalysisMapper implements Mapper<AnalysisEntity> {
-  Map<String, dynamic> toMap(AnalysisEntity analysis) {
+  Map<String, dynamic> toMap(AnalysisEntity entity) {
     return {
-      'id': analysis.id,
-      'date': analysis.date.millisecondsSinceEpoch,
-      'sample': analysis.sample,
-      'local': analysis.local,
-      'numberSeeds': analysis.numberSeeds,
-      'concentration': analysis.concentration,
-      'viability': analysis.viability,
-      'vigor': analysis.vigor,
-      'repetition': []
-      // 'repetition': analysis.repetition.map((e) => AddressMapper.toMap(e)).toList()
+      'id': entity.id,
+      'date': entity.date.millisecondsSinceEpoch,
+      'sample': entity.sample,
+      'local': entity.local,
+      'numberSeeds': entity.numberSeeds,
+      'concentration': entity.concentration,
+      'viability': entity.viability,
+      'vigor': entity.vigor,
+      'repetition':
+          entity.repetition.map((e) => RepetitionMapper.toMap(e)).toList(),
     };
   }
 
@@ -27,9 +28,11 @@ mixin AnalysisMapper implements Mapper<AnalysisEntity> {
       numberSeeds: map['numberSeeds'],
       viability: map['viability'],
       vigor: map['vigor'],
-
-      // completed: map['completed'],
-      // addresses: map['addresses'] == null ? [] : (map['addresses'] as List).map((e) => AddressMapper.fromMap(e as Map)).toList(),
+      repetition: map['repetition'] == null
+          ? []
+          : (map['repetition'] as List)
+              .map((e) => RepetitionMapper.fromMap(e as Map))
+              .toList(),
     );
   }
 }

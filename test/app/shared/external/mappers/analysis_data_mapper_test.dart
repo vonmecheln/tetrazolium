@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
-import 'package:tetrazolium/app/shared/domain/entities/repetition.dart';
+import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 
 class AnalysisMapperMock with AnalysisMapper {}
@@ -33,7 +33,7 @@ void main() {
       expect(analysis.numberSeeds, '2x50');
       expect(analysis.viability, 80);
       expect(analysis.vigor, 80);
-      expect(analysis.repetition, isA<List<Repetition>>());
+      expect(analysis.repetition, isA<List<RepetitionEntity>>());
 
       // expect(queue.orders.first.status, OrderStatus.attending);
     });
