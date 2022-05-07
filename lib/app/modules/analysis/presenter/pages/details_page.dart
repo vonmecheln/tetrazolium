@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
 
 class DetailsPage extends StatefulWidget {
-  final Analysis analysis;
+  final AnalysisEntity analysis;
   const DetailsPage({
     Key? key,
     required this.analysis,

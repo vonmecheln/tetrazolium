@@ -7,7 +7,7 @@ import 'package:tetrazolium/app/modules/analysis/domain/repositories/analysis_re
 part 'add_new_analysis.g.dart';
 
 abstract class IAddNewAnalysis {
-  Future<Either<FailureAnalysis, Analysis>> call(Analysis analysis);
+  Future<Either<FailureAnalysis, AnalysisEntity>> call(AnalysisEntity analysis);
 }
 
 @Injectable()
@@ -17,7 +17,8 @@ class AddNewAnalysis extends IAddNewAnalysis {
   AddNewAnalysis(this._analysisRepository);
 
   @override
-  Future<Either<FailureAnalysis, Analysis>> call(Analysis analysis) async {
+  Future<Either<FailureAnalysis, AnalysisEntity>> call(
+      AnalysisEntity analysis) async {
     // assert(analysis.id == null);
 
     if (analysis.local.trim().length == 0) {

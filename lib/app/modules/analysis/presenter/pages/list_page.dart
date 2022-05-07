@@ -62,7 +62,7 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
         ),
         drawer: Drawer(elevation: 16),
         body: ScopedBuilder<ListStore, FailureAnalysis,
-            List<Analysis>>.transition(
+            List<AnalysisEntity>>.transition(
           store: store,
           onError: (_, error) => _buildError(error!),
           onLoading: (context) => _buildLoading(context),
@@ -98,7 +98,7 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
     }
   }
 
-  Widget _buildList(List<Analysis> list) {
+  Widget _buildList(List<AnalysisEntity> list) {
     return ListView.separated(
       itemCount: list.length,
       itemBuilder: (_, index) {

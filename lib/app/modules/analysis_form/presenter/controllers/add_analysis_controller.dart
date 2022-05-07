@@ -29,7 +29,7 @@ class AddAnalysisController {
   Future<bool> addNewAnalysis() async {
     try {
       var result = await _addNewAnalysis(
-        Analysis(
+        AnalysisEntity(
           sample: sample.value,
           concentration: concentration.value,
           date: date.value,

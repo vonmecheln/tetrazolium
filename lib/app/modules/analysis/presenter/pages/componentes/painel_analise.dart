@@ -4,7 +4,7 @@ import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 import 'package:tetrazolium/app/shared/util/date.dart';
 
 class PainelAnalise extends StatelessWidget {
-  final Analysis item;
+  final AnalysisEntity item;
   final void Function()? onSelect;
 
   const PainelAnalise({

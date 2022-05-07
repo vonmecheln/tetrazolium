@@ -4,7 +4,7 @@ import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/pai
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/painel_dados.dart';
 
 class TetraCard extends StatelessWidget {
-  final Analysis item;
+  final AnalysisEntity item;
   final void Function()? onSelect;
 
   const TetraCard({

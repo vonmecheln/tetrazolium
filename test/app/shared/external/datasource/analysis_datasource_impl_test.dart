@@ -25,7 +25,7 @@ void main() {
   }));
 
   test('deve salvar uma nova Análise', () async {
-    Analysis entity = Analysis(
+    AnalysisEntity entity = AnalysisEntity(
         date: DateTime.now(),
         sample: 'Lote 01-56',
         local: 'Apasem toledo',

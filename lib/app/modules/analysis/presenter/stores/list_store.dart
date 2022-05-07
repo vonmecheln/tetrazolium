@@ -7,7 +7,7 @@ import 'package:tetrazolium/app/modules/analysis/domain/usecases/get_analysis_re
 part 'list_store.g.dart';
 
 @Injectable()
-class ListStore extends MobXStore<FailureAnalysis, List<Analysis>> {
+class ListStore extends MobXStore<FailureAnalysis, List<AnalysisEntity>> {
   final GetAnalysisRealtime _getAnalysisRealtime;
 
   ListStore(this._getAnalysisRealtime) : super([]);

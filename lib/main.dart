@@ -36,7 +36,7 @@ class _TestadorState extends State<Testador> {
     final datasource = AnalysisDatasourceImpl(FirebaseFirestore.instance);
 
     String id = "c36342b3-b981-471b-8554-142c3d82dd28";
-    Analysis entity = Analysis(
+    AnalysisEntity entity = AnalysisEntity(
       id: id,
       date: DateTime.now(),
       sample: 'Lote 01-56',

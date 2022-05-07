@@ -10,7 +10,7 @@ class GetAnalysisRealtime {
 
   GetAnalysisRealtime(this._analysisRepository);
 
-  Future<Stream<List<Analysis>>> call() async {
+  Future<Stream<List<AnalysisEntity>>> call() async {
     return await _analysisRepository.getAnalysisRealtime();
   }
 }

@@ -8,7 +8,7 @@ import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dar
 part 'analysis_datasource_impl.g.dart';
 
 @Injectable()
-class AnalysisDatasourceImpl extends Datasource<Analysis>
+class AnalysisDatasourceImpl extends Datasource<AnalysisEntity>
     with AnalysisMapper
     implements IAnalysisDatasource {
   AnalysisDatasourceImpl(FirebaseFirestore firestore)

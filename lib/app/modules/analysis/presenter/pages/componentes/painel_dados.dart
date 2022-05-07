@@ -3,7 +3,7 @@ import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/display_dano.dart';
 
 class PainelDanos extends StatelessWidget {
-  final Analysis item;
+  final AnalysisEntity item;
   const PainelDanos({
     required this.item,
     Key? key,

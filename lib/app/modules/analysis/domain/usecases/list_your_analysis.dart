@@ -9,7 +9,7 @@ import '../../domain/repositories/analysis_repository.dart';
 part 'list_your_analysis.g.dart';
 
 mixin ListYourAnalysis {
-  Future<Either<FailureAnalysis, List<Analysis>>> call(int idUser);
+  Future<Either<FailureAnalysis, List<AnalysisEntity>>> call(int idUser);
 }
 
 @Injectable(singleton: false)
@@ -19,7 +19,7 @@ class ListYourAnalysisImpl implements ListYourAnalysis {
   ListYourAnalysisImpl(this.repository);
 
   @override
-  Future<Either<FailureAnalysis, List<Analysis>>> call(int idUser) async {
+  Future<Either<FailureAnalysis, List<AnalysisEntity>>> call(int idUser) async {
     var option = optionOf(idUser);
 
     return option.fold(() => Left(InvalidIdUser(message: '')), (id) async {

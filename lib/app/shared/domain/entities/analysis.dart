@@ -1,8 +1,9 @@
 import 'package:tetrazolium/app/shared/domain/entities/entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/repetition.dart';
 
 import 'package:uuid/uuid.dart';
 
-class Analysis extends Entity {
+class AnalysisEntity extends Entity {
   final DateTime date;
   final String sample;
   final String local;
@@ -10,9 +11,9 @@ class Analysis extends Entity {
   final double concentration;
   final int viability;
   final int vigor;
-  final List repetition = [];
+  final List<Repetition> repetition = [];
 
-  Analysis({
+  AnalysisEntity({
     String? id,
     required this.date,
     required this.sample,

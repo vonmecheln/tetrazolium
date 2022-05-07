@@ -4,7 +4,7 @@ import '../../../../shared/domain/entities/analysis.dart';
 part 'analysis_model.g.dart';
 
 @JsonSerializable()
-class AnalysisModel extends Analysis {
+class AnalysisModel extends AnalysisEntity {
   AnalysisModel({
     required DateTime date,
     required String sample,

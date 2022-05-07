@@ -15,26 +15,27 @@ class AnalysisRepositoryImpl implements IAnalysisRepository {
   AnalysisRepositoryImpl(this._datasource);
 
   @override
-  Future<Either<FailureAnalysis, List<Analysis>>> getAnalysis() async {
+  Future<Either<FailureAnalysis, List<AnalysisEntity>>> getAnalysis() async {
     try {
       final list = await _datasource.getAll();
       return list == null
-          ? Left<FailureAnalysis, List<Analysis>>(
+          ? Left<FailureAnalysis, List<AnalysisEntity>>(
               DatasourceResultNull(message: ''))
-          : Right<FailureAnalysis, List<Analysis>>(list);
+          : Right<FailureAnalysis, List<AnalysisEntity>>(list);
     } catch (e) {
-      return Left<FailureAnalysis, List<Analysis>>(ErrorList(message: ''));
+      return Left<FailureAnalysis, List<AnalysisEntity>>(
+          ErrorList(message: ''));
     }
   }
 
   @override
-  Future<Stream<List<Analysis>>> getAnalysisRealtime() async {
+  Future<Stream<List<AnalysisEntity>>> getAnalysisRealtime() async {
     return await _datasource.getStream();
   }
 
   @override
-  Future<Either<FailureAnalysis, Analysis>> addNewAnalysis(
-      Analysis analysis) async {
+  Future<Either<FailureAnalysis, AnalysisEntity>> addNewAnalysis(
+      AnalysisEntity analysis) async {
     try {
       await _datasource.addOrUpdate(analysis);
       return Right(analysis);
@@ -44,7 +45,8 @@ class AnalysisRepositoryImpl implements IAnalysisRepository {
   }
 
   @override
-  Future<Either<FailureAnalysis, Analysis>> updateAnalysis(Analysis analysis) {
+  Future<Either<FailureAnalysis, AnalysisEntity>> updateAnalysis(
+      AnalysisEntity analysis) {
     // TODO: implement updateAnalysis
     throw UnimplementedError();
   }
