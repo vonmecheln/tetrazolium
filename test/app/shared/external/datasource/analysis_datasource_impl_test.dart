@@ -26,13 +26,15 @@ void main() {
 
   test('deve salvar uma nova Análise', () async {
     AnalysisEntity entity = AnalysisEntity(
-        date: DateTime.now(),
-        sample: 'Lote 01-56',
-        local: 'Apasem toledo',
-        numberSeeds: '2x50',
-        concentration: 0.075,
-        viability: 0,
-        vigor: 0);
+      date: DateTime.now(),
+      sample: 'Lote 01-56',
+      local: 'Apasem toledo',
+      numberSeeds: '2x50',
+      concentration: 0.075,
+      viability: 0,
+      vigor: 0,
+      repetition: [],
+    );
 
     final result = await datasource.addOrUpdate(entity);
   });

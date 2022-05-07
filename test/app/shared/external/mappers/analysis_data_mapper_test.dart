@@ -47,6 +47,7 @@ void main() {
         numberSeeds: '2x50',
         viability: 80,
         vigor: 80,
+        repetition: [],
       );
 
       final map = mapper.toMap(analysis);

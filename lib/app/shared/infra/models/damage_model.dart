@@ -6,7 +6,7 @@ part 'damage_model.g.dart';
 @JsonSerializable()
 class DamageModel extends DamageEntity {
   DamageModel({
-    required String type,
+    required DamageType type,
     required bool main,
   }) : super(
           type: type,

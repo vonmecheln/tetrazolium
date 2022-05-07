@@ -7,7 +7,7 @@ part of 'damage_model.dart';
 // **************************************************************************
 
 DamageModel _$DamageModelFromJson(Map<String, dynamic> json) => DamageModel(
-      type: json['type'] as String,
+      type: $enumDecode(_$DamageTypeEnumMap, json['type']),
       main: json['main'] as bool,
     );
 
