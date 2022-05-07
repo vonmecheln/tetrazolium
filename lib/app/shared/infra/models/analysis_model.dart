@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../../../../shared/domain/entities/analysis_entity.dart';
+import '../../domain/entities/analysis_entity.dart';
 
 // part 'analysis_model.g.dart';
 
-@JsonSerializable()
+// @JsonSerializable()
 class AnalysisModel extends AnalysisEntity {
   AnalysisModel({
     required DateTime date,
