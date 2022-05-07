@@ -3,6 +3,11 @@ import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
 
 import 'package:uuid/uuid.dart';
 
+import 'package:copy_with_extension/copy_with_extension.dart';
+
+part 'analysis_entity.g.dart';
+
+@CopyWith()
 class AnalysisEntity extends Entity {
   final DateTime date;
   final String sample;

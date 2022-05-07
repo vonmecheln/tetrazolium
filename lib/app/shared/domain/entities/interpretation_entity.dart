@@ -3,8 +3,8 @@ import 'photo_entity.dart';
 
 class InterpretationEntity {
   final int classification;
-  late final List<PhotoEntity> photos;
-  late final List<DamageEntity> damages;
+  final List<PhotoEntity> photos;
+  final List<DamageEntity> damages;
 
   InterpretationEntity({
     required this.classification,

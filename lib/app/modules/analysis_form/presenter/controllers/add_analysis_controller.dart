@@ -37,6 +37,7 @@ class AddAnalysisController {
           numberSeeds: numberSeeds.value,
           viability: 0,
           vigor: 0,
+          repetition: [],
         ),
       );
 

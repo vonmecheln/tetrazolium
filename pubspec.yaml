@@ -48,7 +48,9 @@ dependencies:
   dartz: ^0.10.0
   cloud_firestore: ^3.1.10
   firebase_core: ^1.13.1
-  json_annotation : ^4.4.0
+  
+  json_annotation :
+  copy_with_extension:
   
   async:
   uuid: 3.0.6
@@ -65,7 +67,8 @@ dependencies:
 
 dev_dependencies:
   modular_codegen: 
-  mobx_codegen: 
+  mobx_codegen:
+  copy_with_extension_gen: 
   build_runner: 
   modular_test:
   # flutter_modular_test: 

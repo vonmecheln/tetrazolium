@@ -45,6 +45,7 @@ class _TestadorState extends State<Testador> {
       concentration: 0.075,
       viability: 80,
       vigor: 70,
+      repetition: [],
     );
 
     print(entity);

@@ -1,9 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
+import 'package:tetrazolium/app/shared/infra/models/repetition_model.dart';
 import '../../domain/entities/analysis_entity.dart';
 
 // part 'analysis_model.g.dart';
 
-// @JsonSerializable()
+// @JsonSerializable(createToJson: true, createFactory: false)
 class AnalysisModel extends AnalysisEntity {
   AnalysisModel({
     required DateTime date,
@@ -13,6 +15,7 @@ class AnalysisModel extends AnalysisEntity {
     required double concentration,
     required int viability,
     required int vigor,
+    required List<RepetitionModel> repetition,
   }) : super(
           date: date,
           sample: sample,
@@ -21,6 +24,7 @@ class AnalysisModel extends AnalysisEntity {
           concentration: concentration,
           viability: viability,
           vigor: vigor,
+          repetition: repetition,
         );
 
   // factory AnalysisModel.fromJson(Map<String, dynamic> json) =>
