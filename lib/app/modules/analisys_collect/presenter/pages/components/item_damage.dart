@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tetrazolium/app/shared/domain/entities/collect_entity.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/domain/entities/collect_entity.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 import 'package:tetrazolium/app/shared/domain/entities/damage_entity.dart';
 

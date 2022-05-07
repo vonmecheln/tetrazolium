@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tetrazolium/app/shared/domain/entities/collect_entity.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/domain/entities/collect_entity.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/form_collect.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_legend.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_separator.dart';
