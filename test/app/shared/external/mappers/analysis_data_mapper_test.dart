@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/repetition.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 

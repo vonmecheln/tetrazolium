@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../../../../shared/domain/entities/analysis.dart';
+import '../../../../shared/domain/entities/analysis_entity.dart';
 
 part 'analysis_model.g.dart';
 

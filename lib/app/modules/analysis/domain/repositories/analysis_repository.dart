@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:tetrazolium/app/shared/domain/errors/errors.dart';
 
-import '../../../../shared/domain/entities/analysis.dart';
+import '../../../../shared/domain/entities/analysis_entity.dart';
 
 abstract class IAnalysisRepository {
   Future<Either<FailureAnalysis, List<AnalysisEntity>>> getAnalysis();

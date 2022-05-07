@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
-import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/shared/domain/errors/errors.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/tetra_card.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/stores/list_store.dart';

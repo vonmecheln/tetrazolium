@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx_triple/mobx_triple.dart';
-import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/shared/domain/errors/errors.dart';
 import 'package:tetrazolium/app/modules/analysis/domain/usecases/get_analysis_realtime.dart';
 
