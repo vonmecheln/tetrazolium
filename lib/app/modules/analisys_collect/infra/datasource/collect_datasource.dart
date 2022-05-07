@@ -1,5 +1,5 @@
-import 'package:tetrazolium/app/shared/domain/entities/collect.dart';
+import 'package:tetrazolium/app/shared/domain/entities/collect_entity.dart';
 
 abstract class ICollectDatasource {
-  Future<List<Collect>?> getAll(String id);
+  Future<List<CollectEntity>?> getAll(String id);
 }

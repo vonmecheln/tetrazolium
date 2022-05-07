@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'interpretation_model.g.dart';
 
 @JsonSerializable()
-class InterpretationModel extends Interpretation {
+class InterpretationModel extends InterpretationEntity {
   InterpretationModel({
     required int classification,
     // required List<Photo> photos,

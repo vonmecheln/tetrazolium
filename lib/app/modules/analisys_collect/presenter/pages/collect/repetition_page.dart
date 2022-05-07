@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tetrazolium/app/shared/domain/entities/collect.dart';
+import 'package:tetrazolium/app/shared/domain/entities/collect_entity.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/form_collect.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_legend.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_separator.dart';
@@ -18,7 +18,7 @@ class RepetitionPage extends StatefulWidget {
 class RepetitionPageState extends State<RepetitionPage> {
   PageController pg = PageController(initialPage: 0);
 
-  List<Collect> coletas = [];
+  List<CollectEntity> coletas = [];
   int atual = 1;
   int numRept = 10;
 
@@ -53,12 +53,15 @@ class RepetitionPageState extends State<RepetitionPage> {
       }
 
       coletas.add(
-        Collect(id)
-          ..classification = extract(e, 'classification', 1)
-          ..hard = extract(e, 'dura', 0)
-          ..damageEngine = e['damage']['engine']
-          ..damageHumidity = e['damage']['humidity']
-          ..damageBug = e['damage']['bug'],
+        CollectEntity(
+          id: id,
+          number: id,
+          classification: extract(e, 'classification', 1),
+          hard: extract(e, 'dura', 0),
+          damageEngine: e['damage']['engine'],
+          damageHumidity: e['damage']['humidity'],
+          damageBug: e['damage']['bug'],
+        ),
       );
     });
 
@@ -66,7 +69,17 @@ class RepetitionPageState extends State<RepetitionPage> {
 
     for (var i = coletas.length; i < numRept; i++) {
       String id = (i + 1).toString().padLeft(3, '0');
-      coletas.add(Collect(id)..classification = 1);
+      coletas.add(
+        CollectEntity(
+          id: id,
+          number: id,
+          classification: 1,
+          hard: 0,
+          damageEngine: 0,
+          damageHumidity: 0,
+          damageBug: 0,
+        ),
+      );
     }
 
     coletas.forEach((c) {
@@ -181,7 +194,7 @@ class RepetitionPageState extends State<RepetitionPage> {
 
   Map<String, RestartableTimer?> _timers = Map();
 
-  void onChangeColeta(Collect coleta) {
+  void onChangeColeta(CollectEntity coleta) {
     RestartableTimer? _timer;
     if (_timers.containsKey(coleta.number)) {
       _timer = _timers[coleta.number];

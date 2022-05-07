@@ -1,9 +1,7 @@
-import 'package:tetrazolium/app/shared/domain/entities/collect.dart';
-import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
-import 'package:tetrazolium/app/shared/external/datasource/datasource.dart';
+import 'package:tetrazolium/app/shared/domain/entities/collect_entity.dart';
 
-mixin CollectMapper implements Mapper<Collect> {
-  Map<String, dynamic> toMap(Collect collect) {
+class CollectMapper {
+  static Map<String, dynamic> toMap(CollectEntity collect) {
     return {
       'id': collect.id,
       // 'date': collect.date.millisecondsSinceEpoch,
@@ -19,20 +17,15 @@ mixin CollectMapper implements Mapper<Collect> {
     };
   }
 
-  Collect fromMap(Map<dynamic, dynamic> map) {
-    return Collect(
-      '',
+  static CollectEntity fromMap(Map<dynamic, dynamic> map) {
+    return CollectEntity(
       id: map['id'],
-      // sample: map['sample'],
-      // concentration: map['concentration'],
-      // date: DateTime.fromMillisecondsSinceEpoch(map['date']),
-      // local: map['local'],
-      // numberSeeds: map['numberSeeds'],
-      // viability: map['viability'],
-      // vigor: map['vigor'],
-
-      // completed: map['completed'],
-      // addresses: map['addresses'] == null ? [] : (map['addresses'] as List).map((e) => AddressMapper.fromMap(e as Map)).toList(),
+      classification: 0,
+      damageBug: 0,
+      damageEngine: 0,
+      damageHumidity: 0,
+      hard: 0,
+      number: '',
     );
   }
 }

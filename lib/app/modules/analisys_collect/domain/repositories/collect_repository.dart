@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:tetrazolium/app/shared/domain/entities/collect.dart';
+import 'package:tetrazolium/app/shared/domain/entities/collect_entity.dart';
 import 'package:tetrazolium/app/shared/domain/errors/errors.dart';
 
 abstract class ICollectRepository {
-  Future<Either<FailureAnalysis, List<Collect>>> getCollects(String id);
+  Future<Either<FailureAnalysis, List<CollectEntity>>> getCollects(String id);
 
   // Future<Either<FailureAnalysis, Analysis>> addNewAnalysis(Analysis analysis);
   // Future<Either<FailureAnalysis, Analysis>> updateAnalysis(Analysis analysis);
