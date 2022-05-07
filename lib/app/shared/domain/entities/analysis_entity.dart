@@ -16,7 +16,7 @@ class AnalysisEntity extends Entity {
   final double concentration;
   final int viability;
   final int vigor;
-  late final List<RepetitionEntity> repetition;
+  final List<RepetitionEntity> repetition;
 
   AnalysisEntity({
     String? id,
@@ -27,10 +27,8 @@ class AnalysisEntity extends Entity {
     required this.concentration,
     required this.viability,
     required this.vigor,
-    List<RepetitionEntity>? repetition,
-  }) : super(id ?? Uuid().v4()) {
-    this.repetition = repetition ?? [];
-  }
+    required this.repetition,
+  }) : super(id ?? Uuid().v4());
 
   @override
   String toString() {

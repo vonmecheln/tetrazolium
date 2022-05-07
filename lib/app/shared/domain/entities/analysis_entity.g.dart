@@ -17,7 +17,7 @@ abstract class _$AnalysisEntityCWProxy {
 
   AnalysisEntity numberSeeds(String numberSeeds);
 
-  AnalysisEntity repetition(List<RepetitionEntity>? repetition);
+  AnalysisEntity repetition(List<RepetitionEntity> repetition);
 
   AnalysisEntity sample(String sample);
 
@@ -68,7 +68,7 @@ class _$AnalysisEntityCWProxyImpl implements _$AnalysisEntityCWProxy {
       this(numberSeeds: numberSeeds);
 
   @override
-  AnalysisEntity repetition(List<RepetitionEntity>? repetition) =>
+  AnalysisEntity repetition(List<RepetitionEntity> repetition) =>
       this(repetition: repetition);
 
   @override
@@ -122,10 +122,11 @@ class _$AnalysisEntityCWProxyImpl implements _$AnalysisEntityCWProxy {
               ? _value.numberSeeds
               // ignore: cast_nullable_to_non_nullable
               : numberSeeds as String,
-      repetition: repetition == const $CopyWithPlaceholder()
-          ? _value.repetition
-          // ignore: cast_nullable_to_non_nullable
-          : repetition as List<RepetitionEntity>?,
+      repetition:
+          repetition == const $CopyWithPlaceholder() || repetition == null
+              ? _value.repetition
+              // ignore: cast_nullable_to_non_nullable
+              : repetition as List<RepetitionEntity>,
       sample: sample == const $CopyWithPlaceholder() || sample == null
           ? _value.sample
           // ignore: cast_nullable_to_non_nullable

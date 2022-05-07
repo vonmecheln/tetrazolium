@@ -1,7 +1,11 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:tetrazolium/app/shared/domain/entities/entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/index.dart';
 import 'package:uuid/uuid.dart';
 
+part 'repetition_entity.g.dart';
+
+@CopyWith()
 class RepetitionEntity extends Entity {
   final int number;
   final int viability;

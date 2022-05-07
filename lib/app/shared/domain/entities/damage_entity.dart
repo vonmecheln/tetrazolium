@@ -1,5 +1,10 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
+
+part 'damage_entity.g.dart';
+
+@CopyWith()
 class DamageEntity {
-  final String type;
+  final DamageType type;
   final bool main;
 
   DamageEntity({

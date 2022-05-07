@@ -13,6 +13,13 @@ DamageModel _$DamageModelFromJson(Map<String, dynamic> json) => DamageModel(
 
 Map<String, dynamic> _$DamageModelToJson(DamageModel instance) =>
     <String, dynamic>{
-      'type': instance.type,
+      'type': _$DamageTypeEnumMap[instance.type],
       'main': instance.main,
     };
+
+const _$DamageTypeEnumMap = {
+  DamageType.bug: 'bug',
+  DamageType.engine: 'engine',
+  DamageType.drop: 'drop',
+  DamageType.diamont: 'diamont',
+};
