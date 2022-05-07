@@ -1,8 +1,8 @@
 import 'package:tetrazolium/app/shared/domain/entities/analysis.dart';
 import 'package:tetrazolium/app/shared/external/datasource/datasource.dart';
 
-mixin AnalysisMapper implements Mapper<Analysis> {
-  Map<String, dynamic> toMap(Analysis analysis) {
+mixin AnalysisMapper implements Mapper<AnalysisEntity> {
+  Map<String, dynamic> toMap(AnalysisEntity analysis) {
     return {
       'id': analysis.id,
       'date': analysis.date.millisecondsSinceEpoch,
@@ -12,14 +12,13 @@ mixin AnalysisMapper implements Mapper<Analysis> {
       'concentration': analysis.concentration,
       'viability': analysis.viability,
       'vigor': analysis.vigor,
-
-      // 'completed': Analysis.completed,
-      // 'addresses': Analysis.addresses.map((e) => AddressMapper.toMap(e)).toList()
+      'repetition': []
+      // 'repetition': analysis.repetition.map((e) => AddressMapper.toMap(e)).toList()
     };
   }
 
-  Analysis fromMap(Map<dynamic, dynamic> map) {
-    return Analysis(
+  AnalysisEntity fromMap(Map<dynamic, dynamic> map) {
+    return AnalysisEntity(
       id: map['id'],
       sample: map['sample'],
       concentration: map['concentration'],
