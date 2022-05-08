@@ -20,6 +20,7 @@ void main() {
         'numberSeeds': '2x50',
         'viability': 80,
         'vigor': 80,
+        'repetitions': [],
       });
 
       expect(analysis, isA<AnalysisEntity>());
@@ -34,8 +35,34 @@ void main() {
       expect(analysis.viability, 80);
       expect(analysis.vigor, 80);
       expect(analysis.repetitions, isA<List<RepetitionEntity>>());
+    });
 
-      // expect(queue.orders.first.status, OrderStatus.attending);
+    test(
+        'deve converter um map sem repetições em um objeto do tipo AnalysisEntity',
+        () {
+      final analysis = mapper.fromMap({
+        'id': '123456789',
+        'date': date.millisecondsSinceEpoch,
+        'sample': 'sample',
+        'local': 'local',
+        'concentration': 0.75,
+        'numberSeeds': '2x50',
+        'viability': 80,
+        'vigor': 80,
+      });
+
+      expect(analysis, isA<AnalysisEntity>());
+      expect(
+        analysis.date,
+        DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch),
+      );
+      expect(analysis.sample, 'sample');
+      expect(analysis.local, 'local');
+      expect(analysis.concentration, 0.75);
+      expect(analysis.numberSeeds, '2x50');
+      expect(analysis.viability, 80);
+      expect(analysis.vigor, 80);
+      expect(analysis.repetitions, isA<List<RepetitionEntity>>());
     });
 
     test('deve converte AnalysisEntity to Map', () {
