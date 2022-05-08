@@ -33,7 +33,7 @@ void main() {
       concentration: 0.075,
       viability: 0,
       vigor: 0,
-      repetition: [],
+      repetitions: [],
     );
 
     final result = await datasource.addOrUpdate(entity);

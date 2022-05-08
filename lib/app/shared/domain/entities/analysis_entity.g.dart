@@ -17,7 +17,7 @@ abstract class _$AnalysisEntityCWProxy {
 
   AnalysisEntity numberSeeds(String numberSeeds);
 
-  AnalysisEntity repetition(List<RepetitionEntity> repetition);
+  AnalysisEntity repetitions(List<RepetitionEntity> repetitions);
 
   AnalysisEntity sample(String sample);
 
@@ -37,7 +37,7 @@ abstract class _$AnalysisEntityCWProxy {
     String? id,
     String? local,
     String? numberSeeds,
-    List<RepetitionEntity>? repetition,
+    List<RepetitionEntity>? repetitions,
     String? sample,
     int? viability,
     int? vigor,
@@ -68,8 +68,8 @@ class _$AnalysisEntityCWProxyImpl implements _$AnalysisEntityCWProxy {
       this(numberSeeds: numberSeeds);
 
   @override
-  AnalysisEntity repetition(List<RepetitionEntity> repetition) =>
-      this(repetition: repetition);
+  AnalysisEntity repetitions(List<RepetitionEntity> repetitions) =>
+      this(repetitions: repetitions);
 
   @override
   AnalysisEntity sample(String sample) => this(sample: sample);
@@ -94,7 +94,7 @@ class _$AnalysisEntityCWProxyImpl implements _$AnalysisEntityCWProxy {
     Object? id = const $CopyWithPlaceholder(),
     Object? local = const $CopyWithPlaceholder(),
     Object? numberSeeds = const $CopyWithPlaceholder(),
-    Object? repetition = const $CopyWithPlaceholder(),
+    Object? repetitions = const $CopyWithPlaceholder(),
     Object? sample = const $CopyWithPlaceholder(),
     Object? viability = const $CopyWithPlaceholder(),
     Object? vigor = const $CopyWithPlaceholder(),
@@ -122,11 +122,11 @@ class _$AnalysisEntityCWProxyImpl implements _$AnalysisEntityCWProxy {
               ? _value.numberSeeds
               // ignore: cast_nullable_to_non_nullable
               : numberSeeds as String,
-      repetition:
-          repetition == const $CopyWithPlaceholder() || repetition == null
-              ? _value.repetition
+      repetitions:
+          repetitions == const $CopyWithPlaceholder() || repetitions == null
+              ? _value.repetitions
               // ignore: cast_nullable_to_non_nullable
-              : repetition as List<RepetitionEntity>,
+              : repetitions as List<RepetitionEntity>,
       sample: sample == const $CopyWithPlaceholder() || sample == null
           ? _value.sample
           // ignore: cast_nullable_to_non_nullable

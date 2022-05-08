@@ -13,8 +13,8 @@ mixin AnalysisMapper implements Mapper<AnalysisEntity> {
       'concentration': entity.concentration,
       'viability': entity.viability,
       'vigor': entity.vigor,
-      'repetition':
-          entity.repetition.map((e) => RepetitionMapper.toMap(e)).toList(),
+      'repetitions':
+          entity.repetitions.map((e) => RepetitionMapper.toMap(e)).toList(),
     };
   }
 
@@ -28,10 +28,10 @@ mixin AnalysisMapper implements Mapper<AnalysisEntity> {
       numberSeeds: map['numberSeeds'],
       viability: map['viability'],
       vigor: map['vigor'],
-      repetition: map['repetition'] == null
+      repetitions: map['repetitions'] == null
           ? []
-          : (map['repetition'] as List)
-              .map((e) => RepetitionMapper.fromMap(e as Map))
+          : (map['repetitions'] as List)
+              .map((e) => RepetitionMapper.fromMap(e))
               .toList(),
     );
   }

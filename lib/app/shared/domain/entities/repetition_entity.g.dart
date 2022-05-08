@@ -9,7 +9,7 @@ part of 'repetition_entity.dart';
 abstract class _$RepetitionEntityCWProxy {
   RepetitionEntity id(String? id);
 
-  RepetitionEntity interpretation(List<InterpretationEntity> interpretation);
+  RepetitionEntity interpretations(List<InterpretationEntity> interpretations);
 
   RepetitionEntity number(int number);
 
@@ -25,7 +25,7 @@ abstract class _$RepetitionEntityCWProxy {
   /// ````
   RepetitionEntity call({
     String? id,
-    List<InterpretationEntity>? interpretation,
+    List<InterpretationEntity>? interpretations,
     int? number,
     int? viability,
     int? vigor,
@@ -42,8 +42,9 @@ class _$RepetitionEntityCWProxyImpl implements _$RepetitionEntityCWProxy {
   RepetitionEntity id(String? id) => this(id: id);
 
   @override
-  RepetitionEntity interpretation(List<InterpretationEntity> interpretation) =>
-      this(interpretation: interpretation);
+  RepetitionEntity interpretations(
+          List<InterpretationEntity> interpretations) =>
+      this(interpretations: interpretations);
 
   @override
   RepetitionEntity number(int number) => this(number: number);
@@ -64,7 +65,7 @@ class _$RepetitionEntityCWProxyImpl implements _$RepetitionEntityCWProxy {
   /// ````
   RepetitionEntity call({
     Object? id = const $CopyWithPlaceholder(),
-    Object? interpretation = const $CopyWithPlaceholder(),
+    Object? interpretations = const $CopyWithPlaceholder(),
     Object? number = const $CopyWithPlaceholder(),
     Object? viability = const $CopyWithPlaceholder(),
     Object? vigor = const $CopyWithPlaceholder(),
@@ -74,11 +75,11 @@ class _$RepetitionEntityCWProxyImpl implements _$RepetitionEntityCWProxy {
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
           : id as String?,
-      interpretation: interpretation == const $CopyWithPlaceholder() ||
-              interpretation == null
-          ? _value.interpretation
+      interpretations: interpretations == const $CopyWithPlaceholder() ||
+              interpretations == null
+          ? _value.interpretations
           // ignore: cast_nullable_to_non_nullable
-          : interpretation as List<InterpretationEntity>,
+          : interpretations as List<InterpretationEntity>,
       number: number == const $CopyWithPlaceholder() || number == null
           ? _value.number
           // ignore: cast_nullable_to_non_nullable

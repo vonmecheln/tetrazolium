@@ -1,11 +1,11 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
-
-import 'damage_entity.dart';
-import 'photo_entity.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'index.dart';
 
 part 'interpretation_entity.g.dart';
 
 @CopyWith()
+// @JsonSerializable()
 class InterpretationEntity {
   final int classification;
   final List<PhotoEntity> photos;

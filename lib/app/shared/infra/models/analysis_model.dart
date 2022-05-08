@@ -24,7 +24,7 @@ class AnalysisModel extends AnalysisEntity {
           concentration: concentration,
           viability: viability,
           vigor: vigor,
-          repetition: repetition,
+          repetitions: repetition,
         );
 
   // factory AnalysisModel.fromJson(Map<String, dynamic> json) =>

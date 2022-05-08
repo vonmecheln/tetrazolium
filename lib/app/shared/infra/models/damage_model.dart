@@ -5,15 +5,9 @@ part 'damage_model.g.dart';
 
 @JsonSerializable()
 class DamageModel extends DamageEntity {
-  DamageModel({
-    required DamageType type,
-    required bool main,
-  }) : super(
-          type: type,
-          main: main,
-        );
-
-  // factory DamageModel.fromJson(Map<String, dynamic> json) =>
-  //     _$DamageModelFromJson(json);
-  // Map<String, dynamic> toJson() => _$DamageModelToJson(this);
+  DamageModel({required DamageType type, required bool main})
+      : super(type: type, main: main);
+  factory DamageModel.fromJson(Map<String, dynamic> json) =>
+      _$DamageModelFromJson(json);
+  Map<String, dynamic> toJson() => _$DamageModelToJson(this);
 }

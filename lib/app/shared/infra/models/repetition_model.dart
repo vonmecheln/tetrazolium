@@ -15,7 +15,7 @@ class RepetitionModel extends RepetitionEntity {
           number: number,
           viability: viability,
           vigor: vigor,
-          interpretation: interpretation,
+          interpretations: interpretation,
         );
 
   // factory RepetitionModel.fromJson(Map<String, dynamic> json) =>

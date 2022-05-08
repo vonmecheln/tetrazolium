@@ -33,7 +33,7 @@ void main() {
       expect(analysis.numberSeeds, '2x50');
       expect(analysis.viability, 80);
       expect(analysis.vigor, 80);
-      expect(analysis.repetition, isA<List<RepetitionEntity>>());
+      expect(analysis.repetitions, isA<List<RepetitionEntity>>());
 
       // expect(queue.orders.first.status, OrderStatus.attending);
     });
@@ -47,7 +47,7 @@ void main() {
         numberSeeds: '2x50',
         viability: 80,
         vigor: 80,
-        repetition: [],
+        repetitions: [],
       );
 
       final map = mapper.toMap(analysis);

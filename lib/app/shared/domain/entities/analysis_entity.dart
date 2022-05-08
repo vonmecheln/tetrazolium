@@ -1,9 +1,8 @@
-import 'package:tetrazolium/app/shared/domain/entities/entity.dart';
-import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
-
-import 'package:uuid/uuid.dart';
-
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:uuid/uuid.dart';
+import 'package:tetrazolium/app/shared/domain/entities/entity.dart';
+
+import 'index.dart';
 
 part 'analysis_entity.g.dart';
 
@@ -16,7 +15,7 @@ class AnalysisEntity extends Entity {
   final double concentration;
   final int viability;
   final int vigor;
-  final List<RepetitionEntity> repetition;
+  final List<RepetitionEntity> repetitions;
 
   AnalysisEntity({
     String? id,
@@ -27,7 +26,7 @@ class AnalysisEntity extends Entity {
     required this.concentration,
     required this.viability,
     required this.vigor,
-    required this.repetition,
+    required this.repetitions,
   }) : super(id ?? Uuid().v4());
 
   @override
