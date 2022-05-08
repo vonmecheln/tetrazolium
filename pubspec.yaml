@@ -27,40 +27,42 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.3 
+  cupertino_icons: 
   
   #responsible for the dependency injection system and route management
-  flutter_modular: ^4.5.0
+  flutter_modular: 
   
   # Maintaining the State with MobXStore (MobX) 
   # egmented State Pattern (SSP)
-  mobx_triple: ^1.1.3+1
-  flutter_mobx: ^2.0.4
+  mobx_triple: 
+  flutter_mobx: 
 
-  flutter_triple: ^1.2.7+2
+  flutter_triple:
 
-  mobx: ^2.0.6+1
+  mobx: 
   
-  rxdart: ^0.27.1 
-  dio: ^4.0.0 
-  google_fonts: ^2.3.1
+  rxdart: 
+  dio: 
+  google_fonts:
   
-  dartz: ^0.10.0
-  cloud_firestore: ^3.1.10
-  firebase_core: ^1.13.1
+  dartz: 
+  cloud_firestore: 
+  firebase_core: 
   
   json_annotation :
   copy_with_extension:
   
   async:
-  uuid: 3.0.6
-  intl: ^0.17.0
-  asuka: ^2.0.0+1
-  flutter_svg: ^1.0.3
-  string_validator: ^0.3.0
-  equatable: ^2.0.3
-  firebase_auth: ^3.3.10
-  connectivity: ^3.0.6
+  uuid: 
+  intl: 
+  asuka: 
+  flutter_svg: 
+  string_validator: 
+  equatable: 
+  firebase_auth: 
+  connectivity: 
+
+  fake_cloud_firestore: 
 
   # material_color_utilities
   
@@ -74,7 +76,7 @@ dev_dependencies:
   # flutter_modular_test: 
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.1.4
+  json_serializable:
   # triple_test: ^0.0.6 
 
 # For information on the generic Dart part of this file, see the

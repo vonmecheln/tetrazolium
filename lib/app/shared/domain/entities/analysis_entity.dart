@@ -28,9 +28,4 @@ class AnalysisEntity extends Entity {
     required this.vigor,
     required this.repetitions,
   }) : super(id ?? Uuid().v4());
-
-  @override
-  String toString() {
-    return 'id: $id, date: $date, sample: $sample, local: $local, numberSeeds: $numberSeeds, concentration: $concentration, viability: $viability, vigor: $vigor';
-  }
 }
