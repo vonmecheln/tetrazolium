@@ -10,7 +10,7 @@ abstract class Datasource<T extends Entity> extends Mapper<T> {
   }
 
   Future<bool> addOrUpdate(T entity) async {
-    collection.doc('${entity.id}').set(toMap(entity));
+    await collection.doc('${entity.id}').set(toMap(entity));
     return true;
   }
 

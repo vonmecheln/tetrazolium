@@ -123,6 +123,7 @@ vars:
   get: fvm flutter pub get
   runner: fvm flutter pub run build_runner
   version: fvm flutter --version
+  test: fvm flutter test
   name: von 
 scripts:
   clear: $clean & $pub cache repair & $runner clean
@@ -136,8 +137,8 @@ scripts:
   build_ios: $get & flutter build ios -t lib/main_production.dart --flavor prod --release
   build_web: $get & flutter build web -t lib/main_production.dart --release
   localization: dart lib\app\commands\localization.dart
-  test: $get
-  test_error: $get2
+  test: $test
+  coverage: $test --coverage
   print: echo $name
   flu: $version
   
