@@ -7,7 +7,7 @@ part of 'collect_repository_impl.dart';
 // **************************************************************************
 
 final $AnalysisRepositoryImpl = BindInject(
-  (i) => AnalysisRepositoryImpl(i<ICollectDatasource>()),
+  (i) => CollectRepositoryImpl(i<ICollectDatasource>()),
   isSingleton: false,
   isLazy: true,
 );

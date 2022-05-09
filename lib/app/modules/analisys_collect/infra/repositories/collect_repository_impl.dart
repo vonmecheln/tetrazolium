@@ -8,10 +8,10 @@ import 'package:tetrazolium/app/shared/domain/errors/errors.dart';
 part 'collect_repository_impl.g.dart';
 
 @Injectable(singleton: false)
-class AnalysisRepositoryImpl implements ICollectRepository {
+class CollectRepositoryImpl implements ICollectRepository {
   final ICollectDatasource _datasource;
 
-  AnalysisRepositoryImpl(this._datasource);
+  CollectRepositoryImpl(this._datasource);
 
   @override
   Future<Either<FailureAnalysis, List<CollectEntity>>> getCollects(
