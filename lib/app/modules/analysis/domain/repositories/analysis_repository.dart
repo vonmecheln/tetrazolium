@@ -1,15 +1,17 @@
 import 'package:dartz/dartz.dart';
+import 'package:tetrazolium/app/shared/domain/entities/index.dart';
 import 'package:tetrazolium/app/shared/domain/errors/errors.dart';
-
-import '../../../../shared/domain/entities/analysis_entity.dart';
 
 abstract class IAnalysisRepository {
   Future<Either<FailureAnalysis, List<AnalysisEntity>>> getAnalysis();
 
   Future<Either<FailureAnalysis, AnalysisEntity>> addNewAnalysis(
-      AnalysisEntity analysis);
+    AnalysisEntity analysis,
+  );
   Future<Either<FailureAnalysis, AnalysisEntity>> updateAnalysis(
-      AnalysisEntity analysis);
+    AnalysisEntity analysis,
+  );
 
-  Future<Stream<List<AnalysisEntity>>> getAnalysisRealtime();
+  Future<Either<FailureAnalysis, Stream<List<AnalysisEntity>>>>
+      getAnalysisRealtime();
 }

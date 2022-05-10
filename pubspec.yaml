@@ -42,8 +42,8 @@ dependencies:
   mobx: 
   
   rxdart: 
-  dio: 
-  google_fonts:
+  # dio: 
+  # google_fonts:
   
   dartz: 
   cloud_firestore: 
@@ -60,9 +60,10 @@ dependencies:
   string_validator: 
   equatable: 
   firebase_auth: 
-  connectivity: 
+  # connectivity: 
 
   fake_cloud_firestore: 
+  mocktail:
 
   # material_color_utilities
   

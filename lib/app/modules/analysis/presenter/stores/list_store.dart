@@ -12,5 +12,7 @@ class ListStore extends MobXStore<FailureAnalysis, List<AnalysisEntity>> {
 
   ListStore(this._getAnalysisRealtime) : super([]);
 
-  void reloadData() async => executeStream(await _getAnalysisRealtime());
+  void reloadData() async {
+    // executeStream(await _getAnalysisRealtime());
+  }
 }

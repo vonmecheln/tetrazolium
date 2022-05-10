@@ -29,13 +29,20 @@ class AnalysisRepositoryImpl implements IAnalysisRepository {
   }
 
   @override
-  Future<Stream<List<AnalysisEntity>>> getAnalysisRealtime() async {
-    return await _datasource.getStream();
+  Future<Either<FailureAnalysis, Stream<List<AnalysisEntity>>>>
+      getAnalysisRealtime() async {
+    try {
+      final result = await _datasource.getStream();
+      return Right(result);
+    } catch (e) {
+      return Left(DatasourceError(message: e.toString()));
+    }
   }
 
   @override
   Future<Either<FailureAnalysis, AnalysisEntity>> addNewAnalysis(
-      AnalysisEntity analysis) async {
+    AnalysisEntity analysis,
+  ) async {
     try {
       await _datasource.addOrUpdate(analysis);
       return Right(analysis);
