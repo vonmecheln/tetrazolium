@@ -1,7 +1,7 @@
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 
 abstract class IAnalysisDatasource {
-  // Future<List<Analysis>?> getAll(int idUser);
+  // Future<List<AnalysisEntity>?> getAllByUser(int idUser);
 
   Future<AnalysisEntity> getByid(String id);
   Future<bool> addOrUpdate(AnalysisEntity entity);

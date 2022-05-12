@@ -53,8 +53,13 @@ class AnalysisRepositoryImpl implements IAnalysisRepository {
 
   @override
   Future<Either<FailureAnalysis, AnalysisEntity>> updateAnalysis(
-      AnalysisEntity analysis) {
-    // TODO: implement updateAnalysis
-    throw UnimplementedError();
+    AnalysisEntity analysis,
+  ) async {
+    try {
+      await _datasource.addOrUpdate(analysis);
+      return Right(analysis);
+    } catch (e) {
+      return Left(DatasourceError(message: e.toString()));
+    }
   }
 }
