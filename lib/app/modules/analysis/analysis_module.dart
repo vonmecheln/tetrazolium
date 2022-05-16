@@ -11,6 +11,7 @@ class AnalysisModule extends Module {
   final List<Bind> binds = [
     $ListStore,
     $GetAnalysisRealtime,
+    BindInject<IGetAnalysisRealtime>((i) => GetAnalysisRealtimeFake()),
     $AnalysisRepositoryImpl,
     $AnalysisDatasourceImpl,
   ];

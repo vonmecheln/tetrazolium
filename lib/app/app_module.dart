@@ -4,6 +4,7 @@ import 'package:tetrazolium/app/modules/analisys_collect/analisysCollect_module.
 import 'package:tetrazolium/app/modules/analysis/analysis_module.dart';
 import 'package:tetrazolium/app/modules/analysis_form/analisys_form_module.dart';
 import 'package:tetrazolium/app/modules/login/login_module.dart';
+import 'package:tetrazolium/app/modules/splash/splash_module.dart';
 // import 'package:tetrazolium/app/modules/splash/splash_module.dart';
 
 class AppModule extends Module {
@@ -14,8 +15,8 @@ class AppModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    // ModuleRoute(Modular.initialRoute, module: SplashModule()),
-    ModuleRoute(Modular.initialRoute, module: AnalisysCollectModule()),
+    ModuleRoute(Modular.initialRoute, module: SplashModule()),
+    // ModuleRoute(Modular.initialRoute, module: AnalisysCollectModule()),
     ModuleRoute('/home', module: AnalysisModule()),
     ModuleRoute('/form', module: AnalysisFormModule()),
     ModuleRoute('/login', module: LoginModule()),

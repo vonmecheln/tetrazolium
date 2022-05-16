@@ -20,3 +20,33 @@ class GetAnalysisRealtime implements IGetAnalysisRealtime {
     return await _analysisRepository.getAnalysisRealtime();
   }
 }
+
+class GetAnalysisRealtimeFake implements IGetAnalysisRealtime {
+  GetAnalysisRealtimeFake();
+
+  Future<Either<FailureAnalysis, Stream<List<AnalysisEntity>>>> call() async {
+    print('1');
+
+    final model = AnalysisEntity(
+      date: DateTime.now(),
+      sample: 'sample',
+      local: 'local',
+      numberSeeds: '50x2',
+      concentration: 0.75,
+      viability: 80,
+      vigor: 90,
+      repetitions: [],
+    );
+
+    return Future.delayed(Duration(seconds: 3)).then(
+      (_) => right(
+        Stream.value(
+          <AnalysisEntity>[
+            model.copyWith(),
+            model.copyWith(),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -26,54 +26,65 @@ class _ListaPageState extends ModularState<ListaPage, ListStore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
-        appBar:
-            //   GradientAppBar(
-            //   title: Text("ANÁLISES"),
-            //   gradient: LinearGradient(
-            //       begin: Alignment.topRight,
-            //       end: Alignment.bottomLeft,
-            //       colors: [
-            //         Color(COLOR_GRAD_BEG),
-            //         Color(COLOR_GRAD_END),
-            //       ])),
+      key: scaffoldKey,
+      appBar:
+          //   GradientAppBar(
+          //   title: Text("ANÁLISES"),
+          //   gradient: LinearGradient(
+          //       begin: Alignment.topRight,
+          //       end: Alignment.bottomLeft,
+          //       colors: [
+          //         Color(COLOR_GRAD_BEG),
+          //         Color(COLOR_GRAD_END),
+          //       ])),
 
-            AppBar(
-          backgroundColor: FlutterFlowTheme.primaryColor,
-          automaticallyImplyLeading: true,
-          actions: [
-            IconButton(
-                icon: Icon(Icons.refresh),
-                onPressed: () {
-                  store.reloadData();
-                })
-          ],
-          centerTitle: false,
-          elevation: 4,
-          title: Text("Análises"),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Modular.to.pushNamed('/form/new');
-          },
-          backgroundColor: FlutterFlowTheme.primaryColor,
-          elevation: 8,
-          child: Icon(Icons.add),
-        ),
-        drawer: Drawer(elevation: 16),
-        body: ScopedBuilder<ListStore, FailureAnalysis,
-            List<AnalysisEntity>>.transition(
-          store: store,
-          onError: (_, error) => _buildError(error!),
-          onLoading: (context) => _buildLoading(context),
-          onState: (_, state) {
-            if (state.isEmpty) {
-              return Container();
-            }
+          AppBar(
+        backgroundColor: FlutterFlowTheme.primaryColor,
+        automaticallyImplyLeading: true,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                store.reloadData();
+              })
+        ],
+        centerTitle: false,
+        elevation: 4,
+        title: Text("Análises"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Modular.to.pushNamed('/form/new');
+        },
+        backgroundColor: FlutterFlowTheme.primaryColor,
+        elevation: 8,
+        child: Icon(Icons.add),
+      ),
+      drawer: Drawer(elevation: 16),
+      body: ScopedBuilder<ListStore, FailureAnalysis,
+          Stream<List<AnalysisEntity>>>(
+        store: store,
+        onError: (_, error) => _buildError(error!),
+        onLoading: (context) => _buildLoading(context),
+        onState: (_, state) {
+          return StreamBuilder<List<AnalysisEntity>>(
+            stream: state,
+            initialData: [],
+            builder: (BuildContext context, snapshot) {
+              if (!snapshot.hasData) {
+                return Container();
+              }
 
-            return _buildList(state);
-          },
-        ));
+              if (snapshot.data!.isEmpty) {
+                return Container();
+              }
+
+              return _buildList(snapshot.data ?? []);
+            },
+          );
+        },
+      ),
+    );
   }
 
   Widget _buildLoading(BuildContext context) {

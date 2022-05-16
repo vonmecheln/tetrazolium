@@ -28,7 +28,7 @@ class SplashPageState extends State<SplashPage> {
       // final lista = await data.getAll();
       // print(lista.length);
 
-      return Modular.to.pushReplacementNamed('/login/');
+      // return Modular.to.pushReplacementNamed('/login/');
       return Modular.to.pushReplacementNamed('/home/');
     });
   }
