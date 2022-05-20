@@ -1,9 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_legend.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_separator.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/panel_number.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/tetra_card.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/interpretation_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 import 'package:tetrazolium/app/shared/widgets/custom_line_datepicker/custom_line_date_picker_widget.dart';
@@ -14,7 +19,15 @@ class AppWidgetMain extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tetrazólio Digital',
-      home: TelaListaAnalise(),
+      home: TelaRepetitionPage(
+        analysis: AnalysisEntity.empty().copyWith(
+          id: "fa3834fa-8570-4328-80bb-9041e31fd527",
+          numberSeeds: NumberSeedsEntity(
+            repetitions: 3,
+            seeds: 10,
+          ),
+        ),
+      ),
       theme: ThemeData(
         primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
       ),
@@ -65,12 +78,6 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
     );
   }
 
-  Widget _buildLoading(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator.adaptive(),
-    );
-  }
-
   Widget _buildList(List<AnalysisEntity> list) {
     return ListView.separated(
       itemCount: list.length,
@@ -102,6 +109,12 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
       ),
     );
   }
+}
+
+Widget _buildLoading(BuildContext context) {
+  return Center(
+    child: CircularProgressIndicator.adaptive(),
+  );
 }
 
 class AddAnalysisFormPage extends StatefulWidget {
@@ -229,12 +242,143 @@ class TelaRepetitionPage extends StatefulWidget {
 }
 
 class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
+  PageController pg = PageController(initialPage: 0);
+
+  bool _finish = true;
+  int _repeticaoAtual = 1;
+  int _atualInterpretation = 1;
+
+  late DocumentReference<Map<String, dynamic>> _analiseRef;
+
+  @override
+  void initState() {
+    print(widget.analysis.id);
+
+    _analiseRef =
+        FirebaseFirestore.instance.collection(ANALYSIS).doc(widget.analysis.id);
+
+    for (var i = widget.analysis.repetitions.length;
+        i < widget.analysis.numberSeeds.repetitions;
+        i++) {
+      widget.analysis.repetitions.add(RepetitionEntity.empty());
+    }
+
+    for (var i = widget.analysis.repetitions[0].interpretations.length;
+        i < widget.analysis.numberSeeds.seeds;
+        i++) {
+      widget.analysis.repetitions[0].interpretations
+          .add(InterpretationEntity.empty());
+    }
+
+    _analiseRef.set(AnalysisMapper.toMap(widget.analysis));
+
+    // for (var i = widget.analysis.coletas.length; i < numRept; i++) {
+    //   String id = (i + 1).toString().padLeft(3, '0');
+    //   coletas.add(
+    //     CollectEntity(
+    //       id: id,
+    //       number: id,
+    //       classification: 1,
+    //       hard: 0,
+    //       damageEngine: 0,
+    //       damageHumidity: 0,
+    //       damageBug: 0,
+    //     ),
+    //   );
+    // }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Repetição'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Center(
+              child: Text(
+                "Repetição $_repeticaoAtual/${widget.analysis.numberSeeds.repetitions}",
+              ),
+            ),
+          ),
+          if (_finish)
+            Padding(
+              padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text('Finalizar'),
+              ),
+            ),
+        ],
+      ),
+      body: Column(
+        children: [
+          PainelNumber(
+            onBackPressed: onBackPressed,
+            onForwardPressed: onForwardPressed,
+            atual: this._atualInterpretation,
+            max: widget.analysis.numberSeeds.repetitions,
+          ),
+          Expanded(
+            child: PageView(
+              controller: pg,
+              children: [
+                Container(),
+                Container(),
+                Container(),
+                Container(),
+                Container(),
+              ],
+              // children: coletas
+              //     .map((c) => FormCollect(c, onChange: onChangeColeta))
+              //     .toList(),
+            ),
+          ),
+          PainelSeparator(),
+          PainelLegend()
+        ],
       ),
     );
+  }
+
+  void onBackPressed() {
+    int page = pg.page!.toInt();
+    if (page <= 0) return;
+
+    page -= 1;
+
+    pg.animateToPage(page,
+        duration: Duration(milliseconds: 200), curve: Curves.bounceInOut);
+
+    setState(() {
+      this._atualInterpretation = page + 1;
+    });
+
+    // print(page);
+  }
+
+  void onForwardPressed() {
+    int page = pg.page!.toInt();
+    if (page >= widget.analysis.numberSeeds.repetitions - 1) {
+      setState(() {
+        _finish = true;
+      });
+      return;
+    }
+
+    page += 1;
+
+    pg.animateToPage(page,
+        duration: Duration(milliseconds: 200), curve: Curves.bounceInOut);
+
+    setState(() {
+      this._atualInterpretation = page + 1;
+    });
+  }
+
+  void onFinishPressed() {
+    print('onFinishPressed');
   }
 }

@@ -22,4 +22,11 @@ class RepetitionEntity extends Entity {
     required this.vigor,
     required this.interpretations,
   }) : super(id ?? Uuid().v4());
+
+  factory RepetitionEntity.empty() => RepetitionEntity(
+        number: 0,
+        viability: 0,
+        vigor: 0,
+        interpretations: [],
+      );
 }

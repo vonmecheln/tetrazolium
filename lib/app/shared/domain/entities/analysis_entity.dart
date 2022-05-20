@@ -29,16 +29,14 @@ class AnalysisEntity extends Entity {
     required this.repetitions,
   }) : super(id ?? Uuid().v4());
 
-  factory AnalysisEntity.empty() {
-    return AnalysisEntity(
-      date: DateTime.now(),
-      sample: '',
-      local: '',
-      numberSeeds: NumberSeedsEntity.r2s50(),
-      concentration: 0.0,
-      viability: 0,
-      vigor: 0,
-      repetitions: [],
-    );
-  }
+  factory AnalysisEntity.empty() => AnalysisEntity(
+        date: DateTime.now(),
+        sample: '',
+        local: '',
+        numberSeeds: NumberSeedsEntity.r2s50(),
+        concentration: 0.0,
+        viability: 0,
+        vigor: 0,
+        repetitions: [],
+      );
 }

@@ -16,4 +16,10 @@ class InterpretationEntity {
     required this.photos,
     required this.damages,
   });
+
+  factory InterpretationEntity.empty() => InterpretationEntity(
+        classification: 0,
+        photos: [],
+        damages: [],
+      );
 }
