@@ -4,6 +4,7 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/modules/analysis_form/domain/usecase/add_new_analysis.dart';
 import 'package:asuka/asuka.dart' as asuka;
+import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
 
 part 'add_analysis_controller.g.dart';
 
@@ -34,7 +35,7 @@ class AddAnalysisController {
           concentration: concentration.value,
           date: date.value,
           local: local.value,
-          numberSeeds: numberSeeds.value,
+          numberSeeds: NumberSeedsEntity.r2s50(),
           viability: 0,
           vigor: 0,
           repetitions: [],

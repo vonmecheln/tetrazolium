@@ -11,7 +11,7 @@ class AnalysisEntity extends Entity {
   final DateTime date;
   final String sample;
   final String local;
-  final String numberSeeds;
+  final NumberSeedsEntity numberSeeds;
   final double concentration;
   final int viability;
   final int vigor;
@@ -28,4 +28,17 @@ class AnalysisEntity extends Entity {
     required this.vigor,
     required this.repetitions,
   }) : super(id ?? Uuid().v4());
+
+  factory AnalysisEntity.empty() {
+    return AnalysisEntity(
+      date: DateTime.now(),
+      sample: '',
+      local: '',
+      numberSeeds: NumberSeedsEntity.r2s50(),
+      concentration: 0.0,
+      viability: 0,
+      vigor: 0,
+      repetitions: [],
+    );
+  }
 }

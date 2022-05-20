@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:tetrazolium/app/modules/analysis/infra/datasource/analysis_datasource.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/datasource/analysis_datasource_impl.dart';
 import 'package:tetrazolium/firebase_options.dart';
@@ -61,7 +62,7 @@ void main() {
       date: date,
       sample: 'Lote 01-56',
       local: 'Apasem toledo',
-      numberSeeds: '2x50',
+      numberSeeds: NumberSeedsEntity.r2s50(),
       concentration: 0.075,
       viability: 0,
       vigor: 0,
@@ -89,7 +90,7 @@ void main() {
       date: date,
       sample: 'Lote 01-56',
       local: 'Apasem toledo',
-      numberSeeds: '2x50',
+      numberSeeds: NumberSeedsEntity.r2s50(),
       concentration: 0.075,
       viability: 0,
       vigor: 0,

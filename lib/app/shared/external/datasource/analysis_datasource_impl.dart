@@ -10,7 +10,7 @@ part 'analysis_datasource_impl.g.dart';
 
 @Injectable()
 class AnalysisDatasourceImpl extends Datasource<AnalysisEntity>
-    with AnalysisMapper
+    with AnalysisMapperMixin
     implements IAnalysisDatasource {
   AnalysisDatasourceImpl(FirebaseFirestore firestore)
       : super(ANALYSIS, firestore);

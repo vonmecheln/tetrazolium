@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 
-class AnalysisMapperMock with AnalysisMapper {}
+class AnalysisMapperMock with AnalysisMapperMixin {}
 
 void main() {
   AnalysisMapperMock mapper = AnalysisMapperMock();
@@ -68,7 +69,7 @@ void main() {
         sample: 'sample',
         local: 'local',
         concentration: 0.75,
-        numberSeeds: '2x50',
+        numberSeeds: NumberSeedsEntity.r2s50(),
         viability: 80,
         vigor: 80,
         repetitions: [],

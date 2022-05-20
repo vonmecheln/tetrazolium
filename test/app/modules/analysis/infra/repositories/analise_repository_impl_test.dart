@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:tetrazolium/app/modules/analysis/infra/datasource/analysis_datasource.dart';
 import 'package:tetrazolium/app/modules/analysis/infra/repositories/analise_repository_impl.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
 import 'package:tetrazolium/app/shared/domain/errors/errors.dart';
 
 class IAnalysisDatasourceMock extends Mock implements IAnalysisDatasource {}
@@ -37,7 +38,7 @@ void main() {
       date: DateTime.now(),
       sample: 'sample',
       local: 'local',
-      numberSeeds: 'numberSeeds',
+      numberSeeds: NumberSeedsEntity.r2s50(),
       concentration: 1,
       viability: 1,
       vigor: 1,
@@ -67,7 +68,7 @@ void main() {
       date: DateTime.now(),
       sample: 'sample',
       local: 'local',
-      numberSeeds: 'numberSeeds',
+      numberSeeds: NumberSeedsEntity.r2s50(),
       concentration: 1,
       viability: 1,
       vigor: 1,
