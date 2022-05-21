@@ -5,6 +5,7 @@ import 'package:tetrazolium/app/shared/external/mappers/photo_data_mapper.dart';
 class InterpretationMapper {
   static InterpretationEntity fromMap(Map<String, dynamic> json) =>
       InterpretationEntity(
+        id: json['id'] as String?,
         classification: json['classification'] as int,
         photos: json['photos'] == null
             ? []
@@ -20,6 +21,7 @@ class InterpretationMapper {
 
   static Map<String, dynamic> toMap(InterpretationEntity instance) =>
       <String, dynamic>{
+        'id': instance.id,
         'classification': instance.classification,
         'photos': instance.photos.map((e) => PhotoMapper.toMap(e)).toList(),
         'damages': instance.damages.map((e) => DamageMapper.toMap(e)).toList(),

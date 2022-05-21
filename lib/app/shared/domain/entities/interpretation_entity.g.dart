@@ -11,6 +11,8 @@ abstract class _$InterpretationEntityCWProxy {
 
   InterpretationEntity damages(List<DamageEntity> damages);
 
+  InterpretationEntity id(String? id);
+
   InterpretationEntity photos(List<PhotoEntity> photos);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `InterpretationEntity(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
@@ -22,6 +24,7 @@ abstract class _$InterpretationEntityCWProxy {
   InterpretationEntity call({
     int? classification,
     List<DamageEntity>? damages,
+    String? id,
     List<PhotoEntity>? photos,
   });
 }
@@ -42,6 +45,9 @@ class _$InterpretationEntityCWProxyImpl
       this(damages: damages);
 
   @override
+  InterpretationEntity id(String? id) => this(id: id);
+
+  @override
   InterpretationEntity photos(List<PhotoEntity> photos) => this(photos: photos);
 
   @override
@@ -55,6 +61,7 @@ class _$InterpretationEntityCWProxyImpl
   InterpretationEntity call({
     Object? classification = const $CopyWithPlaceholder(),
     Object? damages = const $CopyWithPlaceholder(),
+    Object? id = const $CopyWithPlaceholder(),
     Object? photos = const $CopyWithPlaceholder(),
   }) {
     return InterpretationEntity(
@@ -67,6 +74,10 @@ class _$InterpretationEntityCWProxyImpl
           ? _value.damages
           // ignore: cast_nullable_to_non_nullable
           : damages as List<DamageEntity>,
+      id: id == const $CopyWithPlaceholder()
+          ? _value.id
+          // ignore: cast_nullable_to_non_nullable
+          : id as String?,
       photos: photos == const $CopyWithPlaceholder() || photos == null
           ? _value.photos
           // ignore: cast_nullable_to_non_nullable
@@ -76,7 +87,7 @@ class _$InterpretationEntityCWProxyImpl
 }
 
 extension $InterpretationEntityCopyWith on InterpretationEntity {
-  /// Returns a callable class that can be used as follows: `instanceOfclass InterpretationEntity.name.copyWith(...)` or like so:`instanceOfclass InterpretationEntity.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfclass InterpretationEntity extends Entity.name.copyWith(...)` or like so:`instanceOfclass InterpretationEntity extends Entity.name.copyWith.fieldName(...)`.
   _$InterpretationEntityCWProxy get copyWith =>
       _$InterpretationEntityCWProxyImpl(this);
 }

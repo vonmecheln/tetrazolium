@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/form_collect.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_classification.dart';
@@ -11,6 +12,7 @@ import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/compone
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/tetra_card.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/damage_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/interpretation_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
@@ -114,6 +116,13 @@ Widget _buildLoading(BuildContext context) {
   );
 }
 
+void _save(AnalysisEntity analysis) {
+  FirebaseFirestore.instance
+      .collection(ANALYSIS)
+      .doc(analysis.id)
+      .set(AnalysisMapper.toMap(analysis));
+}
+
 class AddAnalysisFormPage extends StatefulWidget {
   AnalysisEntity analysis;
 
@@ -127,13 +136,6 @@ class AddAnalysisFormPage extends StatefulWidget {
 }
 
 class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
-  void _save() {
-    FirebaseFirestore.instance
-        .collection(ANALYSIS)
-        .doc(widget.analysis.id)
-        .set(AnalysisMapper.toMap(widget.analysis));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,7 +146,7 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
           FloatingActionButton(
             heroTag: "btn1",
             onPressed: () {
-              _save();
+              _save(widget.analysis);
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -160,7 +162,7 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
           FloatingActionButton(
             heroTag: "btn2",
             onPressed: () {
-              _save();
+              _save(widget.analysis);
               Navigator.pop(context);
             },
             child: Icon(Icons.save),
@@ -261,27 +263,18 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
     for (var i = widget.analysis.repetitions[0].interpretations.length;
         i < widget.analysis.numberSeeds.seeds;
         i++) {
+      String id = (i + 1).toString().padLeft(3, '0');
       widget.analysis.repetitions[0].interpretations.add(
-        InterpretationEntity.empty(),
+        InterpretationEntity(
+          id: id,
+          classification: 1,
+          photos: [],
+          damages: [],
+        ),
       );
     }
 
     _analiseRef.set(AnalysisMapper.toMap(widget.analysis));
-
-    // for (var i = widget.analysis.coletas.length; i < numRept; i++) {
-    //   String id = (i + 1).toString().padLeft(3, '0');
-    //   coletas.add(
-    //     CollectEntity(
-    //       id: id,
-    //       number: id,
-    //       classification: 1,
-    //       hard: 0,
-    //       damageEngine: 0,
-    //       damageHumidity: 0,
-    //       damageBug: 0,
-    //     ),
-    //   );
-    // }
 
     super.initState();
   }
@@ -377,24 +370,26 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
   Map<String, RestartableTimer?> _timers = Map();
 
   void onChangeInterpretation(InterpretationEntity interpretation) {
-    // RestartableTimer? _timer;
-    // if (_timers.containsKey(interpretation.number)) {
-    //   _timer = _timers[interpretation.number];
-    // }
+    int index = int.parse(interpretation.id) - 1;
 
-    // if (_timer == null || !_timer.isActive) {
-    //   _timer = RestartableTimer(Duration(seconds: 2), () {
-    //     print(coleta.toMap());
+    widget.analysis.repetitions[_repeticaoAtual - 1].interpretations[index] =
+        interpretation;
 
-    //     var collection = FirebaseFirestore.instance.collection(
-    //         'analises/c36342b3-b981-471b-8554-142c3d82dd28/repeticao/1/coleta');
-    //     var doc = collection.doc(interpretation.number);
-    //     doc.set(coleta.toMap());
-    //   });
-    //   _timers[interpretation.number] = _timer;
-    // } else {
-    //   _timer.reset();
-    // }
+    RestartableTimer? _timer;
+
+    if (_timers.containsKey(widget.analysis.id)) {
+      _timer = _timers[widget.analysis.id];
+    }
+
+    if (_timer == null || !_timer.isActive) {
+      _timer = RestartableTimer(Duration(seconds: 2), () {
+        _save(widget.analysis);
+      });
+
+      _timers[widget.analysis.id] = _timer;
+    } else {
+      _timer.reset();
+    }
   }
 }
 
@@ -412,24 +407,72 @@ class FormInterpretation extends StatefulWidget {
   State<FormInterpretation> createState() => _FormInterpretationState();
 }
 
+Map<DamageType, int> _damageMap(List<DamageEntity> damages) {
+  _damageToInt(DamageType type) {
+    var dl = damages.where((d) => d.type == type);
+    if (dl.isEmpty) return 0;
+    return dl.first.main ? 2 : 1;
+  }
+
+  return {
+    DamageType.bug: _damageToInt(DamageType.bug),
+    DamageType.drop: _damageToInt(DamageType.drop),
+    DamageType.engine: _damageToInt(DamageType.engine),
+    DamageType.diamont: _damageToInt(DamageType.diamont),
+  };
+}
+
 class _FormInterpretationState extends State<FormInterpretation> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: <Widget>[
-          // Expanded(child: PainelPhoto()),
+          Expanded(child: PainelPhoto()),
           PainelClassification(
             this.widget.interpretation.classification,
             onChange: onChageClassification,
           ),
-          // PainelSeparator(),
-          // PainelDamages(
-          //     // onTap: onDamageChange,
-          //     // damages: widget.interpretation.damageMap(),
-          //     ),
+          PainelSeparator(),
+          PainelDamages(
+            onTap: onDamageChange,
+            damages: _damageMap(widget.interpretation.damages),
+          ),
         ],
       ),
     );
+  }
+
+  void onDamageChange(DamageType d) {
+    var damage = widget.interpretation.damages.where((e) => e.type == d);
+    var main = widget.interpretation.damages.where((e) => e.main);
+
+    if (damage.isEmpty) {
+      widget.interpretation.damages.add(DamageEntity(type: d, main: false));
+    } else {
+      List<DamageEntity> damages = widget.interpretation.damages;
+
+      if (main.isNotEmpty) {
+        if (main.first.type == d) {
+          damages =
+              widget.interpretation.damages.where((e) => e.type != d).toList();
+        }
+      }
+
+      damages = damages.map((e) {
+        if (e.type == d) {
+          return e.copyWith(main: !e.main);
+        } else {
+          return e.copyWith(main: false);
+        }
+      }).toList();
+
+      widget.interpretation.damages.clear();
+      widget.interpretation.damages.addAll(damages);
+    }
+
+    setState(() {});
+
+    updateColeta();
   }
 
   void onChageClassification(int value) {
