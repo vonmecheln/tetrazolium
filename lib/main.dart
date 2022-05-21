@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
+import 'package:tetrazolium/app/shared/external/collections.dart';
+import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 import 'package:tetrazolium/app_all.dart';
 import 'package:tetrazolium/firebase_options.dart';
 
@@ -14,6 +18,11 @@ Future<void> main() async {
     ),
   );
 
+  var snap = await FirebaseFirestore.instance.collection(ANALYSIS).snapshots();
+  var f = await snap.first;
+  var d = await f.docs.first;
+  var analise = AnalysisMapper.fromMap(d.data());
+
   // runApp(ModularApp(module: AppModule(), child: AppWidget()));
-  runApp(AppWidgetMain());
+  runApp(AppWidgetMain(analise: analise));
 }

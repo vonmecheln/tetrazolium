@@ -4,11 +4,11 @@ import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 
 class DisplayDano extends StatelessWidget {
   final String type;
-  final int value;
+  final int? value;
 
   const DisplayDano({
     required this.type,
-    required this.value,
+    this.value,
     Key? key,
   }) : super(key: key);
 
@@ -16,19 +16,18 @@ class DisplayDano extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 40,
-      height: 100,
+      height: 100 - (value == null ? 60 : 0),
       decoration: BoxDecoration(),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SvgPicture.asset("img/$type.svg"),
-          Text(
-            '$value',
-            style: FlutterFlowTheme.bodyText1.apply(
-              fontFamily: 'Roboto',
+          if (value != null)
+            Text(
+              '$value',
+              style: FlutterFlowTheme.bodyText1.apply(fontFamily: 'Roboto'),
             ),
-          )
         ],
       ),
     );

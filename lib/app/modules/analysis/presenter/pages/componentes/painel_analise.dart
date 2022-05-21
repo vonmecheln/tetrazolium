@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/painel_viabilidade.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 import 'package:tetrazolium/app/shared/util/date.dart';
@@ -46,42 +47,7 @@ class PainelAnalise extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            'VIG',
-            style: FlutterFlowTheme.subtitle2.apply(
-              fontFamily: 'Roboto',
-            ),
-          ),
-          Text(
-            item.vigor.toString(),
-            textAlign: TextAlign.center,
-            style: FlutterFlowTheme.title1.apply(
-              fontFamily: 'Roboto',
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
-            child: Container(
-              width: 1,
-              height: 19,
-              decoration: BoxDecoration(
-                color: Color(0xFFD8D8D8),
-              ),
-            ),
-          ),
-          Text(
-            'VIA',
-            style: FlutterFlowTheme.subtitle2.apply(
-              fontFamily: 'Roboto',
-            ),
-          ),
-          Text(
-            item.viability.toString(),
-            textAlign: TextAlign.center,
-            style: FlutterFlowTheme.title1.apply(
-              fontFamily: 'Roboto',
-            ),
-          )
+          PainelVisibilidade(vigor: item.vigor, viability: item.viability),
         ],
       ),
     );

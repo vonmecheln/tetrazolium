@@ -1,14 +1,14 @@
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
-import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/form_collect.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_classification.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_damages.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_legend.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_photo.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_separator.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/panel_number.dart';
+import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/display_dano.dart';
+import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/painel_viabilidade.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/tetra_card.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
@@ -21,12 +21,17 @@ import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dar
 import 'package:tetrazolium/app/shared/widgets/custom_line_datepicker/custom_line_date_picker_widget.dart';
 
 class AppWidgetMain extends StatelessWidget {
+  AnalysisEntity? analise;
+
+  AppWidgetMain({this.analise});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tetrazólio Digital',
-      home: TelaListaAnalise(),
+      // home: TelaListaAnalise(),
+      home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
       theme: ThemeData(
         primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
       ),
@@ -243,7 +248,7 @@ class TelaRepetitionPage extends StatefulWidget {
 class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
   PageController pg = PageController(initialPage: 0);
 
-  bool _finish = true;
+  bool _finish = false;
   int _repeticaoAtual = 1;
   int _atualInterpretation = 1;
 
@@ -296,7 +301,15 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
             Padding(
               padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          TelaResumo(analysis: widget.analysis),
+                    ),
+                  );
+                },
                 child: Text('Finalizar'),
               ),
             ),
@@ -486,5 +499,130 @@ class _FormInterpretationState extends State<FormInterpretation> {
   void updateColeta() async {
     if (this.widget.onChange != null)
       this.widget.onChange!(this.widget.interpretation);
+  }
+}
+
+class TelaResumo extends StatefulWidget {
+  AnalysisEntity analysis;
+
+  TelaResumo({
+    Key? key,
+    required this.analysis,
+  }) : super(key: key);
+
+  @override
+  State<TelaResumo> createState() => _TelaResumoState();
+}
+
+class _TelaResumoState extends State<TelaResumo> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Resumo - ${widget.analysis.local}'),
+        ),
+        body: Padding(
+          padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Repetição 01',
+                            style: FlutterFlowTheme.subtitle1.apply(
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    PainelVisibilidade(
+                      vigor: widget.analysis.vigor,
+                      viability: widget.analysis.viability,
+                    ),
+                  ],
+                ),
+              ),
+              PainelSeparator(),
+              PainelGridRow(
+                child1: Container(),
+                child2: DisplayDano(type: 'engine'),
+                child3: DisplayDano(type: 'drop'),
+                child4: DisplayDano(type: 'bug'),
+                child5: DisplayDano(type: 'diamont'),
+              ),
+              PainelGridRow(
+                child1: Text('1-8'),
+                child2: Text('12'),
+                child3: Text('54'),
+                child4: Text('4'),
+                child5: Text('0'),
+              ),
+              PainelSeparator(),
+              PainelGridRow(
+                child1: Text('6-8'),
+                child2: Text('12'),
+                child3: Text('54'),
+                child4: Text('4'),
+                child5: Text('0'),
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
+class PainelGridRow extends StatelessWidget {
+  final Widget? child1;
+  final Widget? child2;
+  final Widget? child3;
+  final Widget? child4;
+  final Widget? child5;
+  const PainelGridRow({
+    Key? key,
+    this.child1,
+    this.child2,
+    this.child3,
+    this.child4,
+    this.child5,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+            flex: 1,
+            child: Center(
+                child: child1 ?? Container(color: Colors.amber, height: 50))),
+        Expanded(
+            flex: 2,
+            child: Center(
+                child: child2 ?? Container(color: Colors.blue, height: 50))),
+        Expanded(
+            flex: 2,
+            child: Center(
+                child: child3 ?? Container(color: Colors.cyan, height: 50))),
+        Expanded(
+            flex: 2,
+            child: Center(
+                child: child4 ?? Container(color: Colors.green, height: 50))),
+        Expanded(
+            flex: 2,
+            child: Center(
+                child: child5 ?? Container(color: Colors.indigo, height: 50))),
+      ],
+    );
   }
 }
