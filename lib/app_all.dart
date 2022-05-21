@@ -30,8 +30,8 @@ class AppWidgetMain extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tetrazólio Digital',
-      // home: TelaListaAnalise(),
-      home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
+      home: TelaListaAnalise(),
+      // home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
       theme: ThemeData(
         primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
       ),
@@ -302,6 +302,7 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
               padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
               child: ElevatedButton(
                 onPressed: () {
+                  //TODO: Calcular resumos
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -516,6 +517,12 @@ class TelaResumo extends StatefulWidget {
 
 class _TelaResumoState extends State<TelaResumo> {
   @override
+  void initState() {
+    _sumariseRepetition();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -548,8 +555,8 @@ class _TelaResumoState extends State<TelaResumo> {
                       ),
                     ),
                     PainelVisibilidade(
-                      vigor: widget.analysis.vigor,
-                      viability: widget.analysis.viability,
+                      vigor: widget.analysis.repetitions[0].vigor,
+                      viability: widget.analysis.repetitions[0].viability,
                     ),
                   ],
                 ),
@@ -563,23 +570,101 @@ class _TelaResumoState extends State<TelaResumo> {
                 child5: DisplayDano(type: 'diamont'),
               ),
               PainelGridRow(
-                child1: Text('1-8'),
-                child2: Text('12'),
-                child3: Text('54'),
-                child4: Text('4'),
-                child5: Text('0'),
+                child1: damageLegend('1-8'),
+                child2: damageText(sumari18[DamageType.engine] ?? 0),
+                child3: damageText(sumari18[DamageType.drop] ?? 0),
+                child4: damageText(sumari18[DamageType.bug] ?? 0),
+                child5: damageText(sumari18[DamageType.diamont] ?? 0),
               ),
               PainelSeparator(),
               PainelGridRow(
-                child1: Text('6-8'),
-                child2: Text('12'),
-                child3: Text('54'),
-                child4: Text('4'),
-                child5: Text('0'),
+                child1: damageLegend('6-8'),
+                child2: damageText(sumari68[DamageType.engine] ?? 0),
+                child3: damageText(sumari68[DamageType.drop] ?? 0),
+                child4: damageText(sumari68[DamageType.bug] ?? 0),
+                child5: damageText(sumari68[DamageType.diamont] ?? 0),
               ),
             ],
           ),
         ));
+  }
+
+  Text damageLegend(String value) => Text(
+        '$value',
+        style: FlutterFlowTheme.subtitle1.apply(
+          fontFamily: 'Poppins',
+          color: FlutterFlowTheme.color2,
+        ),
+      );
+
+  Text damageText(int value) => Text(
+        '$value',
+        style: FlutterFlowTheme.subtitle1.apply(
+          fontFamily: 'Poppins',
+        ),
+      );
+
+  late Map<DamageType, int> sumari18;
+  late Map<DamageType, int> sumari68;
+
+  _sumariseRepetition() {
+    int _filter(DamageType t, [int c = 1]) {
+      return this
+          .widget
+          .analysis
+          .repetitions[0]
+          .interpretations
+          .where((e) => e.classification >= c)
+          .where((e) => e.damages.where((d) => d.type == t).isNotEmpty)
+          .length;
+    }
+
+    sumari18 = {
+      DamageType.bug: _filter(DamageType.bug),
+      DamageType.engine: _filter(DamageType.engine),
+      DamageType.drop: _filter(DamageType.drop),
+      DamageType.diamont: _filter(DamageType.diamont),
+    };
+
+    sumari68 = {
+      DamageType.bug: _filter(DamageType.bug, 6),
+      DamageType.engine: _filter(DamageType.engine, 6),
+      DamageType.drop: _filter(DamageType.drop, 6),
+      DamageType.diamont: _filter(DamageType.diamont, 6),
+    };
+
+    List<int> countClass = [];
+    for (var c = 1; c <= 8; c++) {
+      countClass.add(this
+          .widget
+          .analysis
+          .repetitions[0]
+          .interpretations
+          .where((e) => e.classification == c)
+          .length);
+    }
+
+    int vigor = countClass[0] + countClass[1] + countClass[2];
+    int viability = vigor + countClass[3] + countClass[4];
+
+    print("$vigor $viability");
+
+    RepetitionEntity rep = this
+        .widget
+        .analysis
+        .repetitions[0]
+        .copyWith(viability: viability * 2, vigor: vigor * 2);
+
+    List<RepetitionEntity> repetitions = [];
+
+    for (var i = 0; i < this.widget.analysis.repetitions.length; i++) {
+      repetitions.add(i == 0 ? rep : this.widget.analysis.repetitions[i]);
+    }
+
+    this.widget.analysis =
+        this.widget.analysis.copyWith(repetitions: repetitions);
+
+    _save(this.widget.analysis);
   }
 }
 
