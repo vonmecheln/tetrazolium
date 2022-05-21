@@ -1,6 +1,11 @@
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/form_collect.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_classification.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_damages.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_legend.dart';
+import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_photo.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_separator.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/panel_number.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/tetra_card.dart';
@@ -19,15 +24,7 @@ class AppWidgetMain extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tetrazólio Digital',
-      home: TelaRepetitionPage(
-        analysis: AnalysisEntity.empty().copyWith(
-          id: "fa3834fa-8570-4328-80bb-9041e31fd527",
-          numberSeeds: NumberSeedsEntity(
-            repetitions: 3,
-            seeds: 10,
-          ),
-        ),
-      ),
+      home: TelaListaAnalise(),
       theme: ThemeData(
         primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
       ),
@@ -252,8 +249,6 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
 
   @override
   void initState() {
-    print(widget.analysis.id);
-
     _analiseRef =
         FirebaseFirestore.instance.collection(ANALYSIS).doc(widget.analysis.id);
 
@@ -266,8 +261,9 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
     for (var i = widget.analysis.repetitions[0].interpretations.length;
         i < widget.analysis.numberSeeds.seeds;
         i++) {
-      widget.analysis.repetitions[0].interpretations
-          .add(InterpretationEntity.empty());
+      widget.analysis.repetitions[0].interpretations.add(
+        InterpretationEntity.empty(),
+      );
     }
 
     _analiseRef.set(AnalysisMapper.toMap(widget.analysis));
@@ -319,22 +315,18 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
             onBackPressed: onBackPressed,
             onForwardPressed: onForwardPressed,
             atual: this._atualInterpretation,
-            max: widget.analysis.numberSeeds.repetitions,
+            max: widget.analysis.numberSeeds.seeds,
           ),
           Expanded(
             child: PageView(
-              controller: pg,
-              children: [
-                Container(),
-                Container(),
-                Container(),
-                Container(),
-                Container(),
-              ],
-              // children: coletas
-              //     .map((c) => FormCollect(c, onChange: onChangeColeta))
-              //     .toList(),
-            ),
+                controller: pg,
+                children: widget
+                    .analysis.repetitions[_repeticaoAtual - 1].interpretations
+                    .map((i) => FormInterpretation(
+                          i,
+                          onChange: onChangeInterpretation,
+                        ))
+                    .toList()),
           ),
           PainelSeparator(),
           PainelLegend()
@@ -361,7 +353,7 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
 
   void onForwardPressed() {
     int page = pg.page!.toInt();
-    if (page >= widget.analysis.numberSeeds.repetitions - 1) {
+    if (page >= widget.analysis.numberSeeds.seeds - 1) {
       setState(() {
         _finish = true;
       });
@@ -380,5 +372,76 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
 
   void onFinishPressed() {
     print('onFinishPressed');
+  }
+
+  Map<String, RestartableTimer?> _timers = Map();
+
+  void onChangeInterpretation(InterpretationEntity interpretation) {
+    // RestartableTimer? _timer;
+    // if (_timers.containsKey(interpretation.number)) {
+    //   _timer = _timers[interpretation.number];
+    // }
+
+    // if (_timer == null || !_timer.isActive) {
+    //   _timer = RestartableTimer(Duration(seconds: 2), () {
+    //     print(coleta.toMap());
+
+    //     var collection = FirebaseFirestore.instance.collection(
+    //         'analises/c36342b3-b981-471b-8554-142c3d82dd28/repeticao/1/coleta');
+    //     var doc = collection.doc(interpretation.number);
+    //     doc.set(coleta.toMap());
+    //   });
+    //   _timers[interpretation.number] = _timer;
+    // } else {
+    //   _timer.reset();
+    // }
+  }
+}
+
+class FormInterpretation extends StatefulWidget {
+  InterpretationEntity interpretation;
+  final void Function(InterpretationEntity)? onChange;
+
+  FormInterpretation(
+    this.interpretation, {
+    Key? key,
+    this.onChange,
+  }) : super(key: key);
+
+  @override
+  State<FormInterpretation> createState() => _FormInterpretationState();
+}
+
+class _FormInterpretationState extends State<FormInterpretation> {
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          // Expanded(child: PainelPhoto()),
+          PainelClassification(
+            this.widget.interpretation.classification,
+            onChange: onChageClassification,
+          ),
+          // PainelSeparator(),
+          // PainelDamages(
+          //     // onTap: onDamageChange,
+          //     // damages: widget.interpretation.damageMap(),
+          //     ),
+        ],
+      ),
+    );
+  }
+
+  void onChageClassification(int value) {
+    widget.interpretation = widget.interpretation.copyWith(
+      classification: value,
+    );
+
+    updateColeta();
+  }
+
+  void updateColeta() async {
+    if (this.widget.onChange != null)
+      this.widget.onChange!(this.widget.interpretation);
   }
 }

@@ -18,7 +18,7 @@ class InterpretationEntity {
   });
 
   factory InterpretationEntity.empty() => InterpretationEntity(
-        classification: 0,
+        classification: 1,
         photos: [],
         damages: [],
       );
