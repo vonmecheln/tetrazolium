@@ -13,6 +13,8 @@ abstract class _$RepetitionEntityCWProxy {
 
   RepetitionEntity number(int number);
 
+  RepetitionEntity state(RepetitionState state);
+
   RepetitionEntity viability(int viability);
 
   RepetitionEntity vigor(int vigor);
@@ -27,6 +29,7 @@ abstract class _$RepetitionEntityCWProxy {
     String? id,
     List<InterpretationEntity>? interpretations,
     int? number,
+    RepetitionState? state,
     int? viability,
     int? vigor,
   });
@@ -50,6 +53,9 @@ class _$RepetitionEntityCWProxyImpl implements _$RepetitionEntityCWProxy {
   RepetitionEntity number(int number) => this(number: number);
 
   @override
+  RepetitionEntity state(RepetitionState state) => this(state: state);
+
+  @override
   RepetitionEntity viability(int viability) => this(viability: viability);
 
   @override
@@ -67,6 +73,7 @@ class _$RepetitionEntityCWProxyImpl implements _$RepetitionEntityCWProxy {
     Object? id = const $CopyWithPlaceholder(),
     Object? interpretations = const $CopyWithPlaceholder(),
     Object? number = const $CopyWithPlaceholder(),
+    Object? state = const $CopyWithPlaceholder(),
     Object? viability = const $CopyWithPlaceholder(),
     Object? vigor = const $CopyWithPlaceholder(),
   }) {
@@ -84,6 +91,10 @@ class _$RepetitionEntityCWProxyImpl implements _$RepetitionEntityCWProxy {
           ? _value.number
           // ignore: cast_nullable_to_non_nullable
           : number as int,
+      state: state == const $CopyWithPlaceholder() || state == null
+          ? _value.state
+          // ignore: cast_nullable_to_non_nullable
+          : state as RepetitionState,
       viability: viability == const $CopyWithPlaceholder() || viability == null
           ? _value.viability
           // ignore: cast_nullable_to_non_nullable

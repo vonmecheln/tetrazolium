@@ -14,9 +14,11 @@ class RepetitionEntity extends Entity {
   final int viability;
   final int vigor;
   final List<InterpretationEntity> interpretations;
+  final RepetitionState state;
 
   RepetitionEntity({
     String? id,
+    this.state = RepetitionState.notStarted,
     required this.number,
     required this.viability,
     required this.vigor,
@@ -24,9 +26,16 @@ class RepetitionEntity extends Entity {
   }) : super(id ?? Uuid().v4());
 
   factory RepetitionEntity.empty() => RepetitionEntity(
+        state: RepetitionState.notStarted,
         number: 0,
         viability: 0,
         vigor: 0,
         interpretations: [],
       );
+}
+
+enum RepetitionState {
+  notStarted,
+  started,
+  finish,
 }
