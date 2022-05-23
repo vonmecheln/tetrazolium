@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/resume_entity.dart';
 import 'package:tetrazolium/app/shared/external/mappers/repetition_data_mapper.dart';
 
 void main() {
@@ -41,7 +42,13 @@ void main() {
 
     test('deve converte repetitionEntity to Map', () {
       final repetition = RepetitionEntity(
-          id: '123', number: 1, viability: 80, vigor: 90, interpretations: []);
+          id: '123',
+          number: 1,
+          viability: 80,
+          vigor: 90,
+          interpretations: [],
+          resultClassication: {},
+          resume: ResumeEntity.empty());
       final map = RepetitionMapper.toMap(repetition);
 
       expect(map['id'], '123');

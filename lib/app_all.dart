@@ -16,6 +16,7 @@ import 'package:tetrazolium/app/shared/domain/entities/damage_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/interpretation_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/resume_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 import 'package:tetrazolium/app/shared/widgets/custom_line_datepicker/custom_line_date_picker_widget.dart';
@@ -27,11 +28,53 @@ class AppWidgetMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _seedAnalise(AnalysisEntity? analise) {
+      if (analise == null) return;
+      var ns = NumberSeedsEntity(repetitions: 2, seeds: 5);
+
+      List<RepetitionEntity> repetitions = [];
+
+      for (var i = 0; i < ns.repetitions; i++) {
+        List<InterpretationEntity> interpretations = [];
+
+        for (var s = 0; s < ns.seeds; s++) {
+          interpretations.add(InterpretationEntity(
+            classification: 1,
+            photos: [],
+            damages: [
+              DamageEntity(type: DamageType.bug, main: true),
+              DamageEntity(type: DamageType.drop, main: false),
+              DamageEntity(type: DamageType.engine, main: false),
+            ],
+          ));
+        }
+
+        repetitions.add(RepetitionEntity(
+          number: 1,
+          viability: 80,
+          vigor: 90,
+          interpretations: interpretations,
+          resultClassication: {},
+          resume: ResumeEntity.empty(),
+        ));
+      }
+
+      analise = analise.copyWith(
+        numberSeeds: ns,
+        viability: 80,
+        vigor: 90,
+        repetitions: repetitions,
+      );
+      _save(analise);
+    }
+
+    _seedAnalise(analise);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tetrazólio Digital',
-      home: TelaListaAnalise(),
-      // home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
+      // home: TelaListaAnalise(),
+      home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
       theme: ThemeData(
         primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
       ),
@@ -157,6 +200,7 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
                 MaterialPageRoute(
                   builder: (context) => TelaRepetitionPage(
                     analysis: widget.analysis,
+                    currencyRepetition: 0,
                   ),
                 ),
               );
@@ -235,10 +279,12 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
 
 class TelaRepetitionPage extends StatefulWidget {
   AnalysisEntity analysis;
+  final int currencyRepetition;
 
   TelaRepetitionPage({
     Key? key,
     required this.analysis,
+    required this.currencyRepetition,
   }) : super(key: key);
 
   @override
@@ -249,7 +295,6 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
   PageController pg = PageController(initialPage: 0);
 
   bool _finish = false;
-  int _repeticaoAtual = 1;
   int _atualInterpretation = 1;
 
   late DocumentReference<Map<String, dynamic>> _analiseRef;
@@ -265,11 +310,13 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
       widget.analysis.repetitions.add(RepetitionEntity.empty());
     }
 
-    for (var i = widget.analysis.repetitions[0].interpretations.length;
+    for (var i = widget.analysis.repetitions[widget.currencyRepetition]
+            .interpretations.length;
         i < widget.analysis.numberSeeds.seeds;
         i++) {
       String id = (i + 1).toString().padLeft(3, '0');
-      widget.analysis.repetitions[0].interpretations.add(
+      widget.analysis.repetitions[widget.currencyRepetition].interpretations
+          .add(
         InterpretationEntity(
           id: id,
           classification: 1,
@@ -293,7 +340,7 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
             padding: const EdgeInsets.only(right: 16),
             child: Center(
               child: Text(
-                "Repetição $_repeticaoAtual/${widget.analysis.numberSeeds.repetitions}",
+                "Repetição ${widget.currencyRepetition + 1}/${widget.analysis.numberSeeds.repetitions}",
               ),
             ),
           ),
@@ -303,6 +350,8 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
               child: ElevatedButton(
                 onPressed: () {
                   //TODO: Calcular resumos
+                  _sumariseRepetition(widget.currencyRepetition);
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -327,8 +376,8 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
           Expanded(
             child: PageView(
                 controller: pg,
-                children: widget
-                    .analysis.repetitions[_repeticaoAtual - 1].interpretations
+                children: widget.analysis.repetitions[widget.currencyRepetition]
+                    .interpretations
                     .map((i) => FormInterpretation(
                           i,
                           onChange: onChangeInterpretation,
@@ -386,8 +435,8 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
   void onChangeInterpretation(InterpretationEntity interpretation) {
     int index = int.parse(interpretation.id) - 1;
 
-    widget.analysis.repetitions[_repeticaoAtual - 1].interpretations[index] =
-        interpretation;
+    widget.analysis.repetitions[widget.currencyRepetition]
+        .interpretations[index] = interpretation;
 
     RestartableTimer? _timer;
 
@@ -404,6 +453,69 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
     } else {
       _timer.reset();
     }
+  }
+
+  late Map<DamageType, int> sumari18;
+  late Map<DamageType, int> sumari68;
+
+  _sumariseRepetition(int currencyRepetition) {
+    int _filter(DamageType t, [int c = 1]) {
+      return this
+          .widget
+          .analysis
+          .repetitions[currencyRepetition]
+          .interpretations
+          .where((e) => e.classification >= c)
+          .where((e) => e.damages.where((d) => d.type == t).isNotEmpty)
+          .length;
+    }
+
+    sumari18 = {
+      DamageType.bug: _filter(DamageType.bug),
+      DamageType.engine: _filter(DamageType.engine),
+      DamageType.drop: _filter(DamageType.drop),
+      DamageType.diamont: _filter(DamageType.diamont),
+    };
+
+    sumari68 = {
+      DamageType.bug: _filter(DamageType.bug, 6),
+      DamageType.engine: _filter(DamageType.engine, 6),
+      DamageType.drop: _filter(DamageType.drop, 6),
+      DamageType.diamont: _filter(DamageType.diamont, 6),
+    };
+
+    List<int> countClass = [];
+    for (var c = 1; c <= 8; c++) {
+      countClass.add(this
+          .widget
+          .analysis
+          .repetitions[currencyRepetition]
+          .interpretations
+          .where((e) => e.classification == c)
+          .length);
+    }
+
+    int vigor = countClass[0] + countClass[1] + countClass[2];
+    int viability = vigor + countClass[3] + countClass[4];
+
+    print("$vigor $viability");
+
+    RepetitionEntity rep = this
+        .widget
+        .analysis
+        .repetitions[0]
+        .copyWith(viability: viability * 2, vigor: vigor * 2);
+
+    List<RepetitionEntity> repetitions = [];
+
+    for (var i = 0; i < this.widget.analysis.repetitions.length; i++) {
+      repetitions.add(i == 0 ? rep : this.widget.analysis.repetitions[i]);
+    }
+
+    this.widget.analysis =
+        this.widget.analysis.copyWith(repetitions: repetitions);
+
+    _save(this.widget.analysis);
   }
 }
 
@@ -518,12 +630,14 @@ class TelaResumo extends StatefulWidget {
 class _TelaResumoState extends State<TelaResumo> {
   @override
   void initState() {
-    _sumariseRepetition();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var sumari18 = widget.analysis.repetitions[0].resume.damageSumary18;
+    var sumari68 = widget.analysis.repetitions[0].resume.damageSumary68;
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Resumo - ${widget.analysis.local}'),
@@ -571,7 +685,9 @@ class _TelaResumoState extends State<TelaResumo> {
               ),
               PainelGridRow(
                 child1: damageLegend('1-8'),
-                child2: damageText(sumari18[DamageType.engine] ?? 0),
+                child2: damageText(widget.analysis.repetitions[0].resume
+                        .damageSumary18[DamageType.engine] ??
+                    0),
                 child3: damageText(sumari18[DamageType.drop] ?? 0),
                 child4: damageText(sumari18[DamageType.bug] ?? 0),
                 child5: damageText(sumari18[DamageType.diamont] ?? 0),
@@ -584,6 +700,7 @@ class _TelaResumoState extends State<TelaResumo> {
                 child4: damageText(sumari68[DamageType.bug] ?? 0),
                 child5: damageText(sumari68[DamageType.diamont] ?? 0),
               ),
+              _nextOrResume()
             ],
           ),
         ));
@@ -604,67 +721,38 @@ class _TelaResumoState extends State<TelaResumo> {
         ),
       );
 
-  late Map<DamageType, int> sumari18;
-  late Map<DamageType, int> sumari68;
+  Widget _nextOrResume() {
+    var notStarteds = this.widget.analysis.repetitions.where(
+          (e) => e.state == RepetitionState.notStarted,
+        );
 
-  _sumariseRepetition() {
-    int _filter(DamageType t, [int c = 1]) {
-      return this
-          .widget
-          .analysis
-          .repetitions[0]
-          .interpretations
-          .where((e) => e.classification >= c)
-          .where((e) => e.damages.where((d) => d.type == t).isNotEmpty)
-          .length;
+    if (notStarteds.isEmpty) {
+      return Container(
+        child: Text('Resumo'),
+      );
+    } else {
+      var nr = notStarteds.first.number;
+      return ElevatedButton(
+        onPressed: () {
+          //TODO: alterar o estado da repetição
+          //notStarteds.first.state = RepetitionState.started;
+          // _save(widget.analysis);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TelaRepetitionPage(
+                analysis: widget.analysis,
+                currencyRepetition: nr,
+              ),
+            ),
+          );
+        },
+        child: Text('Iniciar $nr Repetição'),
+      );
     }
 
-    sumari18 = {
-      DamageType.bug: _filter(DamageType.bug),
-      DamageType.engine: _filter(DamageType.engine),
-      DamageType.drop: _filter(DamageType.drop),
-      DamageType.diamont: _filter(DamageType.diamont),
-    };
-
-    sumari68 = {
-      DamageType.bug: _filter(DamageType.bug, 6),
-      DamageType.engine: _filter(DamageType.engine, 6),
-      DamageType.drop: _filter(DamageType.drop, 6),
-      DamageType.diamont: _filter(DamageType.diamont, 6),
-    };
-
-    List<int> countClass = [];
-    for (var c = 1; c <= 8; c++) {
-      countClass.add(this
-          .widget
-          .analysis
-          .repetitions[0]
-          .interpretations
-          .where((e) => e.classification == c)
-          .length);
-    }
-
-    int vigor = countClass[0] + countClass[1] + countClass[2];
-    int viability = vigor + countClass[3] + countClass[4];
-
-    print("$vigor $viability");
-
-    RepetitionEntity rep = this
-        .widget
-        .analysis
-        .repetitions[0]
-        .copyWith(viability: viability * 2, vigor: vigor * 2);
-
-    List<RepetitionEntity> repetitions = [];
-
-    for (var i = 0; i < this.widget.analysis.repetitions.length; i++) {
-      repetitions.add(i == 0 ? rep : this.widget.analysis.repetitions[i]);
-    }
-
-    this.widget.analysis =
-        this.widget.analysis.copyWith(repetitions: repetitions);
-
-    _save(this.widget.analysis);
+    return Container();
   }
 }
 

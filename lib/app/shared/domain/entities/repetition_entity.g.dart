@@ -13,6 +13,10 @@ abstract class _$RepetitionEntityCWProxy {
 
   RepetitionEntity number(int number);
 
+  RepetitionEntity resultClassication(Map<int, int> resultClassication);
+
+  RepetitionEntity resume(ResumeEntity resume);
+
   RepetitionEntity state(RepetitionState state);
 
   RepetitionEntity viability(int viability);
@@ -29,6 +33,8 @@ abstract class _$RepetitionEntityCWProxy {
     String? id,
     List<InterpretationEntity>? interpretations,
     int? number,
+    Map<int, int>? resultClassication,
+    ResumeEntity? resume,
     RepetitionState? state,
     int? viability,
     int? vigor,
@@ -53,6 +59,13 @@ class _$RepetitionEntityCWProxyImpl implements _$RepetitionEntityCWProxy {
   RepetitionEntity number(int number) => this(number: number);
 
   @override
+  RepetitionEntity resultClassication(Map<int, int> resultClassication) =>
+      this(resultClassication: resultClassication);
+
+  @override
+  RepetitionEntity resume(ResumeEntity resume) => this(resume: resume);
+
+  @override
   RepetitionEntity state(RepetitionState state) => this(state: state);
 
   @override
@@ -73,6 +86,8 @@ class _$RepetitionEntityCWProxyImpl implements _$RepetitionEntityCWProxy {
     Object? id = const $CopyWithPlaceholder(),
     Object? interpretations = const $CopyWithPlaceholder(),
     Object? number = const $CopyWithPlaceholder(),
+    Object? resultClassication = const $CopyWithPlaceholder(),
+    Object? resume = const $CopyWithPlaceholder(),
     Object? state = const $CopyWithPlaceholder(),
     Object? viability = const $CopyWithPlaceholder(),
     Object? vigor = const $CopyWithPlaceholder(),
@@ -91,6 +106,15 @@ class _$RepetitionEntityCWProxyImpl implements _$RepetitionEntityCWProxy {
           ? _value.number
           // ignore: cast_nullable_to_non_nullable
           : number as int,
+      resultClassication: resultClassication == const $CopyWithPlaceholder() ||
+              resultClassication == null
+          ? _value.resultClassication
+          // ignore: cast_nullable_to_non_nullable
+          : resultClassication as Map<int, int>,
+      resume: resume == const $CopyWithPlaceholder() || resume == null
+          ? _value.resume
+          // ignore: cast_nullable_to_non_nullable
+          : resume as ResumeEntity,
       state: state == const $CopyWithPlaceholder() || state == null
           ? _value.state
           // ignore: cast_nullable_to_non_nullable

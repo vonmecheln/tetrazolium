@@ -1,5 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tetrazolium/app/shared/domain/entities/resume_entity.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:tetrazolium/app/shared/domain/entities/entity.dart';
@@ -15,6 +16,8 @@ class RepetitionEntity extends Entity {
   final int vigor;
   final List<InterpretationEntity> interpretations;
   final RepetitionState state;
+  final Map<int, int> resultClassication;
+  final ResumeEntity resume;
 
   RepetitionEntity({
     String? id,
@@ -23,6 +26,8 @@ class RepetitionEntity extends Entity {
     required this.viability,
     required this.vigor,
     required this.interpretations,
+    required this.resultClassication,
+    required this.resume,
   }) : super(id ?? Uuid().v4());
 
   factory RepetitionEntity.empty() => RepetitionEntity(
@@ -31,6 +36,8 @@ class RepetitionEntity extends Entity {
         viability: 0,
         vigor: 0,
         interpretations: [],
+        resultClassication: {},
+        resume: ResumeEntity.empty(),
       );
 }
 
