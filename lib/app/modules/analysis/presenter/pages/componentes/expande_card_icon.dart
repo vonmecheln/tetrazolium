@@ -33,11 +33,11 @@ class _ExpandeCardIconState extends State<ExpandeCardIcon>
       color: FlutterFlowTheme.primaryColor,
     );
 
-    var ic = Icon(
-      Icons.chevron_left,
-      color: FlutterFlowTheme.primaryColor,
-      size: 30,
-    );
+    // var ic = Icon(
+    //   Icons.chevron_left,
+    //   color: FlutterFlowTheme.primaryColor,
+    //   size: 30,
+    // );
 
     return IconButton(
       splashColor: Colors.blue,

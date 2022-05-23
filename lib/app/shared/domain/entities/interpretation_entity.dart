@@ -1,5 +1,4 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:tetrazolium/app/shared/domain/entities/entity.dart';
 import 'package:uuid/uuid.dart';
 import 'index.dart';

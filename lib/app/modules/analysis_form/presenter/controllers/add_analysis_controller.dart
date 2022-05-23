@@ -24,8 +24,7 @@ class AddAnalysisController {
   setSample(String _value) => sample.value = _value;
   setLocal(String _value) => local.value = _value;
   setNumberSeeds(String _value) => numberSeeds.value = _value;
-  setConcentration(String _value) =>
-      concentration.value = double.parse(_value, (_) => 0);
+  setConcentration(String _value) => concentration.value = double.parse(_value);
 
   Future<bool> addNewAnalysis() async {
     try {

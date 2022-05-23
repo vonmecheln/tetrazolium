@@ -38,7 +38,7 @@ class StaggerAnimation extends StatelessWidget {
                     height: 60,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: Theme.of(context).buttonColor,
+                        // color: Theme.of(context).buttonColor,
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     child: _buidInside(context),
                   )

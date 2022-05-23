@@ -19,7 +19,7 @@ class UpdateAnalysis extends IUpdateAnalysis {
   @override
   Future<Either<FailureAnalysis, AnalysisEntity>> call(
       AnalysisEntity analysis) async {
-    assert(analysis.id != null);
+    // assert(analysis.id != null);
 
     if (analysis.local.trim().length == 0) {
       return Left(

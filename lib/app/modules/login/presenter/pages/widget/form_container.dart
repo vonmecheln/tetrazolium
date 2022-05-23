@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tetrazolium/app/modules/login/login_module.dart';
 import 'package:tetrazolium/app/modules/login/presenter/pages/login/login_store.dart';
 import 'package:tetrazolium/app/modules/login/presenter/utils/input_store.dart';
 

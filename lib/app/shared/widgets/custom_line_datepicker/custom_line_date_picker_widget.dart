@@ -45,8 +45,10 @@ class _CustomLineDataPickerWidgetState
           children: [
             Text(
               widget.label,
-              style:
-                  TextStyle(color: Theme.of(context).accentColor, fontSize: 12),
+              style: TextStyle(
+                color: Theme.of(context).secondaryHeaderColor,
+                fontSize: 12,
+              ),
             ),
             Row(
               children: [

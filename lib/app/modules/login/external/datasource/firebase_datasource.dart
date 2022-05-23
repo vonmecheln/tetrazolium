@@ -14,7 +14,7 @@ class FirebaseDataSourceImpl implements ILoginDataSource {
 
   @override
   Future<UserModel> currentUser() async {
-    var user = (await auth.currentUser);
+    var user = (auth.currentUser);
 
     if (user == null)
       throw ErrorGetLoggedUser(message: "Usuário não presentex");
@@ -41,7 +41,6 @@ class FirebaseDataSourceImpl implements ILoginDataSource {
 
   @override
   Future<UserModel> loginPhone({required String phone}) {
-    // TODO: implement loginPhone
     throw UnimplementedError();
   }
 
@@ -51,9 +50,10 @@ class FirebaseDataSourceImpl implements ILoginDataSource {
   }
 
   @override
-  Future<UserModel> validateCode(
-      {required String verificationId, required String code}) {
-    // TODO: implement validateCode
+  Future<UserModel> validateCode({
+    required String verificationId,
+    required String code,
+  }) {
     throw UnimplementedError();
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tetrazolium/app/shared/domain/entities/damage_entity.dart';
 import 'package:tetrazolium/app/shared/external/mappers/damage_data_mapper.dart';
-import 'package:tetrazolium/app/shared/external/mappers/photo_data_mapper.dart';
 
 void main() {
   group('damage data mapper ...', () {

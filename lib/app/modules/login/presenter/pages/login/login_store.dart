@@ -1,7 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:tetrazolium/app/modules/login/domain/entities/login_credential.dart';
-import 'package:tetrazolium/app/modules/login/domain/usecases/login_with_email.dart';
 import 'package:tetrazolium/app/modules/login/presenter/utils/input_store.dart';
 
 part 'login_store.g.dart';

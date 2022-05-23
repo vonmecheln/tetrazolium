@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,7 @@ import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dar
 import 'package:tetrazolium/app/shared/widgets/custom_line_datepicker/custom_line_date_picker_widget.dart';
 
 class AppWidgetMain extends StatelessWidget {
-  AnalysisEntity? analise;
+  final AnalysisEntity? analise;
 
   AppWidgetMain({this.analise});
 
@@ -323,8 +325,6 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
 
   bool _finish = false;
   int _atualInterpretation = 1;
-
-  late DocumentReference<Map<String, dynamic>> _analiseRef;
 
   @override
   void initState() {
@@ -690,8 +690,6 @@ class _TelaResumoState extends State<TelaResumo> {
         child: Text('Iniciar $nr Repetição'),
       );
     }
-
-    return Container();
   }
 }
 

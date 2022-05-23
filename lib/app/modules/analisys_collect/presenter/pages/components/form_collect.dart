@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/domain/entities/collect_entity.dart';
 import 'package:tetrazolium/app/modules/analisys_collect/presenter/pages/components/painel_classification.dart';
