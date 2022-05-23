@@ -28,8 +28,8 @@ class AppWidgetMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _seedAnalise(AnalysisEntity? analise) {
-      if (analise == null) return;
+    AnalysisEntity? _seedAnalise(AnalysisEntity? analise) {
+      if (analise == null) return null;
       var ns = NumberSeedsEntity(repetitions: 2, seeds: 5);
 
       List<RepetitionEntity> repetitions = [];
@@ -66,15 +66,16 @@ class AppWidgetMain extends StatelessWidget {
         repetitions: repetitions,
       );
       _save(analise);
+      return analise;
     }
 
-    _seedAnalise(analise);
+    // analise = _seedAnalise(analise);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tetrazólio Digital',
-      // home: TelaListaAnalise(),
-      home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
+      home: TelaListaAnalise(),
+      // home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
       theme: ThemeData(
         primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
       ),
@@ -194,7 +195,8 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
           FloatingActionButton(
             heroTag: "btn1",
             onPressed: () {
-              _save(widget.analysis);
+              _initAnalise(widget.analysis, true);
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -211,7 +213,7 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
           FloatingActionButton(
             heroTag: "btn2",
             onPressed: () {
-              _save(widget.analysis);
+              _initAnalise(widget.analysis);
               Navigator.pop(context);
             },
             child: Icon(Icons.save),
@@ -277,6 +279,31 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
   }
 }
 
+AnalysisEntity _initAnalise(AnalysisEntity analysis, [init = false]) {
+  List<RepetitionEntity> repetitions = [];
+
+  for (var i = 0; i < analysis.numberSeeds.repetitions; i++) {
+    List<InterpretationEntity> interpretations = [];
+
+    for (var s = 0; s < analysis.numberSeeds.seeds; s++) {
+      String id = (s + 1).toString().padLeft(3, '0');
+      interpretations.add(InterpretationEntity.empty().copyWith(id: id));
+    }
+
+    repetitions.add(RepetitionEntity.empty().copyWith(
+      number: i,
+      interpretations: interpretations,
+      state: (init && i == 0) ? RepetitionState.started : null,
+    ));
+  }
+
+  analysis = analysis.copyWith(repetitions: repetitions);
+
+  _save(analysis);
+
+  return analysis;
+}
+
 class TelaRepetitionPage extends StatefulWidget {
   AnalysisEntity analysis;
   final int currencyRepetition;
@@ -301,33 +328,6 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
 
   @override
   void initState() {
-    _analiseRef =
-        FirebaseFirestore.instance.collection(ANALYSIS).doc(widget.analysis.id);
-
-    for (var i = widget.analysis.repetitions.length;
-        i < widget.analysis.numberSeeds.repetitions;
-        i++) {
-      widget.analysis.repetitions.add(RepetitionEntity.empty());
-    }
-
-    for (var i = widget.analysis.repetitions[widget.currencyRepetition]
-            .interpretations.length;
-        i < widget.analysis.numberSeeds.seeds;
-        i++) {
-      String id = (i + 1).toString().padLeft(3, '0');
-      widget.analysis.repetitions[widget.currencyRepetition].interpretations
-          .add(
-        InterpretationEntity(
-          id: id,
-          classification: 1,
-          photos: [],
-          damages: [],
-        ),
-      );
-    }
-
-    _analiseRef.set(AnalysisMapper.toMap(widget.analysis));
-
     super.initState();
   }
 
@@ -349,7 +349,6 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
               padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
               child: ElevatedButton(
                 onPressed: () {
-                  //TODO: Calcular resumos
                   _sumariseRepetition(widget.currencyRepetition);
 
                   Navigator.push(
@@ -500,16 +499,18 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
 
     print("$vigor $viability");
 
-    RepetitionEntity rep = this
-        .widget
-        .analysis
-        .repetitions[0]
-        .copyWith(viability: viability * 2, vigor: vigor * 2);
+    RepetitionEntity rep =
+        this.widget.analysis.repetitions[currencyRepetition].copyWith(
+              state: RepetitionState.finish,
+              viability: viability * 2,
+              vigor: vigor * 2,
+            );
 
     List<RepetitionEntity> repetitions = [];
 
     for (var i = 0; i < this.widget.analysis.repetitions.length; i++) {
-      repetitions.add(i == 0 ? rep : this.widget.analysis.repetitions[i]);
+      repetitions.add(
+          i == currencyRepetition ? rep : this.widget.analysis.repetitions[i]);
     }
 
     this.widget.analysis =
@@ -531,21 +532,6 @@ class FormInterpretation extends StatefulWidget {
 
   @override
   State<FormInterpretation> createState() => _FormInterpretationState();
-}
-
-Map<DamageType, int> _damageMap(List<DamageEntity> damages) {
-  _damageToInt(DamageType type) {
-    var dl = damages.where((d) => d.type == type);
-    if (dl.isEmpty) return 0;
-    return dl.first.main ? 2 : 1;
-  }
-
-  return {
-    DamageType.bug: _damageToInt(DamageType.bug),
-    DamageType.drop: _damageToInt(DamageType.drop),
-    DamageType.engine: _damageToInt(DamageType.engine),
-    DamageType.diamont: _damageToInt(DamageType.diamont),
-  };
 }
 
 class _FormInterpretationState extends State<FormInterpretation> {
@@ -615,6 +601,21 @@ class _FormInterpretationState extends State<FormInterpretation> {
   }
 }
 
+Map<DamageType, int> _damageMap(List<DamageEntity> damages) {
+  _damageToInt(DamageType type) {
+    var dl = damages.where((d) => d.type == type);
+    if (dl.isEmpty) return 0;
+    return dl.first.main ? 2 : 1;
+  }
+
+  return {
+    DamageType.bug: _damageToInt(DamageType.bug),
+    DamageType.drop: _damageToInt(DamageType.drop),
+    DamageType.engine: _damageToInt(DamageType.engine),
+    DamageType.diamont: _damageToInt(DamageType.diamont),
+  };
+}
+
 class TelaResumo extends StatefulWidget {
   AnalysisEntity analysis;
 
@@ -635,9 +636,6 @@ class _TelaResumoState extends State<TelaResumo> {
 
   @override
   Widget build(BuildContext context) {
-    var sumari18 = widget.analysis.repetitions[0].resume.damageSumary18;
-    var sumari68 = widget.analysis.repetitions[0].resume.damageSumary68;
-
     return Scaffold(
         appBar: AppBar(
           title: Text('Resumo - ${widget.analysis.local}'),
@@ -646,80 +644,21 @@ class _TelaResumoState extends State<TelaResumo> {
           padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Repetição 01',
-                            style: FlutterFlowTheme.subtitle1.apply(
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ],
+              Column(
+                children: widget.analysis.repetitions
+                    .where((e) => e.state == RepetitionState.finish)
+                    .map(
+                      (e) => ResumoRepWidget(
+                        repetition: widget.analysis.repetitions[0],
                       ),
-                    ),
-                    PainelVisibilidade(
-                      vigor: widget.analysis.repetitions[0].vigor,
-                      viability: widget.analysis.repetitions[0].viability,
-                    ),
-                  ],
-                ),
+                    )
+                    .toList(),
               ),
-              PainelSeparator(),
-              PainelGridRow(
-                child1: Container(),
-                child2: DisplayDano(type: 'engine'),
-                child3: DisplayDano(type: 'drop'),
-                child4: DisplayDano(type: 'bug'),
-                child5: DisplayDano(type: 'diamont'),
-              ),
-              PainelGridRow(
-                child1: damageLegend('1-8'),
-                child2: damageText(widget.analysis.repetitions[0].resume
-                        .damageSumary18[DamageType.engine] ??
-                    0),
-                child3: damageText(sumari18[DamageType.drop] ?? 0),
-                child4: damageText(sumari18[DamageType.bug] ?? 0),
-                child5: damageText(sumari18[DamageType.diamont] ?? 0),
-              ),
-              PainelSeparator(),
-              PainelGridRow(
-                child1: damageLegend('6-8'),
-                child2: damageText(sumari68[DamageType.engine] ?? 0),
-                child3: damageText(sumari68[DamageType.drop] ?? 0),
-                child4: damageText(sumari68[DamageType.bug] ?? 0),
-                child5: damageText(sumari68[DamageType.diamont] ?? 0),
-              ),
-              _nextOrResume()
+              _nextOrResume(),
             ],
           ),
         ));
   }
-
-  Text damageLegend(String value) => Text(
-        '$value',
-        style: FlutterFlowTheme.subtitle1.apply(
-          fontFamily: 'Poppins',
-          color: FlutterFlowTheme.color2,
-        ),
-      );
-
-  Text damageText(int value) => Text(
-        '$value',
-        style: FlutterFlowTheme.subtitle1.apply(
-          fontFamily: 'Poppins',
-        ),
-      );
 
   Widget _nextOrResume() {
     var notStarteds = this.widget.analysis.repetitions.where(
@@ -754,6 +693,92 @@ class _TelaResumoState extends State<TelaResumo> {
 
     return Container();
   }
+}
+
+class ResumoRepWidget extends StatelessWidget {
+  final RepetitionEntity repetition;
+  const ResumoRepWidget({
+    Key? key,
+    required this.repetition,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var sumari18 = repetition.resume.damageSumary18;
+    var sumari68 = repetition.resume.damageSumary68;
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Repetição 01',
+                      style: FlutterFlowTheme.subtitle1.apply(
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              PainelVisibilidade(
+                vigor: repetition.vigor,
+                viability: repetition.viability,
+              ),
+            ],
+          ),
+        ),
+        PainelSeparator(),
+        PainelGridRow(
+          child1: Container(),
+          child2: DisplayDano(type: 'engine'),
+          child3: DisplayDano(type: 'drop'),
+          child4: DisplayDano(type: 'bug'),
+          child5: DisplayDano(type: 'diamont'),
+        ),
+        PainelGridRow(
+          child1: damageLegend('1-8'),
+          child2: damageText(sumari18[DamageType.engine] ?? 0),
+          child3: damageText(sumari18[DamageType.drop] ?? 0),
+          child4: damageText(sumari18[DamageType.bug] ?? 0),
+          child5: damageText(sumari18[DamageType.diamont] ?? 0),
+        ),
+        PainelSeparator(),
+        PainelGridRow(
+          child1: damageLegend('6-8'),
+          child2: damageText(sumari68[DamageType.engine] ?? 0),
+          child3: damageText(sumari68[DamageType.drop] ?? 0),
+          child4: damageText(sumari68[DamageType.bug] ?? 0),
+          child5: damageText(sumari68[DamageType.diamont] ?? 0),
+        ),
+      ],
+    );
+  }
+
+  Text damageLegend(String value) => Text(
+        '$value',
+        style: FlutterFlowTheme.subtitle1.apply(
+          fontFamily: 'Poppins',
+          color: FlutterFlowTheme.color2,
+        ),
+      );
+
+  Text damageText(int value) => Text(
+        '$value',
+        style: FlutterFlowTheme.subtitle1.apply(
+          fontFamily: 'Poppins',
+        ),
+      );
 }
 
 class PainelGridRow extends StatelessWidget {
