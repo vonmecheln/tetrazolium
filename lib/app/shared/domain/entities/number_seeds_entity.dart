@@ -14,7 +14,7 @@ class NumberSeedsEntity {
   });
 
   factory NumberSeedsEntity.r2s50() =>
-      NumberSeedsEntity(repetitions: 2, seeds: 50);
+      NumberSeedsEntity(repetitions: 2, seeds: 5);
 
   @override
   String toString() {

@@ -18,7 +18,6 @@ import 'package:tetrazolium/app/shared/domain/entities/damage_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/interpretation_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
-import 'package:tetrazolium/app/shared/domain/entities/resume_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 import 'package:tetrazolium/app/shared/widgets/custom_line_datepicker/custom_line_date_picker_widget.dart';
@@ -30,46 +29,46 @@ class AppWidgetMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AnalysisEntity? _seedAnalise(AnalysisEntity? analise) {
-      if (analise == null) return null;
-      var ns = NumberSeedsEntity(repetitions: 2, seeds: 5);
+    // AnalysisEntity? _seedAnalise(AnalysisEntity? analise) {
+    //   if (analise == null) return null;
+    //   var ns = NumberSeedsEntity(repetitions: 2, seeds: 5);
 
-      List<RepetitionEntity> repetitions = [];
+    //   List<RepetitionEntity> repetitions = [];
 
-      for (var i = 0; i < ns.repetitions; i++) {
-        List<InterpretationEntity> interpretations = [];
+    //   for (var i = 0; i < ns.repetitions; i++) {
+    //     List<InterpretationEntity> interpretations = [];
 
-        for (var s = 0; s < ns.seeds; s++) {
-          interpretations.add(InterpretationEntity(
-            classification: 1,
-            photos: [],
-            damages: [
-              DamageEntity(type: DamageType.bug, main: true),
-              DamageEntity(type: DamageType.drop, main: false),
-              DamageEntity(type: DamageType.engine, main: false),
-            ],
-          ));
-        }
+    //     for (var s = 0; s < ns.seeds; s++) {
+    //       interpretations.add(InterpretationEntity(
+    //         classification: 1,
+    //         photos: [],
+    //         damages: [
+    //           DamageEntity(type: DamageType.bug, main: true),
+    //           DamageEntity(type: DamageType.drop, main: false),
+    //           DamageEntity(type: DamageType.engine, main: false),
+    //         ],
+    //       ));
+    //     }
 
-        repetitions.add(RepetitionEntity(
-          number: 1,
-          viability: 80,
-          vigor: 90,
-          interpretations: interpretations,
-          resultClassication: {},
-          resume: ResumeEntity.empty(),
-        ));
-      }
+    //     repetitions.add(RepetitionEntity(
+    //       number: 1,
+    //       viability: 80,
+    //       vigor: 90,
+    //       interpretations: interpretations,
+    //       resultClassication: {},
+    //       resume: ResumeEntity.empty(),
+    //     ));
+    //   }
 
-      analise = analise.copyWith(
-        numberSeeds: ns,
-        viability: 80,
-        vigor: 90,
-        repetitions: repetitions,
-      );
-      _save(analise);
-      return analise;
-    }
+    //   analise = analise.copyWith(
+    //     numberSeeds: ns,
+    //     viability: 80,
+    //     vigor: 90,
+    //     repetitions: repetitions,
+    //   );
+    //   _save(analise);
+    //   return analise;
+    // }
 
     // analise = _seedAnalise(analise);
 
@@ -197,7 +196,7 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
           FloatingActionButton(
             heroTag: "btn1",
             onPressed: () {
-              _initAnalise(widget.analysis, true);
+              _initAnalise(widget.analysis);
 
               Navigator.push(
                 context,
@@ -281,22 +280,56 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
   }
 }
 
-AnalysisEntity _initAnalise(AnalysisEntity analysis, [init = false]) {
+AnalysisEntity _initAnalise(AnalysisEntity analysis) {
   List<RepetitionEntity> repetitions = [];
 
   for (var i = 0; i < analysis.numberSeeds.repetitions; i++) {
+    var repetition = analysis.repetitions.firstWhere(
+      (r) => r.number == i,
+      orElse: () => RepetitionEntity.empty().copyWith(
+        number: i,
+      ),
+    );
+
     List<InterpretationEntity> interpretations = [];
 
     for (var s = 0; s < analysis.numberSeeds.seeds; s++) {
       String id = (s + 1).toString().padLeft(3, '0');
-      interpretations.add(InterpretationEntity.empty().copyWith(id: id));
+
+      var interpretation = repetition.interpretations.firstWhere(
+        (i) => i.id == id,
+        orElse: () => InterpretationEntity.empty().copyWith(
+          id: id,
+        ),
+      );
+
+      interpretations.add(interpretation);
     }
 
-    repetitions.add(RepetitionEntity.empty().copyWith(
-      number: i,
+    repetitions.add(repetition.copyWith(
       interpretations: interpretations,
-      state: (init && i == 0) ? RepetitionState.started : null,
+      // state: (init && i == 0) ? RepetitionState.started : null,
     ));
+  }
+
+  //varifica se já tem alguma repetição iniciada
+  final startds = repetitions.where((r) => r.state == RepetitionState.started);
+  //Se não houver, inicia a primeira não iniciada
+  if (startds.isEmpty) {
+    final notStartds =
+        repetitions.where((r) => r.state == RepetitionState.notStarted);
+    if (notStartds.isNotEmpty) {
+      final notStartdrepetition = notStartds.first;
+
+      List<RepetitionEntity> tmpRepetitions = repetitions
+          .map(
+            (r) => r.number == notStartdrepetition.number
+                ? r.copyWith(state: RepetitionState.started)
+                : r,
+          )
+          .toList();
+      repetitions = tmpRepetitions;
+    }
   }
 
   analysis = analysis.copyWith(repetitions: repetitions);
@@ -409,13 +442,14 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
   void onForwardPressed() {
     int page = pg.page!.toInt();
     if (page >= widget.analysis.numberSeeds.seeds - 1) {
-      setState(() {
-        _finish = true;
-      });
       return;
     }
 
     page += 1;
+
+    if (page >= widget.analysis.numberSeeds.seeds - 1) {
+      _finish = true;
+    }
 
     pg.animateToPage(page,
         duration: Duration(milliseconds: 200), curve: Curves.bounceInOut);
@@ -687,7 +721,7 @@ class _TelaResumoState extends State<TelaResumo> {
             ),
           );
         },
-        child: Text('Iniciar $nr Repetição'),
+        child: Text('Iniciar ${nr + 1}ª Repetição'),
       );
     }
   }
