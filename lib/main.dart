@@ -20,7 +20,7 @@ Future<void> main() async {
 
   var snap = FirebaseFirestore.instance.collection(ANALYSIS).snapshots();
   var f = await snap.first;
-  var d = f.docs.first;
+  var d = f.docs.last;
   var analise = AnalysisMapper.fromMap(d.data());
 
   // runApp(ModularApp(module: AppModule(), child: AppWidget()));

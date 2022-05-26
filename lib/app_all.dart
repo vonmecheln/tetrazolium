@@ -18,6 +18,7 @@ import 'package:tetrazolium/app/shared/domain/entities/damage_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/interpretation_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/resume_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 import 'package:tetrazolium/app/shared/widgets/custom_line_datepicker/custom_line_date_picker_widget.dart';
@@ -129,6 +130,7 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
 
   Widget _buildList(List<AnalysisEntity> list) {
     return ListView.separated(
+      physics: const AlwaysScrollableScrollPhysics(),
       itemCount: list.length,
       itemBuilder: (_, index) {
         return TetraCard(
@@ -198,15 +200,36 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
             onPressed: () {
               _initAnalise(widget.analysis);
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TelaRepetitionPage(
-                    analysis: widget.analysis,
-                    currencyRepetition: 0,
+              final finisheds = widget.analysis.repetitions
+                  .where((r) => r.state == RepetitionState.finish)
+                  .length;
+
+              if (finisheds == widget.analysis.repetitions.length) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TelaResumo(
+                      analysis: widget.analysis,
+                    ),
                   ),
-                ),
-              );
+                );
+              } else {
+                final nextRepetition = widget.analysis.repetitions.firstWhere(
+                  (r) => r.state == RepetitionState.started,
+                  orElse: () => RepetitionEntity.empty(),
+                );
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TelaRepetitionPage(
+                      analysis: widget.analysis,
+                      currencyRepetition: nextRepetition.number,
+                    ),
+                  ),
+                  ModalRoute.withName('/'),
+                );
+              }
             },
             child: Icon(Icons.camera),
           ),
@@ -384,7 +407,7 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
                 onPressed: () {
                   _sumariseRepetition(widget.currencyRepetition);
 
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
@@ -488,9 +511,6 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
     }
   }
 
-  late Map<DamageType, int> sumari18;
-  late Map<DamageType, int> sumari68;
-
   _sumariseRepetition(int currencyRepetition) {
     int _filter(DamageType t, [int c = 1]) {
       return this
@@ -503,18 +523,16 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
           .length;
     }
 
-    sumari18 = {
-      DamageType.bug: _filter(DamageType.bug),
-      DamageType.engine: _filter(DamageType.engine),
-      DamageType.drop: _filter(DamageType.drop),
-      DamageType.diamont: _filter(DamageType.diamont),
+    int _percentize(int value) {
+      return (value * 100 / this.widget.analysis.numberSeeds.seeds).round();
+    }
+
+    final Map<DamageType, int> sumari18 = {
+      for (var d in DamageType.values) d: _percentize(_filter(d)),
     };
 
-    sumari68 = {
-      DamageType.bug: _filter(DamageType.bug, 6),
-      DamageType.engine: _filter(DamageType.engine, 6),
-      DamageType.drop: _filter(DamageType.drop, 6),
-      DamageType.diamont: _filter(DamageType.diamont, 6),
+    final Map<DamageType, int> sumari68 = {
+      for (var d in DamageType.values) d: _percentize(_filter(d, 6)),
     };
 
     List<int> countClass = [];
@@ -536,8 +554,12 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
     RepetitionEntity rep =
         this.widget.analysis.repetitions[currencyRepetition].copyWith(
               state: RepetitionState.finish,
-              viability: viability * 2,
-              vigor: vigor * 2,
+              viability: _percentize(viability),
+              vigor: _percentize(vigor),
+              resume: ResumeEntity(
+                damageSumary18: sumari18,
+                damageSumary68: sumari68,
+              ),
             );
 
     List<RepetitionEntity> repetitions = [];
@@ -680,12 +702,21 @@ class _TelaResumoState extends State<TelaResumo> {
             children: [
               Column(
                 children: widget.analysis.repetitions
-                    .where((e) => e.state == RepetitionState.finish)
-                    .map(
-                      (e) => ResumoRepWidget(
-                        repetition: widget.analysis.repetitions[0],
-                      ),
-                    )
+                    .where((r) => r.state == RepetitionState.finish)
+                    .map((r) => ResumoRepWidget(
+                          repetition: r,
+                          onEditPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TelaRepetitionPage(
+                                  analysis: widget.analysis,
+                                  currencyRepetition: r.number,
+                                ),
+                              ),
+                            );
+                          },
+                        ))
                     .toList(),
               ),
               _nextOrResume(),
@@ -700,8 +731,78 @@ class _TelaResumoState extends State<TelaResumo> {
         );
 
     if (notStarteds.isEmpty) {
-      return Container(
-        child: Text('Resumo'),
+      var media = RepetitionEntity.empty();
+
+      this.widget.analysis.repetitions.forEach((r) {
+        Map<DamageType, int> _combineResume(
+            Map<DamageType, int> a, Map<DamageType, int> b) {
+          return {
+            for (var d in DamageType.values) d: (a[d] ?? 0) + (b[d] ?? 0)
+          };
+        }
+
+        media = RepetitionEntity(
+          number: 0,
+          viability: media.viability + r.viability,
+          vigor: media.vigor + r.vigor,
+          interpretations: [],
+          resultClassication: {},
+          resume: ResumeEntity(
+            damageSumary18: _combineResume(
+              media.resume.damageSumary18,
+              r.resume.damageSumary18,
+            ),
+            damageSumary68: _combineResume(
+              media.resume.damageSumary68,
+              r.resume.damageSumary68,
+            ),
+          ),
+        );
+      });
+
+      ResumeEntity _mediaResume(ResumeEntity resume, int length) {
+        Map<DamageType, int> _mediaDamageResume(
+            Map<DamageType, int> damageSumary) {
+          return {
+            for (var d in DamageType.values)
+              d: ((damageSumary[d] ?? 0) / length).round()
+          };
+        }
+
+        resume = resume.copyWith(
+          damageSumary18: _mediaDamageResume(resume.damageSumary18),
+          damageSumary68: _mediaDamageResume(resume.damageSumary68),
+        );
+
+        return resume;
+      }
+
+      media = RepetitionEntity(
+          number: 0,
+          viability: (media.viability / this.widget.analysis.repetitions.length)
+              .round(),
+          vigor:
+              (media.vigor / this.widget.analysis.repetitions.length).round(),
+          interpretations: [],
+          resultClassication: {},
+          resume: _mediaResume(
+            media.resume,
+            this.widget.analysis.repetitions.length,
+          ));
+
+      return Column(
+        children: [
+          ResumoRepWidget(repetition: media),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.popUntil(
+                context,
+                ModalRoute.withName('/'),
+              );
+            },
+            child: Text('Finalizar'),
+          ),
+        ],
       );
     } else {
       var nr = notStarteds.first.number;
@@ -729,9 +830,11 @@ class _TelaResumoState extends State<TelaResumo> {
 
 class ResumoRepWidget extends StatelessWidget {
   final RepetitionEntity repetition;
+  final void Function()? onEditPressed;
   const ResumoRepWidget({
     Key? key,
     required this.repetition,
+    this.onEditPressed,
   }) : super(key: key);
 
   @override
@@ -749,19 +852,25 @@ class ResumoRepWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Repetição 01',
-                      style: FlutterFlowTheme.subtitle1.apply(
-                        fontFamily: 'Poppins',
+                child: onEditPressed == null
+                    ? Text('Média')
+                    : Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Repetição ${repetition.number + 1}',
+                            style: FlutterFlowTheme.subtitle1.apply(
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: onEditPressed,
+                            icon: Icon(Icons.edit),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
               ),
               PainelVisibilidade(
                 vigor: repetition.vigor,

@@ -18,6 +18,6 @@ class NumberSeedsEntity {
 
   @override
   String toString() {
-    return '{$repetitions}x{$seeds}';
+    return '${repetitions}x${seeds}';
   }
 }
