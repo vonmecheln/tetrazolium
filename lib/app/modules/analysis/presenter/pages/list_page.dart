@@ -14,17 +14,20 @@ class ListaPage extends StatefulWidget {
   _ListaPageState createState() => _ListaPageState();
 }
 
-class _ListaPageState extends ModularState<ListaPage, ListStore> {
+class _ListaPageState extends State<ListaPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+
+    final store = context.watch<ListStore>();
     store.reloadData();
   }
 
   @override
   Widget build(BuildContext context) {
+    final store = context.watch<ListStore>();
     return Scaffold(
       key: scaffoldKey,
       appBar:

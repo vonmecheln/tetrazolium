@@ -11,10 +11,10 @@ class AddAnalysisPage extends StatefulWidget {
   _AddAnalysisPageState createState() => _AddAnalysisPageState();
 }
 
-class _AddAnalysisPageState
-    extends ModularState<AddAnalysisPage, AddAnalysisController> {
+class _AddAnalysisPageState extends State<AddAnalysisPage> {
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<AddAnalysisController>();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.primaryColor,

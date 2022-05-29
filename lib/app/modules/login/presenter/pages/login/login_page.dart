@@ -14,13 +14,17 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ModularState<LoginPage, LoginStore>
+class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+
+  late LoginStore controller;
 
   @override
   void initState() {
     super.initState();
+    controller = context.watch<LoginStore>();
+
     _animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 2))
           ..addStatusListener((s) {
