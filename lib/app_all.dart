@@ -383,11 +383,6 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
   int _atualInterpretation = 1;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -430,14 +425,15 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
           ),
           Expanded(
             child: PageView(
-                controller: pg,
-                children: widget.analysis.repetitions[widget.currencyRepetition]
-                    .interpretations
-                    .map((i) => FormInterpretation(
-                          i,
-                          onChange: onChangeInterpretation,
-                        ))
-                    .toList()),
+              controller: pg,
+              children: widget.analysis.repetitions[widget.currencyRepetition]
+                  .interpretations
+                  .map((i) => FormInterpretation(
+                        i,
+                        onChange: onChangeInterpretation,
+                      ))
+                  .toList(),
+            ),
           ),
           const PainelSeparator(),
           const PainelLegend()
@@ -468,14 +464,38 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
       return;
     }
 
+    // int index = int.parse(interpretation.id) - 1;
+
+    var interpretation = widget
+        .analysis.repetitions[widget.currencyRepetition].interpretations[page];
+
+    if (interpretation.classification == 1) {
+      if (interpretation.damages.isNotEmpty) {
+        return;
+      }
+    } else {
+      if (interpretation.damages.isEmpty) {
+        return;
+      } else {
+        if (interpretation.damages.length > 1) {
+          if (interpretation.damages.where((d) => d.main == true).isEmpty) {
+            return;
+          }
+        }
+      }
+    }
+
     page += 1;
 
     if (page >= widget.analysis.numberSeeds.seeds - 1) {
       _finish = true;
     }
 
-    pg.animateToPage(page,
-        duration: const Duration(milliseconds: 200), curve: Curves.bounceInOut);
+    pg.animateToPage(
+      page,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.bounceInOut,
+    );
 
     setState(() {
       _atualInterpretation = page + 1;
@@ -562,7 +582,9 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
           .add(i == currencyRepetition ? rep : widget.analysis.repetitions[i]);
     }
 
-    widget.analysis = widget.analysis.copyWith(repetitions: repetitions);
+    widget.analysis = widget.analysis.copyWith(
+      repetitions: repetitions,
+    );
 
     _save(widget.analysis);
   }
@@ -676,41 +698,38 @@ class TelaResumo extends StatefulWidget {
 
 class _TelaResumoState extends State<TelaResumo> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('Resumo - ${widget.analysis.local}'),
         ),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-          child: Column(
-            children: [
-              Column(
-                children: widget.analysis.repetitions
-                    .where((r) => r.state == RepetitionState.finish)
-                    .map((r) => ResumoRepWidget(
-                          repetition: r,
-                          onEditPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TelaRepetitionPage(
-                                  analysis: widget.analysis,
-                                  currencyRepetition: r.number,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+            child: Column(
+              children: [
+                Column(
+                  children: widget.analysis.repetitions
+                      .where((r) => r.state == RepetitionState.finish)
+                      .map((r) => ResumoRepWidget(
+                            repetition: r,
+                            onEditPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TelaRepetitionPage(
+                                    analysis: widget.analysis,
+                                    currencyRepetition: r.number,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ))
-                    .toList(),
-              ),
-              _nextOrResume(),
-            ],
+                              );
+                            },
+                          ))
+                      .toList(),
+                ),
+                _nextOrResume(),
+              ],
+            ),
           ),
         ));
   }
@@ -779,6 +798,16 @@ class _TelaResumoState extends State<TelaResumo> {
             widget.analysis.repetitions.length,
           ));
 
+      if (widget.analysis.viability != media.viability ||
+          widget.analysis.vigor != media.vigor) {
+        widget.analysis = widget.analysis.copyWith(
+          viability: media.viability,
+          vigor: media.vigor,
+        );
+
+        _save(widget.analysis);
+      }
+
       return Column(
         children: [
           ResumoRepWidget(repetition: media),
@@ -797,10 +826,6 @@ class _TelaResumoState extends State<TelaResumo> {
       var nr = notStarteds.first.number;
       return ElevatedButton(
         onPressed: () {
-          //TODO: alterar o estado da repetição
-          //notStarteds.first.state = RepetitionState.started;
-          // _save(widget.analysis);
-
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -831,67 +856,70 @@ class ResumoRepWidget extends StatelessWidget {
     var sumari18 = repetition.resume.damageSumary18;
     var sumari68 = repetition.resume.damageSumary68;
 
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: onEditPressed == null
-                    ? const Text('Média')
-                    : Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Repetição ${repetition.number + 1}',
-                            style: FlutterFlowTheme.subtitle1.apply(
-                              fontFamily: 'Poppins',
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: onEditPressed == null
+                      ? const Text('Média')
+                      : Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Repetição ${repetition.number + 1}',
+                              style: FlutterFlowTheme.subtitle1.apply(
+                                fontFamily: 'Poppins',
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: onEditPressed,
-                            icon: const Icon(Icons.edit),
-                          ),
-                        ],
-                      ),
-              ),
-              PainelVisibilidade(
-                vigor: repetition.vigor,
-                viability: repetition.viability,
-              ),
-            ],
-          ),
+                            IconButton(
+                              onPressed: onEditPressed,
+                              icon: const Icon(Icons.edit),
+                            ),
+                          ],
+                        ),
+                ),
+                PainelVisibilidade(
+                  vigor: repetition.vigor,
+                  viability: repetition.viability,
+                ),
+              ],
+            ),
+            const PainelSeparator(),
+            PainelGridRow(
+              child1: Container(),
+              child2: const DisplayDano(type: 'engine'),
+              child3: const DisplayDano(type: 'drop'),
+              child4: const DisplayDano(type: 'bug'),
+              child5: const DisplayDano(type: 'diamont'),
+            ),
+            PainelGridRow(
+              child1: damageLegend('1-8'),
+              child2: damageText(sumari18[DamageType.engine] ?? 0),
+              child3: damageText(sumari18[DamageType.drop] ?? 0),
+              child4: damageText(sumari18[DamageType.bug] ?? 0),
+              child5: damageText(sumari18[DamageType.diamont] ?? 0),
+            ),
+            const PainelSeparator(),
+            PainelGridRow(
+              child1: damageLegend('6-8'),
+              child2: damageText(sumari68[DamageType.engine] ?? 0),
+              child3: damageText(sumari68[DamageType.drop] ?? 0),
+              child4: damageText(sumari68[DamageType.bug] ?? 0),
+              child5: damageText(sumari68[DamageType.diamont] ?? 0),
+            ),
+            Container(height: 8),
+          ],
         ),
-        const PainelSeparator(),
-        PainelGridRow(
-          child1: Container(),
-          child2: const DisplayDano(type: 'engine'),
-          child3: const DisplayDano(type: 'drop'),
-          child4: const DisplayDano(type: 'bug'),
-          child5: const DisplayDano(type: 'diamont'),
-        ),
-        PainelGridRow(
-          child1: damageLegend('1-8'),
-          child2: damageText(sumari18[DamageType.engine] ?? 0),
-          child3: damageText(sumari18[DamageType.drop] ?? 0),
-          child4: damageText(sumari18[DamageType.bug] ?? 0),
-          child5: damageText(sumari18[DamageType.diamont] ?? 0),
-        ),
-        const PainelSeparator(),
-        PainelGridRow(
-          child1: damageLegend('6-8'),
-          child2: damageText(sumari68[DamageType.engine] ?? 0),
-          child3: damageText(sumari68[DamageType.drop] ?? 0),
-          child4: damageText(sumari68[DamageType.bug] ?? 0),
-          child5: damageText(sumari68[DamageType.diamont] ?? 0),
-        ),
-      ],
+      ),
     );
   }
 

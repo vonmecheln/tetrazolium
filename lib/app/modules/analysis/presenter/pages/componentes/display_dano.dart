@@ -22,7 +22,7 @@ class DisplayDano extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          SvgPicture.asset("img/$type.svg"),
+          SvgPicture.asset("assets/img/$type.svg"),
           if (value != null)
             Text(
               '$value',

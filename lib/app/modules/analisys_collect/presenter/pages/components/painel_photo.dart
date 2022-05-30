@@ -8,17 +8,18 @@ class PainelPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: const Color(0xFFF2F2F2),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            children: const [
-              FotoWidget(color: Colors.red),
-              SizedBox(height: 10, width: 10),
-              FotoWidgetOld(color: Colors.blue),
-            ],
-          ),
-        ));
+      color: const Color(0xFFF2F2F2),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          children: const [
+            FotoWidget(color: Colors.red),
+            SizedBox(height: 10, width: 10),
+            FotoWidgetOld(color: Colors.blue),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -55,14 +56,16 @@ class _FotoWidgetState extends State<FotoWidget> {
         alignment: Alignment.center,
         width: double.infinity,
         child: AspectRatio(
-          aspectRatio: 3 / 3,
+          aspectRatio: 3 / 4,
           child: Container(
             color: Colors.green,
             child: Center(
-              child: ElevatedButton(
-                child: const Text('Select An Image'),
-                onPressed: _openImagePicker,
-              ),
+              child: _image != null
+                  ? Image.file(_image!, fit: BoxFit.cover)
+                  : ElevatedButton(
+                      child: const Text('Select An Image'),
+                      onPressed: _openImagePicker,
+                    ),
             ),
           ),
         ),
