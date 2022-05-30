@@ -21,7 +21,7 @@ class UpdateAnalysis extends IUpdateAnalysis {
       AnalysisEntity analysis) async {
     // assert(analysis.id != null);
 
-    if (analysis.local.trim().length == 0) {
+    if (analysis.local.trim().isEmpty) {
       return Left(
         InvalidAnalysis(
           message: "Local da análise deve ser informado.",

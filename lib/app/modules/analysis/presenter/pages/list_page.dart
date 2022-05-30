@@ -46,14 +46,14 @@ class _ListaPageState extends State<ListaPage> {
         automaticallyImplyLeading: true,
         actions: [
           IconButton(
-              icon: Icon(Icons.refresh),
+              icon: const Icon(Icons.refresh),
               onPressed: () {
                 store.reloadData();
               })
         ],
         centerTitle: false,
         elevation: 4,
-        title: Text("Análises"),
+        title: const Text("Análises"),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -61,9 +61,9 @@ class _ListaPageState extends State<ListaPage> {
         },
         backgroundColor: FlutterFlowTheme.primaryColor,
         elevation: 8,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
-      drawer: Drawer(elevation: 16),
+      drawer: const Drawer(elevation: 16),
       body: ScopedBuilder<ListStore, FailureAnalysis,
           Stream<List<AnalysisEntity>>>(
         store: store,
@@ -72,7 +72,7 @@ class _ListaPageState extends State<ListaPage> {
         onState: (_, state) {
           return StreamBuilder<List<AnalysisEntity>>(
             stream: state,
-            initialData: [],
+            initialData: const [],
             builder: (BuildContext context, snapshot) {
               if (!snapshot.hasData) {
                 return Container();
@@ -91,22 +91,22 @@ class _ListaPageState extends State<ListaPage> {
   }
 
   Widget _buildLoading(BuildContext context) {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator.adaptive(),
     );
   }
 
   Widget _buildError(FailureAnalysis error) {
     if (error is EmptyList) {
-      return Center(
+      return const Center(
         child: Text('Nada encontrado'),
       );
     } else if (error is ErrorList) {
-      return Center(
+      return const Center(
         child: Text('Erro no github'),
       );
     } else {
-      return Center(
+      return const Center(
         child: Text('Erro interno'),
       );
     }

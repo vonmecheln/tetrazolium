@@ -20,8 +20,8 @@ class _ExpandeCardIconState extends State<ExpandeCardIcon>
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 400),
-      reverseDuration: Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 400),
+      reverseDuration: const Duration(milliseconds: 400),
     );
   }
 
@@ -45,8 +45,6 @@ class _ExpandeCardIconState extends State<ExpandeCardIcon>
         setState(() {
           expanded ? controller.forward() : controller.reverse();
           expanded = !expanded;
-
-          print('IconButton pressed ... test');
         });
       },
       icon: aic,

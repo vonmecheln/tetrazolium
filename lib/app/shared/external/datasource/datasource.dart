@@ -6,16 +6,16 @@ abstract class Datasource<T extends Entity> extends Mapper<T> {
   late CollectionReference collection;
 
   Datasource(String _collection, this.firestore) {
-    collection = this.firestore.collection(_collection);
+    collection = firestore.collection(_collection);
   }
 
   Future<bool> addOrUpdate(T entity) async {
-    await collection.doc('${entity.id}').set(toMap(entity));
+    await collection.doc(entity.id).set(toMap(entity));
     return true;
   }
 
   Future<T> getByid(String id) async {
-    var result = await collection.doc('$id').get();
+    var result = await collection.doc(id).get();
     return fromMap(result.data() as Map);
   }
 
@@ -25,7 +25,7 @@ abstract class Datasource<T extends Entity> extends Mapper<T> {
   }
 
   Future<bool> removeById(String id) async {
-    await collection.doc('$id').delete();
+    await collection.doc(id).delete();
     return true;
   }
 

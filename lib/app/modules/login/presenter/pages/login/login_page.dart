@@ -26,9 +26,9 @@ class _LoginPageState extends State<LoginPage>
     controller = context.watch<LoginStore>();
 
     _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 2))
+        AnimationController(vsync: this, duration: const Duration(seconds: 2))
           ..addStatusListener((s) {
-            if (s == AnimationStatus.completed) print('go to home');
+            if (s == AnimationStatus.completed) debugPrint('go to home');
             // Navigator.of(context).pushReplacement(
             //     MaterialPageRoute(builder: (context) => HomeModule()));
           });
@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
@@ -63,20 +63,18 @@ class _LoginPageState extends State<LoginPage>
   _corpo() {
     return Padding(
       padding: const EdgeInsets.only(top: 97),
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            LogoWidget(),
-            SizedBox(
-              height: 102,
-            ),
-            FormContainer(controller: controller),
-            StaggerAnimation(controller: _animationController)
-          ],
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          const LogoWidget(),
+          const SizedBox(
+            height: 102,
+          ),
+          FormContainer(controller: controller),
+          StaggerAnimation(controller: _animationController)
+        ],
       ),
     );
   }
@@ -84,7 +82,7 @@ class _LoginPageState extends State<LoginPage>
   Widget build2(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: const Text("Login"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -94,28 +92,28 @@ class _LoginPageState extends State<LoginPage>
             children: [
               TextField(
                 onChanged: controller.setEmail,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Email",
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextField(
                 onChanged: controller.setPassword,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Password",
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               GestureDetector(
                 onTap: () {
                   Modular.to.pushNamed("/phone");
                 },
-                child: Align(
+                child: const Align(
                   alignment: Alignment.bottomRight,
                   child: Text(
                     "Phone Login",
@@ -125,13 +123,13 @@ class _LoginPageState extends State<LoginPage>
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Observer(builder: (_) {
                 return ElevatedButton(
                   onPressed: controller.isValid ? controller.enterEmail : null,
-                  child: Text("ENTER"),
+                  child: const Text("ENTER"),
                 );
               })
             ],

@@ -28,7 +28,7 @@ class RepetitionPageState extends State<RepetitionPage> {
   }
 
   Future _getColetas() async {
-    if (coletas.length > 0) return;
+    if (coletas.isNotEmpty) return;
 
     var collection = FirebaseFirestore.instance.collection(
         'analises/c36342b3-b981-471b-8554-142c3d82dd28/repeticao/1/coleta');
@@ -36,7 +36,7 @@ class RepetitionPageState extends State<RepetitionPage> {
 
     var docs = await collection.get();
 
-    docs.docs.forEach((e) {
+    for (var e in docs.docs) {
       // int id = int.tryParse(e.id) ?? 0;
       String id = e.id;
 
@@ -63,9 +63,7 @@ class RepetitionPageState extends State<RepetitionPage> {
           damageBug: e['damage']['bug'],
         ),
       );
-    });
-
-    print(coletas.length);
+    }
 
     for (var i = coletas.length; i < numRept; i++) {
       String id = (i + 1).toString().padLeft(3, '0');
@@ -82,11 +80,9 @@ class RepetitionPageState extends State<RepetitionPage> {
       );
     }
 
-    coletas.forEach((c) {
+    for (var c in coletas) {
       onChangeColeta(c);
-    });
-
-    print(coletas.length);
+    }
   }
 
   bool _finish = false;
@@ -99,8 +95,8 @@ class RepetitionPageState extends State<RepetitionPage> {
         backgroundColor: FlutterFlowTheme.primaryColor,
         elevation: 4,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
+          const Padding(
+            padding: EdgeInsets.only(right: 16),
             child: Center(
               child: Text("Repetição 1/2"),
             ),
@@ -111,7 +107,8 @@ class RepetitionPageState extends State<RepetitionPage> {
               child: ElevatedButton(
                 style: ButtonStyle(
                   // overlayColor: MaterialStateProperty.all<Color>(Colors.green),
-                  textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(
+                  textStyle:
+                      MaterialStateProperty.all<TextStyle>(const TextStyle(
                     color: Color.fromARGB(255, 195, 65, 9),
                     // backgroundColor: Colors.black,
                   )),
@@ -119,7 +116,7 @@ class RepetitionPageState extends State<RepetitionPage> {
                   //     MaterialStateProperty.all<Color>(Colors.white),
                 ),
                 onPressed: onFinishPressed,
-                child: Text('Finalizar'),
+                child: const Text('Finalizar'),
               ),
             ),
         ],
@@ -132,8 +129,8 @@ class RepetitionPageState extends State<RepetitionPage> {
                 PainelNumber(
                   onBackPressed: onBackPressed,
                   onForwardPressed: onForwardPressed,
-                  atual: this.atual,
-                  max: this.numRept,
+                  atual: atual,
+                  max: numRept,
                 ),
                 Expanded(
                   child: PageView(
@@ -143,12 +140,12 @@ class RepetitionPageState extends State<RepetitionPage> {
                         .toList(),
                   ),
                 ),
-                PainelSeparator(),
-                PainelLegend()
+                const PainelSeparator(),
+                const PainelLegend()
               ],
             );
           }),
-      drawer: Drawer(),
+      drawer: const Drawer(),
     );
   }
 
@@ -159,7 +156,7 @@ class RepetitionPageState extends State<RepetitionPage> {
     page -= 1;
 
     pg.animateToPage(page,
-        duration: Duration(milliseconds: 200), curve: Curves.bounceInOut);
+        duration: const Duration(milliseconds: 200), curve: Curves.bounceInOut);
 
     setState(() {
       atual = page + 1;
@@ -180,7 +177,7 @@ class RepetitionPageState extends State<RepetitionPage> {
     page += 1;
 
     pg.animateToPage(page,
-        duration: Duration(milliseconds: 200), curve: Curves.bounceInOut);
+        duration: const Duration(milliseconds: 200), curve: Curves.bounceInOut);
 
     setState(() {
       atual = page + 1;
@@ -189,10 +186,10 @@ class RepetitionPageState extends State<RepetitionPage> {
   }
 
   void onFinishPressed() {
-    print('onFinishPressed');
+    debugPrint('onFinishPressed');
   }
 
-  Map<String, RestartableTimer?> _timers = Map();
+  final Map<String, RestartableTimer?> _timers = {};
 
   void onChangeColeta(CollectEntity coleta) {
     RestartableTimer? _timer;
@@ -201,9 +198,7 @@ class RepetitionPageState extends State<RepetitionPage> {
     }
 
     if (_timer == null || !_timer.isActive) {
-      _timer = RestartableTimer(Duration(seconds: 2), () {
-        print(coleta.toMap());
-
+      _timer = RestartableTimer(const Duration(seconds: 2), () {
         var collection = FirebaseFirestore.instance.collection(
             'analises/c36342b3-b981-471b-8554-142c3d82dd28/repeticao/1/coleta');
         var doc = collection.doc(coleta.number);

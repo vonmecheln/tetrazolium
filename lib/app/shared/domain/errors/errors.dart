@@ -3,6 +3,7 @@ abstract class FailureAnalysis implements Exception {
 }
 
 class EmptyList extends FailureAnalysis {
+  @override
   final String message;
   EmptyList({required this.message});
   @override
@@ -12,6 +13,7 @@ class EmptyList extends FailureAnalysis {
 }
 
 class InvalidIdUser extends FailureAnalysis {
+  @override
   final String message;
   InvalidIdUser({required this.message});
   @override
@@ -21,6 +23,7 @@ class InvalidIdUser extends FailureAnalysis {
 }
 
 class ErrorList extends FailureAnalysis {
+  @override
   final String message;
   ErrorList({required this.message});
   @override
@@ -30,6 +33,7 @@ class ErrorList extends FailureAnalysis {
 }
 
 class DatasourceResultNull extends FailureAnalysis {
+  @override
   final String message;
   DatasourceResultNull({required this.message});
   @override
@@ -39,6 +43,7 @@ class DatasourceResultNull extends FailureAnalysis {
 }
 
 class InvalidAnalysis extends FailureAnalysis {
+  @override
   final String message;
   InvalidAnalysis({required this.message});
   @override
@@ -48,6 +53,7 @@ class InvalidAnalysis extends FailureAnalysis {
 }
 
 class DatasourceError extends FailureAnalysis {
+  @override
   final String message;
   DatasourceError({required this.message});
   @override

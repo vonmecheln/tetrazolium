@@ -20,13 +20,13 @@ abstract class _LoginStoreBase with Store {
   String email = "";
 
   @action
-  setEmail(String value) => this.email = value;
+  setEmail(String value) => email = value;
 
   @observable
   String password = "";
 
   @action
-  setPassword(String value) => this.password = value;
+  setPassword(String value) => password = value;
 
   @computed
   LoginCredential get credential => LoginCredential.withEmailAndPassword(

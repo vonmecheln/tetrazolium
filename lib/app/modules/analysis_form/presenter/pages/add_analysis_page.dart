@@ -19,7 +19,7 @@ class _AddAnalysisPageState extends State<AddAnalysisPage> {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.primaryColor,
           elevation: 4,
-          title: Text("Nova Análise"),
+          title: const Text("Nova Análise"),
         ),
         body: Container(
           color: Colors.white,
@@ -38,7 +38,7 @@ class _AddAnalysisPageState extends State<AddAnalysisPage> {
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextFormField(
                   onChanged: controller.setLocal,
                   decoration: InputDecoration(
@@ -49,7 +49,7 @@ class _AddAnalysisPageState extends State<AddAnalysisPage> {
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextFormField(
                   onChanged: controller.setNumberSeeds,
                   decoration: InputDecoration(
@@ -60,7 +60,7 @@ class _AddAnalysisPageState extends State<AddAnalysisPage> {
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextFormField(
                   onChanged: controller.setConcentration,
                   decoration: InputDecoration(
@@ -71,13 +71,13 @@ class _AddAnalysisPageState extends State<AddAnalysisPage> {
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 CustomLineDataPickerWidget(
                   context,
                   label: "Data da análise",
                   onChangeDate: controller.setInitDate,
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 Container(
                   height: 40,
                   width: double.infinity,
@@ -93,7 +93,7 @@ class _AddAnalysisPageState extends State<AddAnalysisPage> {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       "Salvar",
                       // style: TextStyle(color: Theme.of(context).primaryColorLight),
                     ),

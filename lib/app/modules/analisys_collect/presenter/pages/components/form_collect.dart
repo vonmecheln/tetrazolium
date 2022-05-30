@@ -25,21 +25,19 @@ class FormCollect extends StatefulWidget {
 class _FormCollectState extends State<FormCollect> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Expanded(child: PainelPhoto()),
-          PainelClassification(
-            this.widget.coleta.classification,
-            onChange: onChageClassification,
-          ),
-          PainelSeparator(),
-          PainelDamages(
-            onTap: onDamageChange,
-            damages: widget.coleta.damageMap(),
-          ),
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        const Expanded(child: PainelPhoto()),
+        PainelClassification(
+          widget.coleta.classification,
+          onChange: onChageClassification,
+        ),
+        const PainelSeparator(),
+        PainelDamages(
+          onTap: onDamageChange,
+          damages: widget.coleta.damageMap(),
+        ),
+      ],
     );
   }
 
@@ -67,15 +65,17 @@ class _FormCollectState extends State<FormCollect> {
       if (widget.coleta.damageBug > 2) {
         widget.coleta = widget.coleta.copyWith(damageBug: 0);
       } else if (widget.coleta.damageBug == 2) {
-        if (widget.coleta.damageEngine > 1)
+        if (widget.coleta.damageEngine > 1) {
           widget.coleta = widget.coleta.copyWith(
             damageEngine: widget.coleta.damageEngine - 1,
           );
+        }
 
-        if (widget.coleta.damageHumidity > 1)
+        if (widget.coleta.damageHumidity > 1) {
           widget.coleta = widget.coleta.copyWith(
             damageHumidity: widget.coleta.damageHumidity - 1,
           );
+        }
       }
     }
 
@@ -87,15 +87,17 @@ class _FormCollectState extends State<FormCollect> {
       if (widget.coleta.damageHumidity > 2) {
         widget.coleta = widget.coleta.copyWith(damageHumidity: 0);
       } else if (widget.coleta.damageHumidity == 2) {
-        if (widget.coleta.damageEngine > 1)
+        if (widget.coleta.damageEngine > 1) {
           widget.coleta = widget.coleta.copyWith(
             damageEngine: widget.coleta.damageEngine - 1,
           );
+        }
 
-        if (widget.coleta.damageBug > 1)
+        if (widget.coleta.damageBug > 1) {
           widget.coleta = widget.coleta.copyWith(
             damageBug: widget.coleta.damageBug - 1,
           );
+        }
       }
     }
 
@@ -106,15 +108,17 @@ class _FormCollectState extends State<FormCollect> {
       if (widget.coleta.damageEngine > 2) {
         widget.coleta = widget.coleta.copyWith(damageEngine: 0);
       } else if (widget.coleta.damageEngine == 2) {
-        if (widget.coleta.damageHumidity > 1)
+        if (widget.coleta.damageHumidity > 1) {
           widget.coleta = widget.coleta.copyWith(
             damageHumidity: widget.coleta.damageHumidity - 1,
           );
+        }
 
-        if (widget.coleta.damageBug > 1)
+        if (widget.coleta.damageBug > 1) {
           widget.coleta = widget.coleta.copyWith(
             damageBug: widget.coleta.damageBug - 1,
           );
+        }
       }
     }
 
@@ -132,6 +136,6 @@ class _FormCollectState extends State<FormCollect> {
   }
 
   void updateColeta() async {
-    if (this.widget.onChange != null) this.widget.onChange!(this.widget.coleta);
+    if (widget.onChange != null) widget.onChange!(widget.coleta);
   }
 }

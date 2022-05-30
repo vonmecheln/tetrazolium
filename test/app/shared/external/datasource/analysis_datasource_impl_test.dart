@@ -13,7 +13,7 @@ void main() {
   late FirebaseFirestore firestore;
   late int length;
   final date = DateTime.now();
-  final firstId = '123456789';
+  const firstId = '123456789';
 
   setUpAll((() async {
     firestore = FakeFirebaseFirestore();

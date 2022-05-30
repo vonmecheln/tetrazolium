@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 
 int _intInRange(Random source, int min, int max) =>
     source.nextInt(max - min) + min;
-final random = new Random();
+final random = Random();
 final analises = List.generate(
   10,
   (index) => Analise(
@@ -52,7 +52,7 @@ class Analise {
 }
 
 class HomePageWidget extends StatefulWidget {
-  HomePageWidget({Key? key}) : super(key: key);
+  const HomePageWidget({Key? key}) : super(key: key);
 
   @override
   _HomePageWidgetState createState() => _HomePageWidgetState();
@@ -68,7 +68,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       appBar: AppBar(
         backgroundColor: FlutterFlowTheme.primaryColor,
         automaticallyImplyLeading: true,
-        actions: [],
+        actions: const [],
         centerTitle: true,
         elevation: 4,
       ),
@@ -78,9 +78,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         },
         backgroundColor: FlutterFlowTheme.primaryColor,
         elevation: 8,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
-      drawer: Drawer(
+      drawer: const Drawer(
         elevation: 16,
       ),
       body: SafeArea(

@@ -5,7 +5,7 @@ class Validator {
       StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
     String emailValidationRule =
         r'^(([^()[\]\\.,;:\s@\"]+(\.[^()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = new RegExp(emailValidationRule);
+    RegExp regExp = RegExp(emailValidationRule);
 
     if (regExp.hasMatch(email)) {
       sink.add(email);
@@ -17,9 +17,8 @@ class Validator {
   final performPasswordValidation =
       StreamTransformer<String, String>.fromHandlers(
           handleData: (password, sink) {
-    String passwordValidationRule =
-        '((?=.*).{1,10})';
-    RegExp regExp = new RegExp(passwordValidationRule);
+    String passwordValidationRule = '((?=.*).{1,10})';
+    RegExp regExp = RegExp(passwordValidationRule);
 
     if (regExp.hasMatch(password)) {
       sink.add(password);

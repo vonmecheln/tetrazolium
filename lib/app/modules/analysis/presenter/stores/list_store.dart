@@ -12,10 +12,9 @@ class ListStore
     extends StreamStore<FailureAnalysis, Stream<List<AnalysisEntity>>> {
   final GetAnalysisRealtime _getAnalysisRealtime;
 
-  ListStore(this._getAnalysisRealtime) : super(Stream.empty());
+  ListStore(this._getAnalysisRealtime) : super(const Stream.empty());
 
   void reloadData() async {
-    print('2');
     // executeStream(await _getAnalysisRealtime());
     // executeEither(() => _getAnalysisRealtime());
 

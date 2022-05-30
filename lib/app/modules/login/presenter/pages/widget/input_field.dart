@@ -23,6 +23,7 @@ class InputField extends StatelessWidget {
     return Observer(
       builder: (_) {
         return Container(
+            alignment: null,
             //decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black, width: 0.5))),
             child: TextFormField(
                 onChanged: store.changeInputText,

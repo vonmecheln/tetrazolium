@@ -4,13 +4,14 @@ import 'package:tetrazolium/app/constants.dart';
 class StaggerAnimation extends StatelessWidget {
   final AnimationController controller;
 
-  StaggerAnimation({required this.controller})
-      : buttopnSqueeze = Tween(begin: 320.0, end: 60.0).animate(
-            CurvedAnimation(parent: controller, curve: Interval(0.0, 0.150))),
+  StaggerAnimation({Key? key, required this.controller})
+      : buttopnSqueeze = Tween(begin: 320.0, end: 60.0).animate(CurvedAnimation(
+            parent: controller, curve: const Interval(0.0, 0.150))),
         buttopnZoomOut = Tween(begin: 60.0, end: 1000.0).animate(
             CurvedAnimation(
                 parent: controller,
-                curve: Interval(0.5, 1.0, curve: Curves.fastOutSlowIn)));
+                curve: const Interval(0.5, 1.0, curve: Curves.fastOutSlowIn))),
+        super(key: key);
 
   final Animation<double> buttopnSqueeze;
   final Animation<double> buttopnZoomOut;
@@ -25,7 +26,7 @@ class StaggerAnimation extends StatelessWidget {
 
   Widget _buildAnimation(BuildContext context, Widget? child) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 50),
+      padding: const EdgeInsets.only(bottom: 50),
       child: InkWell(
         onTap: () {
           controller.forward();
@@ -37,7 +38,7 @@ class StaggerAnimation extends StatelessWidget {
                     width: buttopnSqueeze.value,
                     height: 60,
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         // color: Theme.of(context).buttonColor,
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     child: _buidInside(context),
@@ -63,10 +64,10 @@ class StaggerAnimation extends StatelessWidget {
         style: Theme.of(context)
             .primaryTextTheme
             .subtitle1
-            ?.copyWith(color: Color(COLOR_SECONDARY)),
+            ?.copyWith(color: const Color(COLOR_SECONDARY)),
       );
     } else {
-      return CircularProgressIndicator(
+      return const CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
         strokeWidth: 1.0,
       );

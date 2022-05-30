@@ -1,41 +1,41 @@
 import 'package:flutter/material.dart';
 
 class FlutterFlowTheme {
-  static Color primaryColor = Color(0xffc62828);
+  static Color primaryColor = const Color(0xffc62828);
 
-  static Color color2 = Color(0xFFD74745);
-  static Color color3 = Color(0xFF515151);
-  static Color color4 = Color(0xFFD3D3D3);
+  static Color color2 = const Color(0xFFD74745);
+  static Color color3 = const Color(0xFF515151);
+  static Color color4 = const Color(0xFFD3D3D3);
 
-  static TextStyle subtitle1 = TextStyle(
+  static TextStyle subtitle1 = const TextStyle(
     color: Color(0xFF3f3f3f),
     fontWeight: FontWeight.w500,
     fontSize: 18,
     fontFamily: 'Poppins',
   );
 
-  static TextStyle subtitle2 = TextStyle(
+  static TextStyle subtitle2 = const TextStyle(
     color: Color(0xFFa9ada4),
     fontWeight: FontWeight.w400,
     fontSize: 12,
     fontFamily: 'Roboto',
   );
 
-  static TextStyle title1 = TextStyle(
+  static TextStyle title1 = const TextStyle(
     color: Color(0xFF3f3f3f),
     fontWeight: FontWeight.w600,
     fontSize: 24,
     fontFamily: 'Roboto',
   );
 
-  static TextStyle bodyText1 = TextStyle(
+  static TextStyle bodyText1 = const TextStyle(
     color: Color(0xFF3f3f3f),
     fontWeight: FontWeight.w500,
     fontSize: 14,
     fontFamily: 'Roboto',
   );
 
-  static TextStyle numero = TextStyle(
+  static TextStyle numero = const TextStyle(
     color: Color(0xFFD3D3D3),
     fontWeight: FontWeight.w500,
     fontSize: 14,

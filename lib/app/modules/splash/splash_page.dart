@@ -15,7 +15,7 @@ class SplashPageState extends State<SplashPage> {
   final SplashStore store = Modular.get();
 
   var initializers = <Future>[
-    Future.delayed(Duration(seconds: 3)),
+    Future.delayed(const Duration(seconds: 3)),
   ];
 
   @override
@@ -37,7 +37,7 @@ class SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
@@ -47,7 +47,7 @@ class SplashPageState extends State<SplashPage> {
             ])),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: const <Widget>[
             LogoWidget(),
             SizedBox(
               height: 35,
@@ -55,9 +55,10 @@ class SplashPageState extends State<SplashPage> {
             Text(
               "Tetrazólio",
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 26,
-                  fontWeight: FontWeight.normal),
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.normal,
+              ),
             )
           ],
         ),

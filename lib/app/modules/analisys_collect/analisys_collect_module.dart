@@ -7,6 +7,6 @@ class AnalisysCollectModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/', child: (_, args) => RepetitionPage()),
+    ChildRoute('/', child: (_, args) => const RepetitionPage()),
   ];
 }

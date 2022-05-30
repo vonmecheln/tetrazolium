@@ -26,14 +26,14 @@ class _PainelNumberState extends State<PainelNumber> {
 
     return Container(
       height: 92,
-      color: Color(0xFFF2F2F2),
+      color: const Color(0xFFF2F2F2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           // Spacer(flex: 14),
           IconButton(
             onPressed: widget.onBackPressed,
-            icon: Icon(Icons.arrow_back_ios, color: Color(0xFFC4C4C4)),
+            icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFC4C4C4)),
           ),
 
           for (var i = widget.atual - n; i < widget.atual; i++)
@@ -44,12 +44,12 @@ class _PainelNumberState extends State<PainelNumber> {
             elevation: 1,
             // shadowColor: Colors.blue,
             borderRadius: BorderRadius.circular(50),
-            child: Container(
+            child: SizedBox(
               width: 44,
               height: 44,
               child: Center(
                 child: Text(widget.atual.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFFFFFFFF),
                       fontWeight: FontWeight.w500,
                       fontSize: 22,
@@ -64,7 +64,7 @@ class _PainelNumberState extends State<PainelNumber> {
 
           IconButton(
             onPressed: widget.onForwardPressed,
-            icon: Icon(Icons.arrow_forward_ios, color: Color(0xFFC4C4C4)),
+            icon: const Icon(Icons.arrow_forward_ios, color: Color(0xFFC4C4C4)),
           ),
         ],
       ),

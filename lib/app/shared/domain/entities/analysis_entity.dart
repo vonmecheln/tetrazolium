@@ -27,7 +27,7 @@ class AnalysisEntity extends Entity {
     required this.viability,
     required this.vigor,
     required this.repetitions,
-  }) : super(id ?? Uuid().v4());
+  }) : super(id ?? const Uuid().v4());
 
   factory AnalysisEntity.empty() => AnalysisEntity(
         date: DateTime.now(),

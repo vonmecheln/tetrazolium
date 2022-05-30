@@ -11,14 +11,14 @@ class PainelDanos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children: const [
             DisplayDano(type: "engine", value: 10),
             DisplayDano(type: "drop", value: 11),
             DisplayDano(type: "bug", value: 12),

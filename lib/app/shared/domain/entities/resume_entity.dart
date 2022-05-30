@@ -14,7 +14,7 @@ class ResumeEntity extends Entity {
     String? id,
     required this.damageSumary18,
     required this.damageSumary68,
-  }) : super(id ?? Uuid().v4());
+  }) : super(id ?? const Uuid().v4());
 
   factory ResumeEntity.empty() => ResumeEntity(
         damageSumary18: _makeZeroMap(),

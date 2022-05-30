@@ -16,8 +16,9 @@ class FirebaseDataSourceImpl implements ILoginDataSource {
   Future<UserModel> currentUser() async {
     var user = (auth.currentUser);
 
-    if (user == null)
+    if (user == null) {
       throw ErrorGetLoggedUser(message: "Usuário não presentex");
+    }
 
     return UserModel(
       name: user.displayName ?? "",

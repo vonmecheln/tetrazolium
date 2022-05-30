@@ -16,6 +16,6 @@ class AnalysisFormModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/new', child: (_, __) => AddAnalysisPage()),
+    ChildRoute('/new', child: (_, __) => const AddAnalysisPage()),
   ];
 }

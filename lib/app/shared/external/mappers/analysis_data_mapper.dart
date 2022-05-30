@@ -41,6 +41,7 @@ class AnalysisMapper {
 }
 
 mixin AnalysisMapperMixin implements Mapper<AnalysisEntity> {
+  @override
   AnalysisEntity fromMap(Map<dynamic, dynamic> json) => AnalysisEntity(
         id: json['id'] as String?,
         date: DateTime.parse(json['date'] as String),
@@ -59,6 +60,7 @@ mixin AnalysisMapperMixin implements Mapper<AnalysisEntity> {
                 .toList(),
       );
 
+  @override
   Map<String, dynamic> toMap(AnalysisEntity instance) => <String, dynamic>{
         'id': instance.id,
         'date': instance.date.toIso8601String(),

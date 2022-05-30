@@ -49,7 +49,6 @@ class AddAnalysisController {
         (right) => true,
       );
     } catch (e) {
-      print(e);
       asuka.showSnackBar(SnackBar(content: Text(e.toString())));
       return false;
     }

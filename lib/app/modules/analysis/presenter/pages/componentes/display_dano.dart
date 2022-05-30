@@ -17,7 +17,7 @@ class DisplayDano extends StatelessWidget {
     return Container(
       width: 40,
       height: 100 - (value == null ? 60 : 0),
-      decoration: BoxDecoration(),
+      decoration: const BoxDecoration(),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

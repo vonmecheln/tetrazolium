@@ -27,7 +27,7 @@ class RepetitionEntity extends Entity {
     required this.interpretations,
     required this.resultClassication,
     required this.resume,
-  }) : super(id ?? Uuid().v4());
+  }) : super(id ?? const Uuid().v4());
 
   factory RepetitionEntity.empty() => RepetitionEntity(
         state: RepetitionState.notStarted,

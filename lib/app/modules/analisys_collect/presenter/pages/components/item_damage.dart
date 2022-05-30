@@ -29,25 +29,26 @@ class ItemDamage extends StatelessWidget {
       // color: Colors.red,
       // width: 70,
       // height: 100,
+      alignment: Alignment.center,
       child: InkWell(
-        onTap: this.onTap,
+        onTap: onTap,
         child: Container(
           width: 70,
           height: 100,
-          decoration: BoxDecoration(),
+          decoration: const BoxDecoration(),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SvgPicture.asset(
                 "assets/img/$assetName.svg",
-                color: this.color,
+                color: color,
               ),
               Text(
-                '$text',
+                text,
                 style: FlutterFlowTheme.bodyText1.apply(
                   fontFamily: 'Roboto',
-                  color: this.color,
+                  color: color,
                 ),
               )
             ],

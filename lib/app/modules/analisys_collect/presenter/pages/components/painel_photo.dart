@@ -8,11 +8,11 @@ class PainelPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Color(0xFFF2F2F2),
+        color: const Color(0xFFF2F2F2),
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Row(
-            children: [
+            children: const [
               FotoWidget(color: Colors.red),
               SizedBox(height: 10, width: 10),
               FotoWidgetOld(color: Colors.blue),
@@ -51,7 +51,7 @@ class _FotoWidgetState extends State<FotoWidget> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        color: this.widget.color,
+        color: widget.color,
         alignment: Alignment.center,
         width: double.infinity,
         child: AspectRatio(
@@ -82,7 +82,7 @@ class FotoWidgetOld extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: Container(
-      color: this.color,
+      color: color,
     ));
   }
 }

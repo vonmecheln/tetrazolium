@@ -17,7 +17,7 @@ class InterpretationEntity extends Entity {
     required this.classification,
     required this.photos,
     required this.damages,
-  }) : super(id ?? Uuid().v4());
+  }) : super(id ?? const Uuid().v4());
 
   factory InterpretationEntity.empty() => InterpretationEntity(
         classification: 1,

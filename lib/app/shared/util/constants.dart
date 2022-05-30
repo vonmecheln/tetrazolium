@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 const COLOR_PRIMARY = 0xFFFFFFFF;
 const COLOR_PRIMARY_LIGHT = 0xFFFFFFFF;
 const COLOR_PRIMARY_DARK = 0xFFFFFFFF;

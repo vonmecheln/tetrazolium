@@ -6,11 +6,11 @@ abstract class Datasource2<T extends Entity> extends Mapper<T> {
   late CollectionReference collection;
 
   Datasource2(String _collection, this.firestore) {
-    collection = this.firestore.collection(_collection);
+    collection = firestore.collection(_collection);
   }
 
   Future<List<T>> getAll(String id) async {
-    collection = this.firestore.collection(id);
+    collection = firestore.collection(id);
     var result = await collection.get();
     return result.docs.map((e) => fromMap(e.data() as Map)).toList();
   }

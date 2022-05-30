@@ -28,9 +28,9 @@ class _PainelClassificationState extends State<PainelClassification> {
   Widget build(BuildContext context) {
     return Container(
         height: 80,
-        color: Color(0xFFF2F2F2),
+        color: const Color(0xFFF2F2F2),
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Slider(
             activeColor: FlutterFlowTheme.primaryColor,
             inactiveColor: FlutterFlowTheme.primaryColor.withAlpha(100),

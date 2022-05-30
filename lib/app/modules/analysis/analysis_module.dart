@@ -18,7 +18,7 @@ class AnalysisModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute(Modular.initialRoute, child: (_, __) => ListaPage()),
+    ChildRoute(Modular.initialRoute, child: (_, __) => const ListaPage()),
     ChildRoute('/details',
         child: (_, args) => DetailsPage(analysis: args.data)),
   ];

@@ -10,9 +10,9 @@ class PainelLegend extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 55,
-      color: Color(0xFFF2F2F2),
+      color: const Color(0xFFF2F2F2),
       child: Row(
-        children: [
+        children: const [
           Spacer(flex: 70),
           ItemLegend(color: Color(0xFFD74745), text: "Dano mais aparente"),
           Spacer(flex: 35),

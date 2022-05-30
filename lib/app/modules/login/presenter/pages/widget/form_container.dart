@@ -29,22 +29,22 @@ class FormContainer extends StatelessWidget {
               "Acesse sua conta",
               style: Theme.of(context).textTheme.headline1,
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             emailField(controller.inputStoreEmail),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             passwordField(controller.inputStorePass),
-            Container(
+            SizedBox(
                 width: double.infinity,
                 child: Text(
                   "Esqueceu sua senha?",
                   style: Theme.of(context).textTheme.subtitle1,
                   textAlign: TextAlign.right,
                 )),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
           ],

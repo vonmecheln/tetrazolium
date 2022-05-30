@@ -26,11 +26,11 @@ class PainelVisibilidade extends StatelessWidget {
           style: FlutterFlowTheme.title1.apply(fontFamily: 'Roboto'),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
+          padding: const EdgeInsets.fromLTRB(14, 0, 14, 0),
           child: Container(
             width: 1,
             height: 19,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xFFD8D8D8),
             ),
           ),

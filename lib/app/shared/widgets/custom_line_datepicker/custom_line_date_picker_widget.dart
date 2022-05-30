@@ -36,7 +36,7 @@ class _CustomLineDataPickerWidgetState
   @override
   Widget build(BuildContext _) {
     return ListTile(
-      contentPadding: EdgeInsets.all(0),
+      contentPadding: const EdgeInsets.all(0),
       title: RxBuilder(
         builder: (_) => Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -53,10 +53,10 @@ class _CustomLineDataPickerWidgetState
             Row(
               children: [
                 Expanded(child: Text(controller.seletedDate.value)),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Icon(Icons.calendar_today),
+                const Icon(Icons.calendar_today),
               ],
             ),
           ],

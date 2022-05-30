@@ -17,6 +17,7 @@ class GetAnalysisRealtime implements IGetAnalysisRealtime {
 
   GetAnalysisRealtime(this._analysisRepository);
 
+  @override
   Future<Either<FailureAnalysis, Stream<List<AnalysisEntity>>>> call() async {
     return await _analysisRepository.getAnalysisRealtime();
   }
@@ -25,9 +26,8 @@ class GetAnalysisRealtime implements IGetAnalysisRealtime {
 class GetAnalysisRealtimeFake implements IGetAnalysisRealtime {
   GetAnalysisRealtimeFake();
 
+  @override
   Future<Either<FailureAnalysis, Stream<List<AnalysisEntity>>>> call() async {
-    print('1');
-
     final model = AnalysisEntity(
       date: DateTime.now(),
       sample: 'sample',
@@ -39,7 +39,7 @@ class GetAnalysisRealtimeFake implements IGetAnalysisRealtime {
       repetitions: [],
     );
 
-    return Future.delayed(Duration(seconds: 3)).then(
+    return Future.delayed(const Duration(seconds: 3)).then(
       (_) => right(
         Stream.value(
           <AnalysisEntity>[

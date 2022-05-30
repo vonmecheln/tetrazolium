@@ -25,7 +25,7 @@ class PainelDamages extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> itens = [];
 
-    if (damages != null)
+    if (damages != null) {
       damages?.forEach((type, value) {
         itens.add(
           ItemDamage(
@@ -35,10 +35,11 @@ class PainelDamages extends StatelessWidget {
           ),
         );
       });
+    }
 
     return Container(
       height: 98,
-      color: Color(0xFFF2F2F2),
+      color: const Color(0xFFF2F2F2),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,

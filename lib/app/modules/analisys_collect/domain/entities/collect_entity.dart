@@ -18,7 +18,7 @@ class CollectEntity extends Entity {
     required this.damageHumidity,
     required this.damageBug,
     required this.hard,
-  }) : super(id ?? Uuid().v4());
+  }) : super(id ?? const Uuid().v4());
 
   CollectEntity copyWith({
     String? id,
