@@ -61,6 +61,6 @@ class _$DamageEntityCWProxyImpl implements _$DamageEntityCWProxy {
 }
 
 extension $DamageEntityCopyWith on DamageEntity {
-  /// Returns a callable class that can be used as follows: `instanceOfclass DamageEntity.name.copyWith(...)` or like so:`instanceOfclass DamageEntity.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfDamageEntity.copyWith(...)` or like so:`instanceOfDamageEntity.copyWith.fieldName(...)`.
   _$DamageEntityCWProxy get copyWith => _$DamageEntityCWProxyImpl(this);
 }

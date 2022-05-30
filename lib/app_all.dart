@@ -700,38 +700,39 @@ class _TelaResumoState extends State<TelaResumo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Resumo - ${widget.analysis.local}'),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-            child: Column(
-              children: [
-                Column(
-                  children: widget.analysis.repetitions
-                      .where((r) => r.state == RepetitionState.finish)
-                      .map((r) => ResumoRepWidget(
-                            repetition: r,
-                            onEditPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TelaRepetitionPage(
-                                    analysis: widget.analysis,
-                                    currencyRepetition: r.number,
-                                  ),
+      appBar: AppBar(
+        title: Text('Resumo - ${widget.analysis.local}'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+          child: Column(
+            children: [
+              Column(
+                children: widget.analysis.repetitions
+                    .where((r) => r.state == RepetitionState.finish)
+                    .map((r) => ResumoRepWidget(
+                          repetition: r,
+                          onEditPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TelaRepetitionPage(
+                                  analysis: widget.analysis,
+                                  currencyRepetition: r.number,
                                 ),
-                              );
-                            },
-                          ))
-                      .toList(),
-                ),
-                _nextOrResume(),
-              ],
-            ),
+                              ),
+                            );
+                          },
+                        ))
+                    .toList(),
+              ),
+              _nextOrResume(),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _nextOrResume() {
@@ -958,26 +959,11 @@ class PainelGridRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-            flex: 1,
-            child: Center(
-                child: child1 ?? Container(color: Colors.amber, height: 50))),
-        Expanded(
-            flex: 2,
-            child: Center(
-                child: child2 ?? Container(color: Colors.blue, height: 50))),
-        Expanded(
-            flex: 2,
-            child: Center(
-                child: child3 ?? Container(color: Colors.cyan, height: 50))),
-        Expanded(
-            flex: 2,
-            child: Center(
-                child: child4 ?? Container(color: Colors.green, height: 50))),
-        Expanded(
-            flex: 2,
-            child: Center(
-                child: child5 ?? Container(color: Colors.indigo, height: 50))),
+        Expanded(flex: 1, child: Center(child: child1)),
+        Expanded(flex: 2, child: Center(child: child2)),
+        Expanded(flex: 2, child: Center(child: child3)),
+        Expanded(flex: 2, child: Center(child: child4)),
+        Expanded(flex: 2, child: Center(child: child5)),
       ],
     );
   }

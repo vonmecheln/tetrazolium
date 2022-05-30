@@ -12,7 +12,7 @@ void main() {
     });
 
     test('deve converte PhotoEntity to Map', () {
-      final photo = PhotoEntity(name: 'name');
+      final photo = PhotoEntity(name: 'name', type: PhotoType.external);
       final map = PhotoMapper.toMap(photo);
 
       expect(map['name'], 'name');

@@ -76,6 +76,6 @@ class _$ResumeEntityCWProxyImpl implements _$ResumeEntityCWProxy {
 }
 
 extension $ResumeEntityCopyWith on ResumeEntity {
-  /// Returns a callable class that can be used as follows: `instanceOfclass ResumeEntity extends Entity.name.copyWith(...)` or like so:`instanceOfclass ResumeEntity extends Entity.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfResumeEntity.copyWith(...)` or like so:`instanceOfResumeEntity.copyWith.fieldName(...)`.
   _$ResumeEntityCWProxy get copyWith => _$ResumeEntityCWProxyImpl(this);
 }

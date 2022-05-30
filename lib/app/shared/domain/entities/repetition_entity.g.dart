@@ -132,6 +132,6 @@ class _$RepetitionEntityCWProxyImpl implements _$RepetitionEntityCWProxy {
 }
 
 extension $RepetitionEntityCopyWith on RepetitionEntity {
-  /// Returns a callable class that can be used as follows: `instanceOfclass RepetitionEntity extends Entity.name.copyWith(...)` or like so:`instanceOfclass RepetitionEntity extends Entity.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfRepetitionEntity.copyWith(...)` or like so:`instanceOfRepetitionEntity.copyWith.fieldName(...)`.
   _$RepetitionEntityCWProxy get copyWith => _$RepetitionEntityCWProxyImpl(this);
 }

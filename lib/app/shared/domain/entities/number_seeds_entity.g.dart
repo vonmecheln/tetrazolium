@@ -63,7 +63,7 @@ class _$NumberSeedsEntityCWProxyImpl implements _$NumberSeedsEntityCWProxy {
 }
 
 extension $NumberSeedsEntityCopyWith on NumberSeedsEntity {
-  /// Returns a callable class that can be used as follows: `instanceOfclass NumberSeedsEntity.name.copyWith(...)` or like so:`instanceOfclass NumberSeedsEntity.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfNumberSeedsEntity.copyWith(...)` or like so:`instanceOfNumberSeedsEntity.copyWith.fieldName(...)`.
   _$NumberSeedsEntityCWProxy get copyWith =>
       _$NumberSeedsEntityCWProxyImpl(this);
 }

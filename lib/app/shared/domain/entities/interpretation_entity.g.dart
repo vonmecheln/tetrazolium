@@ -87,7 +87,7 @@ class _$InterpretationEntityCWProxyImpl
 }
 
 extension $InterpretationEntityCopyWith on InterpretationEntity {
-  /// Returns a callable class that can be used as follows: `instanceOfclass InterpretationEntity extends Entity.name.copyWith(...)` or like so:`instanceOfclass InterpretationEntity extends Entity.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfInterpretationEntity.copyWith(...)` or like so:`instanceOfInterpretationEntity.copyWith.fieldName(...)`.
   _$InterpretationEntityCWProxy get copyWith =>
       _$InterpretationEntityCWProxyImpl(this);
 }

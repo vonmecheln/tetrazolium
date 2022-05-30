@@ -60,6 +60,8 @@ dependencies:
   string_validator: 
   equatable: 
   firebase_auth: 
+  firebase_storage:
+  
   # connectivity: 
 
   fake_cloud_firestore: 

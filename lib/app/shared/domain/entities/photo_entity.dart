@@ -6,8 +6,15 @@ part 'photo_entity.g.dart';
 // @JsonSerializable()
 class PhotoEntity {
   final String name;
+  final PhotoType type;
 
   PhotoEntity({
     required this.name,
+    required this.type,
   });
+}
+
+enum PhotoType {
+  external,
+  internal,
 }

@@ -144,6 +144,6 @@ class _$AnalysisEntityCWProxyImpl implements _$AnalysisEntityCWProxy {
 }
 
 extension $AnalysisEntityCopyWith on AnalysisEntity {
-  /// Returns a callable class that can be used as follows: `instanceOfclass AnalysisEntity extends Entity.name.copyWith(...)` or like so:`instanceOfclass AnalysisEntity extends Entity.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfAnalysisEntity.copyWith(...)` or like so:`instanceOfAnalysisEntity.copyWith.fieldName(...)`.
   _$AnalysisEntityCWProxy get copyWith => _$AnalysisEntityCWProxyImpl(this);
 }

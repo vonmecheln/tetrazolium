@@ -9,6 +9,8 @@ part of 'photo_entity.dart';
 abstract class _$PhotoEntityCWProxy {
   PhotoEntity name(String name);
 
+  PhotoEntity type(PhotoType type);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `PhotoEntity(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -17,6 +19,7 @@ abstract class _$PhotoEntityCWProxy {
   /// ````
   PhotoEntity call({
     String? name,
+    PhotoType? type,
   });
 }
 
@@ -30,6 +33,9 @@ class _$PhotoEntityCWProxyImpl implements _$PhotoEntityCWProxy {
   PhotoEntity name(String name) => this(name: name);
 
   @override
+  PhotoEntity type(PhotoType type) => this(type: type);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `PhotoEntity(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -39,17 +45,22 @@ class _$PhotoEntityCWProxyImpl implements _$PhotoEntityCWProxy {
   /// ````
   PhotoEntity call({
     Object? name = const $CopyWithPlaceholder(),
+    Object? type = const $CopyWithPlaceholder(),
   }) {
     return PhotoEntity(
       name: name == const $CopyWithPlaceholder() || name == null
           ? _value.name
           // ignore: cast_nullable_to_non_nullable
           : name as String,
+      type: type == const $CopyWithPlaceholder() || type == null
+          ? _value.type
+          // ignore: cast_nullable_to_non_nullable
+          : type as PhotoType,
     );
   }
 }
 
 extension $PhotoEntityCopyWith on PhotoEntity {
-  /// Returns a callable class that can be used as follows: `instanceOfclass PhotoEntity.name.copyWith(...)` or like so:`instanceOfclass PhotoEntity.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfPhotoEntity.copyWith(...)` or like so:`instanceOfPhotoEntity.copyWith.fieldName(...)`.
   _$PhotoEntityCWProxy get copyWith => _$PhotoEntityCWProxyImpl(this);
 }

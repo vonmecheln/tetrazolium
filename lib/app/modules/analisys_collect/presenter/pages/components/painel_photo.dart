@@ -1,6 +1,8 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 
 class PainelPhoto extends StatelessWidget {
   const PainelPhoto({Key? key}) : super(key: key);
@@ -12,10 +14,18 @@ class PainelPhoto extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(
-          children: const [
-            FotoWidget(color: Colors.red),
+          children: [
+            FotoWidget(
+              color: FlutterFlowTheme.primaryColor,
+              nome: 'Externa',
+              onSave: (_) {},
+            ),
             SizedBox(height: 10, width: 10),
-            FotoWidgetOld(color: Colors.blue),
+            FotoWidget(
+              color: FlutterFlowTheme.primaryColor,
+              nome: 'Interna',
+              onSave: (_) {},
+            ),
           ],
         ),
       ),
@@ -25,9 +35,14 @@ class PainelPhoto extends StatelessWidget {
 
 class FotoWidget extends StatefulWidget {
   final Color color;
+  final String nome;
+  final Function(String url) onSave;
+
   const FotoWidget({
     Key? key,
     required this.color,
+    required this.nome,
+    required this.onSave,
   }) : super(key: key);
 
   @override
@@ -42,9 +57,24 @@ class _FotoWidgetState extends State<FotoWidget> {
     final XFile? pickedImage =
         await _picker.pickImage(source: ImageSource.camera);
     if (pickedImage != null) {
-      setState(() {
-        _image = File(pickedImage.path);
-      });
+      // setState(() {
+      //   _image = File(pickedImage.path);
+      // });
+
+      _image = File(pickedImage.path);
+
+      if (_image != null) {
+        var task = FirebaseStorage.instance
+            .ref()
+            .child(DateTime.now().millisecondsSinceEpoch.toString())
+            .putFile(_image ?? File(pickedImage.path));
+
+        task.whenComplete(() async {
+          var url = await task.snapshot.ref.getDownloadURL();
+          widget.onSave(url);
+          setState(() {});
+        });
+      }
     }
   }
 
@@ -58,12 +88,12 @@ class _FotoWidgetState extends State<FotoWidget> {
         child: AspectRatio(
           aspectRatio: 3 / 4,
           child: Container(
-            color: Colors.green,
+            color: widget.color,
             child: Center(
               child: _image != null
                   ? Image.file(_image!, fit: BoxFit.cover)
                   : ElevatedButton(
-                      child: const Text('Select An Image'),
+                      child: Text(widget.nome),
                       onPressed: _openImagePicker,
                     ),
             ),
