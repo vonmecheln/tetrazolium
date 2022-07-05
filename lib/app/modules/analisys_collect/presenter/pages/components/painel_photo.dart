@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
+import 'package:tetrazolium/app/shared/domain/entities/photo_entity.dart';
 
 class PainelPhoto extends StatelessWidget {
-  const PainelPhoto({Key? key}) : super(key: key);
+  final void Function(PhotoEntity photo)? onChange;
+
+  const PainelPhoto({
+    Key? key,
+    this.onChange,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +24,23 @@ class PainelPhoto extends StatelessWidget {
             FotoWidget(
               color: FlutterFlowTheme.primaryColor,
               nome: 'Externa',
-              onSave: (_) {},
+              onSave: (url) => onChangePhoto(url, PhotoType.external),
             ),
             SizedBox(height: 10, width: 10),
             FotoWidget(
               color: FlutterFlowTheme.primaryColor,
               nome: 'Interna',
-              onSave: (_) {},
+              onSave: (url) => onChangePhoto(url, PhotoType.internal),
             ),
           ],
         ),
       ),
     );
+  }
+
+  onChangePhoto(String url, PhotoType type) {
+    final photo = PhotoEntity(name: url, type: type);
+    if (onChange != null) onChange!(photo);
   }
 }
 

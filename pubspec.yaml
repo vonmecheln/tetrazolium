@@ -136,7 +136,7 @@ scripts:
   mobb: $get & $runner build --delete-conflicting-outputs
   mobd: $get & $runner build
   mobw: $get & $runner watch
-  build_apk: $get & flutter build apk -t lib/main_production.dart --release
+  build_apk: $get & flutter build apk -t lib/main.dart --release
   build_apk_qa: $get & flutter build apk --flavor qa -t lib/main_qa.dart --release
   build_apk_prod: $get & flutter build apk --flavor prod -t  ib/main_production.dart --release
   build_ios: $get & flutter build ios -t lib/main_production.dart --flavor prod --release

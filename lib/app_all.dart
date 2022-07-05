@@ -17,6 +17,7 @@ import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/damage_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/interpretation_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/photo_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/resume_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
@@ -79,7 +80,9 @@ class AppWidgetMain extends StatelessWidget {
       home: const TelaListaAnalise(),
       // home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
       theme: ThemeData(
-        primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
+        // primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: FlutterFlowTheme.primaryColor),
       ),
     );
   }
@@ -95,6 +98,7 @@ class TelaListaAnalise extends StatefulWidget {
 class _TelaListaAnaliseState extends State<TelaListaAnalise> {
   @override
   Widget build(BuildContext context) {
+    print("teste");
     return Scaffold(
       appBar: AppBar(
         title: const Text("Análises"),
@@ -110,6 +114,7 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
             // .where('users.' + _auth.currentUser.uid, isEqualTo: true)
             .snapshots(),
         builder: (context, snapshot) {
+          print(snapshot.connectionState);
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
@@ -609,7 +614,10 @@ class _FormInterpretationState extends State<FormInterpretation> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        const Expanded(child: PainelPhoto()),
+        Expanded(
+            child: PainelPhoto(
+          onChange: onPhotoChange,
+        )),
         PainelClassification(
           widget.interpretation.classification,
           onChange: onChageClassification,
@@ -660,6 +668,12 @@ class _FormInterpretationState extends State<FormInterpretation> {
     widget.interpretation = widget.interpretation.copyWith(
       classification: value,
     );
+
+    updateColeta();
+  }
+
+  void onPhotoChange(PhotoEntity photo) {
+    widget.interpretation.photos.add(photo);
 
     updateColeta();
   }
