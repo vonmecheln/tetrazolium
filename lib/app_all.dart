@@ -24,10 +24,16 @@ import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 import 'package:tetrazolium/app/shared/widgets/custom_line_datepicker/custom_line_date_picker_widget.dart';
 
+List<String> usersList = [];
+
 class AppWidgetMain extends StatelessWidget {
   final AnalysisEntity? analise;
+  final List<String> users;
 
-  AppWidgetMain({this.analise});
+  AppWidgetMain({
+    this.analise,
+    required this.users,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,15 +80,16 @@ class AppWidgetMain extends StatelessWidget {
 
     // analise = _seedAnalise(analise);
 
+    usersList = users;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tetrazólio Digital',
       home: const TelaListaAnalise(),
       // home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
       theme: ThemeData(
-        // primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: FlutterFlowTheme.primaryColor),
+        primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
+        // colorScheme: ColorScheme.fromSeed(seedColor: FlutterFlowTheme.primaryColor),
       ),
     );
   }
@@ -96,12 +103,75 @@ class TelaListaAnalise extends StatefulWidget {
 }
 
 class _TelaListaAnaliseState extends State<TelaListaAnalise> {
+  String dropdownValue = '';
+
+  @override
+  void initState() {
+    super.initState();
+    dropdownValue = usersList.first;
+  }
+
   @override
   Widget build(BuildContext context) {
-    print("teste");
     return Scaffold(
       appBar: AppBar(
         title: const Text("Análises"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButton<String>(
+              value: dropdownValue,
+              icon: const Icon(
+                Icons.account_circle_rounded,
+                color: Colors.white,
+              ),
+              // elevation: 16,
+              style: const TextStyle(color: Colors.deepOrangeAccent),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+              items: usersList.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -111,10 +181,11 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection(ANALYSIS)
+            .where("u", isEqualTo: dropdownValue)
             // .where('users.' + _auth.currentUser.uid, isEqualTo: true)
             .snapshots(),
         builder: (context, snapshot) {
-          print(snapshot.connectionState);
+          // print(snapshot.connectionState);
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
@@ -155,8 +226,11 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
   }
 
   void _showDetailsPage({AnalysisEntity? analysis}) {
-    final AnalysisEntity analysisEntity =
-        analysis == null ? AnalysisEntity.empty() : analysis.copyWith();
+    final AnalysisEntity analysisEntity = analysis == null
+        ? AnalysisEntity.empty()
+        : analysis.copyWith(
+            u: dropdownValue,
+          );
 
     Navigator.push(
       context,
@@ -195,6 +269,8 @@ class AddAnalysisFormPage extends StatefulWidget {
 class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
   @override
   Widget build(BuildContext context) {
+    print(widget.analysis.u);
+
     return Scaffold(
       appBar: AppBar(title: const Text("Formulário de Análise")),
       floatingActionButton: Column(
@@ -382,7 +458,10 @@ class TelaRepetitionPage extends StatefulWidget {
 }
 
 class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
-  PageController pg = PageController(initialPage: 0);
+  PageController pg = PageController(
+    initialPage: 0,
+    viewportFraction: 0.9,
+  );
 
   bool _finish = false;
   int _atualInterpretation = 1;
@@ -615,9 +694,11 @@ class _FormInterpretationState extends State<FormInterpretation> {
     return Column(
       children: <Widget>[
         Expanded(
-            child: PainelPhoto(
-          onChange: onPhotoChange,
-        )),
+          child: PainelPhoto(
+            photos: widget.interpretation.photos,
+            onChange: onPhotoChange,
+          ),
+        ),
         PainelClassification(
           widget.interpretation.classification,
           onChange: onChageClassification,

@@ -64,6 +64,7 @@ void main() {
       viability: 0,
       vigor: 0,
       repetitions: [],
+      u: 'user1',
     );
 
     await datasource.addOrUpdate(entity);
@@ -92,6 +93,7 @@ void main() {
       viability: 0,
       vigor: 0,
       repetitions: [],
+      u: 'user1',
     );
 
     await datasource.addOrUpdate(entity);

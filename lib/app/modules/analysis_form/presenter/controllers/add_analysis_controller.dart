@@ -38,6 +38,7 @@ class AddAnalysisController {
           viability: 0,
           vigor: 0,
           repetitions: [],
+          u: '',
         ),
       );
 

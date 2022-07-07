@@ -73,6 +73,7 @@ void main() {
         viability: 80,
         vigor: 80,
         repetitions: [],
+        u: 'user1',
       );
 
       final map = mapper.toMap(analysis);

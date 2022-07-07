@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -6,11 +7,13 @@ import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 import 'package:tetrazolium/app/shared/domain/entities/photo_entity.dart';
 
 class PainelPhoto extends StatelessWidget {
+  final List<PhotoEntity> photos;
   final void Function(PhotoEntity photo)? onChange;
 
   const PainelPhoto({
     Key? key,
     this.onChange,
+    required this.photos,
   }) : super(key: key);
 
   @override
@@ -25,12 +28,22 @@ class PainelPhoto extends StatelessWidget {
               color: FlutterFlowTheme.primaryColor,
               nome: 'Externa',
               onSave: (url) => onChangePhoto(url, PhotoType.external),
+              photos: photos
+                  .where(
+                    (p) => p.type == PhotoType.external,
+                  )
+                  .toList(),
             ),
             SizedBox(height: 10, width: 10),
             FotoWidget(
               color: FlutterFlowTheme.primaryColor,
               nome: 'Interna',
               onSave: (url) => onChangePhoto(url, PhotoType.internal),
+              photos: photos
+                  .where(
+                    (p) => p.type == PhotoType.internal,
+                  )
+                  .toList(),
             ),
           ],
         ),
@@ -47,6 +60,7 @@ class PainelPhoto extends StatelessWidget {
 class FotoWidget extends StatefulWidget {
   final Color color;
   final String nome;
+  final List<PhotoEntity> photos;
   final Function(String url) onSave;
 
   const FotoWidget({
@@ -54,6 +68,7 @@ class FotoWidget extends StatefulWidget {
     required this.color,
     required this.nome,
     required this.onSave,
+    required this.photos,
   }) : super(key: key);
 
   @override
@@ -91,42 +106,40 @@ class _FotoWidgetState extends State<FotoWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Widget? img = widget.photos.isEmpty
+        ? null
+        : CachedNetworkImage(
+            imageUrl: widget.photos.first.name,
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                CircularProgressIndicator(value: downloadProgress.progress),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          );
+
     return Expanded(
-      child: Container(
-        color: widget.color,
-        alignment: Alignment.center,
-        width: double.infinity,
-        child: AspectRatio(
-          aspectRatio: 3 / 4,
-          child: Container(
-            color: widget.color,
-            child: Center(
-              child: _image != null
-                  ? Image.file(_image!, fit: BoxFit.cover)
-                  : ElevatedButton(
-                      child: Text(widget.nome),
-                      onPressed: _openImagePicker,
-                    ),
+      child: InkWell(
+        child: Container(
+          color: widget.color,
+          alignment: Alignment.center,
+          width: double.infinity,
+          child: AspectRatio(
+            aspectRatio: 3 / 4,
+            child: Container(
+              color: widget.color,
+              child: Center(
+                child: _image != null
+                    ? Image.file(_image!, fit: BoxFit.cover)
+                    : img != null
+                        ? img
+                        : ElevatedButton(
+                            child: Text(widget.nome),
+                            onPressed: _openImagePicker,
+                          ),
+              ),
             ),
           ),
         ),
+        onTap: _openImagePicker,
       ),
     );
-  }
-}
-
-class FotoWidgetOld extends StatelessWidget {
-  final Color color;
-  const FotoWidgetOld({
-    Key? key,
-    required this.color,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-        child: Container(
-      color: color,
-    ));
   }
 }

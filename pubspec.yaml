@@ -70,6 +70,7 @@ dependencies:
   # material_color_utilities
   image_picker:
   image_picker_for_web:
+  cached_network_image:
   
 
 dev_dependencies:

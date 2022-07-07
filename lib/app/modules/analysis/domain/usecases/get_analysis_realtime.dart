@@ -37,6 +37,7 @@ class GetAnalysisRealtimeFake implements IGetAnalysisRealtime {
       viability: 80,
       vigor: 90,
       repetitions: [],
+      u: '',
     );
 
     return Future.delayed(const Duration(seconds: 3)).then(

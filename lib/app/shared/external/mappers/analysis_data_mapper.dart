@@ -23,6 +23,7 @@ class AnalysisMapper {
             : (json['repetitions'] as List)
                 .map((e) => RepetitionMapper.fromMap(e))
                 .toList(),
+        u: json['u'] == null ? '' : json['u'] as String,
       );
 
   static Map<String, dynamic> toMap(AnalysisEntity instance) =>
@@ -37,6 +38,7 @@ class AnalysisMapper {
         'vigor': instance.vigor,
         'repetitions':
             instance.repetitions.map((e) => RepetitionMapper.toMap(e)).toList(),
+        'u': instance.u,
       };
 }
 
@@ -58,6 +60,7 @@ mixin AnalysisMapperMixin implements Mapper<AnalysisEntity> {
             : (json['repetitions'] as List)
                 .map((e) => RepetitionMapper.fromMap(e))
                 .toList(),
+        u: json['u'] == null ? '' : json['u'] as String,
       );
 
   @override
@@ -72,5 +75,6 @@ mixin AnalysisMapperMixin implements Mapper<AnalysisEntity> {
         'vigor': instance.vigor,
         'repetitions':
             instance.repetitions.map((e) => RepetitionMapper.toMap(e)).toList(),
+        'u': instance.u,
       };
 }

@@ -21,6 +21,8 @@ abstract class _$AnalysisEntityCWProxy {
 
   AnalysisEntity sample(String sample);
 
+  AnalysisEntity u(String u);
+
   AnalysisEntity viability(int viability);
 
   AnalysisEntity vigor(int vigor);
@@ -39,6 +41,7 @@ abstract class _$AnalysisEntityCWProxy {
     NumberSeedsEntity? numberSeeds,
     List<RepetitionEntity>? repetitions,
     String? sample,
+    String? u,
     int? viability,
     int? vigor,
   });
@@ -75,6 +78,9 @@ class _$AnalysisEntityCWProxyImpl implements _$AnalysisEntityCWProxy {
   AnalysisEntity sample(String sample) => this(sample: sample);
 
   @override
+  AnalysisEntity u(String u) => this(u: u);
+
+  @override
   AnalysisEntity viability(int viability) => this(viability: viability);
 
   @override
@@ -96,6 +102,7 @@ class _$AnalysisEntityCWProxyImpl implements _$AnalysisEntityCWProxy {
     Object? numberSeeds = const $CopyWithPlaceholder(),
     Object? repetitions = const $CopyWithPlaceholder(),
     Object? sample = const $CopyWithPlaceholder(),
+    Object? u = const $CopyWithPlaceholder(),
     Object? viability = const $CopyWithPlaceholder(),
     Object? vigor = const $CopyWithPlaceholder(),
   }) {
@@ -131,6 +138,10 @@ class _$AnalysisEntityCWProxyImpl implements _$AnalysisEntityCWProxy {
           ? _value.sample
           // ignore: cast_nullable_to_non_nullable
           : sample as String,
+      u: u == const $CopyWithPlaceholder() || u == null
+          ? _value.u
+          // ignore: cast_nullable_to_non_nullable
+          : u as String,
       viability: viability == const $CopyWithPlaceholder() || viability == null
           ? _value.viability
           // ignore: cast_nullable_to_non_nullable

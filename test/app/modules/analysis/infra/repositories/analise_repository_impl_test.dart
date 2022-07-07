@@ -43,6 +43,7 @@ void main() {
       viability: 1,
       vigor: 1,
       repetitions: [],
+      u: '',
     );
 
     test('deve retornar uma Análises', () async {
@@ -73,6 +74,7 @@ void main() {
       viability: 1,
       vigor: 1,
       repetitions: [],
+      u: '',
     );
 
     test('deve atualizae uma Análises', () async {

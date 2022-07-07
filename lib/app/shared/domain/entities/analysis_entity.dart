@@ -16,6 +16,7 @@ class AnalysisEntity extends Entity {
   final int viability;
   final int vigor;
   final List<RepetitionEntity> repetitions;
+  final String u;
 
   AnalysisEntity({
     String? id,
@@ -27,6 +28,7 @@ class AnalysisEntity extends Entity {
     required this.viability,
     required this.vigor,
     required this.repetitions,
+    required this.u,
   }) : super(id ?? const Uuid().v4());
 
   factory AnalysisEntity.empty() => AnalysisEntity(
@@ -38,5 +40,6 @@ class AnalysisEntity extends Entity {
         viability: 0,
         vigor: 0,
         repetitions: [],
+        u: '',
       );
 }
