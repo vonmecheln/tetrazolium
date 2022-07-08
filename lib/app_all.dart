@@ -23,17 +23,12 @@ import 'package:tetrazolium/app/shared/domain/entities/resume_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 import 'package:tetrazolium/app/shared/widgets/custom_line_datepicker/custom_line_date_picker_widget.dart';
-
-List<String> usersList = [];
+import 'package:tetrazolium/comum.dart';
 
 class AppWidgetMain extends StatelessWidget {
   final AnalysisEntity? analise;
-  final List<String> users;
 
-  AppWidgetMain({
-    this.analise,
-    required this.users,
-  });
+  AppWidgetMain({this.analise});
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +75,6 @@ class AppWidgetMain extends StatelessWidget {
 
     // analise = _seedAnalise(analise);
 
-    usersList = users;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tetrazólio Digital',
@@ -103,12 +96,10 @@ class TelaListaAnalise extends StatefulWidget {
 }
 
 class _TelaListaAnaliseState extends State<TelaListaAnalise> {
-  String dropdownValue = '';
-
   @override
   void initState() {
     super.initState();
-    dropdownValue = usersList.first;
+    userComum = usersComum.first;
   }
 
   @override
@@ -120,7 +111,7 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DropdownButton<String>(
-              value: dropdownValue,
+              value: userComum,
               icon: const Icon(
                 Icons.account_circle_rounded,
                 color: Colors.white,
@@ -129,10 +120,10 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
               style: const TextStyle(color: Colors.deepOrangeAccent),
               onChanged: (String? newValue) {
                 setState(() {
-                  dropdownValue = newValue!;
+                  userComum = newValue!;
                 });
               },
-              items: usersList.map<DropdownMenuItem<String>>((String value) {
+              items: usersComum.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -142,37 +133,7 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
           ),
         ],
       ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Drawer Header'),
-            ),
-            ListTile(
-              title: const Text('Item 1'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: CustomDrawer(),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             _showDetailsPage();
@@ -181,7 +142,7 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection(ANALYSIS)
-            .where("u", isEqualTo: dropdownValue)
+            .where("u", isEqualTo: userComum)
             // .where('users.' + _auth.currentUser.uid, isEqualTo: true)
             .snapshots(),
         builder: (context, snapshot) {
@@ -229,7 +190,7 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
     final AnalysisEntity analysisEntity = analysis == null
         ? AnalysisEntity.empty()
         : analysis.copyWith(
-            u: dropdownValue,
+            u: userComum,
           );
 
     Navigator.push(
@@ -237,6 +198,73 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
       MaterialPageRoute(
         builder: (context) => AddAnalysisFormPage(analysis: analysisEntity),
       ),
+    );
+  }
+}
+
+class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      // Add a ListView to the drawer. This ensures the user can scroll
+      // through the options in the drawer if there isn't enough vertical
+      // space to fit everything.
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text('Drawer Header'),
+          ),
+          ListTile(
+            title: const Text('Análises'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AppWidgetMain(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Reanálises'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TelaReanalise(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TelaReanalise extends StatefulWidget {
+  TelaReanalise({Key? key}) : super(key: key);
+
+  @override
+  State<TelaReanalise> createState() => _TelaReanaliseState();
+}
+
+class _TelaReanaliseState extends State<TelaReanalise> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Reanálises")),
+      drawer: CustomDrawer(),
+      body: Container(),
     );
   }
 }

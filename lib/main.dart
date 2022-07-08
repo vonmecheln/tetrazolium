@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
 import 'package:tetrazolium/app_all.dart';
+import 'package:tetrazolium/comum.dart';
 import 'package:tetrazolium/firebase_options.dart';
 
 Future<void> main() async {
@@ -20,7 +21,7 @@ Future<void> main() async {
 
   var snapUser = FirebaseFirestore.instance.collection(USERS).snapshots();
   var u = await snapUser.first;
-  var users = u.docs.map((e) => e.id).toList();
+  usersComum = u.docs.map((e) => e.id).toList();
 
   var snap = FirebaseFirestore.instance.collection(ANALYSIS).snapshots();
   var f = await snap.first;
@@ -28,5 +29,5 @@ Future<void> main() async {
   var analise = AnalysisMapper.fromMap(d.data());
 
   // runApp(ModularApp(module: AppModule(), child: AppWidget()));
-  runApp(AppWidgetMain(analise: analise, users: users));
+  runApp(AppWidgetMain(analise: analise));
 }
