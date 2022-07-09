@@ -21,19 +21,22 @@ Future<void> main() async {
     ),
   );
 
-  // _createReavaliations();
+  var reanalise = true;
+  if (reanalise) {
+    _createReavaliations();
+  } else {
+    var snapUser = FirebaseFirestore.instance.collection(USERS).snapshots();
+    var u = await snapUser.first;
+    usersComum = u.docs.map((e) => e.id).toList();
 
-  var snapUser = FirebaseFirestore.instance.collection(USERS).snapshots();
-  var u = await snapUser.first;
-  usersComum = u.docs.map((e) => e.id).toList();
+    var snap = FirebaseFirestore.instance.collection(ANALYSIS).snapshots();
+    var f = await snap.first;
+    var d = f.docs.last;
+    var analise = AnalysisMapper.fromMap(d.data());
 
-  var snap = FirebaseFirestore.instance.collection(ANALYSIS).snapshots();
-  var f = await snap.first;
-  var d = f.docs.last;
-  var analise = AnalysisMapper.fromMap(d.data());
-
-  // runApp(ModularApp(module: AppModule(), child: AppWidget()));
-  runApp(AppWidgetMain(analise: analise));
+    // runApp(ModularApp(module: AppModule(), child: AppWidget()));
+    runApp(AppWidgetMain(analise: analise));
+  }
 }
 
 _createReavaliations() async {
@@ -50,15 +53,16 @@ _createReavaliations() async {
           interpretationId: i.id,
           repetitionId: r.id,
           u: a.u,
+          reinterpretations: [],
         );
 
         print(
-            " ${reanalysis.id} ${reanalysis.analiseId} ${reanalysis.repetitionId} ${reanalysis.interpretationId}");
+            " ${reanalysis.id} ${reanalysis.analiseId} ${reanalysis.repetitionId} ${reanalysis.interpretationId} ${reanalysis.u}");
 
-        // FirebaseFirestore.instance
-        //     .collection(REANALYSIS)
-        //     .doc(reanalysis.id)
-        //     .set(ReanalysisMapper.toMap(reanalysis));
+        FirebaseFirestore.instance
+            .collection(REANALYSIS)
+            .doc(reanalysis.id)
+            .set(ReanalysisMapper.toMap(reanalysis));
       });
     });
     print(a.repetitions.first.interpretations.first.id);

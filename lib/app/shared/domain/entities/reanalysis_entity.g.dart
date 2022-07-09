@@ -13,6 +13,9 @@ abstract class _$ReanalysisEntityCWProxy {
 
   ReanalysisEntity interpretationId(String interpretationId);
 
+  ReanalysisEntity reinterpretations(
+      List<ReinterpretationEntity> reinterpretations);
+
   ReanalysisEntity repetitionId(String repetitionId);
 
   ReanalysisEntity u(String u);
@@ -27,6 +30,7 @@ abstract class _$ReanalysisEntityCWProxy {
     String? analiseId,
     String? id,
     String? interpretationId,
+    List<ReinterpretationEntity>? reinterpretations,
     String? repetitionId,
     String? u,
   });
@@ -49,6 +53,11 @@ class _$ReanalysisEntityCWProxyImpl implements _$ReanalysisEntityCWProxy {
       this(interpretationId: interpretationId);
 
   @override
+  ReanalysisEntity reinterpretations(
+          List<ReinterpretationEntity> reinterpretations) =>
+      this(reinterpretations: reinterpretations);
+
+  @override
   ReanalysisEntity repetitionId(String repetitionId) =>
       this(repetitionId: repetitionId);
 
@@ -67,6 +76,7 @@ class _$ReanalysisEntityCWProxyImpl implements _$ReanalysisEntityCWProxy {
     Object? analiseId = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
     Object? interpretationId = const $CopyWithPlaceholder(),
+    Object? reinterpretations = const $CopyWithPlaceholder(),
     Object? repetitionId = const $CopyWithPlaceholder(),
     Object? u = const $CopyWithPlaceholder(),
   }) {
@@ -84,6 +94,11 @@ class _$ReanalysisEntityCWProxyImpl implements _$ReanalysisEntityCWProxy {
           ? _value.interpretationId
           // ignore: cast_nullable_to_non_nullable
           : interpretationId as String,
+      reinterpretations: reinterpretations == const $CopyWithPlaceholder() ||
+              reinterpretations == null
+          ? _value.reinterpretations
+          // ignore: cast_nullable_to_non_nullable
+          : reinterpretations as List<ReinterpretationEntity>,
       repetitionId:
           repetitionId == const $CopyWithPlaceholder() || repetitionId == null
               ? _value.repetitionId

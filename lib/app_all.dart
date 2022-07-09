@@ -269,10 +269,10 @@ class _TelaReanaliseState extends State<TelaReanalise> {
         .snapshots();
     var f = await s.first;
 
-    listReanalysis =
+    List<ReanalysisEntity> list =
         f.docs.map((e) => ReanalysisMapper.fromMap(e.data())).toList();
 
-    for (var e in listReanalysis) {
+    for (var e in list) {
       if (!listAnalysis.containsKey(e.analiseId)) {
         print(e.analiseId);
         var d =
@@ -283,7 +283,22 @@ class _TelaReanaliseState extends State<TelaReanalise> {
 
         listAnalysis[a.id] = a;
       }
+
+      var rept = listAnalysis[e.analiseId]!
+          .repetitions
+          .where((r) => r.id == e.repetitionId);
+      if (rept.isNotEmpty) {
+        var inter =
+            rept.first.interpretations.where((i) => i.id == e.interpretationId);
+        if (inter.isNotEmpty) {
+          if (inter.first.photos.isNotEmpty) {
+            listReanalysis.add(e);
+          }
+        }
+      }
     }
+
+    // listReanalysis = list;
 
     return await Future.delayed(Duration(seconds: 1), () {
       return true;
@@ -338,11 +353,13 @@ class _TelaReanaliseState extends State<TelaReanalise> {
                   .firstWhere((r) => r.id == e.repetitionId)
                   .interpretations
                   .firstWhere((i) => i.id == e.interpretationId);
-              print(inter.photos.length);
 
               return FormInterpretation(
                 inter,
                 reanalise: true,
+                onChange: (p0) {
+                  print(p0);
+                },
               );
             }).toList(),
           ),

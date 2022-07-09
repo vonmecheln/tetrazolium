@@ -20,36 +20,43 @@ class PainelPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var children = [
+      FotoWidget(
+        reanalise: this.reanalise,
+        color: FlutterFlowTheme.primaryColor,
+        nome: 'Externa',
+        onSave: (url) => onChangePhoto(url, PhotoType.external),
+        photos: photos
+            .where(
+              (p) => p.type == PhotoType.external,
+            )
+            .toList(),
+      ),
+      SizedBox(height: 10, width: 10),
+      FotoWidget(
+        reanalise: this.reanalise,
+        color: FlutterFlowTheme.primaryColor,
+        nome: 'Interna',
+        onSave: (url) => onChangePhoto(url, PhotoType.internal),
+        photos: photos
+            .where(
+              (p) => p.type == PhotoType.internal,
+            )
+            .toList(),
+      ),
+    ];
+
     return Container(
       color: const Color(0xFFF2F2F2),
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: Row(
-          children: [
-            FotoWidget(
-              reanalise: this.reanalise,
-              color: FlutterFlowTheme.primaryColor,
-              nome: 'Externa',
-              onSave: (url) => onChangePhoto(url, PhotoType.external),
-              photos: photos
-                  .where(
-                    (p) => p.type == PhotoType.external,
-                  )
-                  .toList(),
-            ),
-            SizedBox(height: 10, width: 10),
-            FotoWidget(
-              color: FlutterFlowTheme.primaryColor,
-              nome: 'Interna',
-              onSave: (url) => onChangePhoto(url, PhotoType.internal),
-              photos: photos
-                  .where(
-                    (p) => p.type == PhotoType.internal,
-                  )
-                  .toList(),
-            ),
-          ],
-        ),
+        child: this.reanalise
+            ? Column(
+                children: children,
+              )
+            : Row(
+                children: children,
+              ),
       ),
     );
   }
@@ -117,7 +124,10 @@ class _FotoWidgetState extends State<FotoWidget> {
             imageUrl: widget.photos.first.name,
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 CircularProgressIndicator(value: downloadProgress.progress),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            errorWidget: (context, url, error) {
+              // print(error);
+              return Icon(Icons.error);
+            },
           );
 
     return Expanded(
@@ -143,7 +153,7 @@ class _FotoWidgetState extends State<FotoWidget> {
             ),
           ),
         ),
-        onTap: _openImagePicker,
+        onTap: widget.reanalise ? null : _openImagePicker,
       ),
     );
   }
