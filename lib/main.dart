@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:tetrazolium/app/shared/domain/entities/reanalysis_entity.dart';
 // import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
+import 'package:tetrazolium/app/shared/external/mappers/reanalysis_data_mapper.dart';
 import 'package:tetrazolium/app_all.dart';
 import 'package:tetrazolium/comum.dart';
 import 'package:tetrazolium/firebase_options.dart';
@@ -19,6 +21,8 @@ Future<void> main() async {
     ),
   );
 
+  // _createReavaliations();
+
   var snapUser = FirebaseFirestore.instance.collection(USERS).snapshots();
   var u = await snapUser.first;
   usersComum = u.docs.map((e) => e.id).toList();
@@ -30,4 +34,33 @@ Future<void> main() async {
 
   // runApp(ModularApp(module: AppModule(), child: AppWidget()));
   runApp(AppWidgetMain(analise: analise));
+}
+
+_createReavaliations() async {
+  var snap = FirebaseFirestore.instance.collection(ANALYSIS).snapshots();
+  var f = await snap.first;
+
+  var list = f.docs.map((e) => AnalysisMapper.fromMap(e.data())).toList();
+
+  list.forEach((a) {
+    a.repetitions.forEach((r) {
+      r.interpretations.forEach((i) {
+        var reanalysis = ReanalysisEntity(
+          analiseId: a.id,
+          interpretationId: i.id,
+          repetitionId: r.id,
+          u: a.u,
+        );
+
+        print(
+            " ${reanalysis.id} ${reanalysis.analiseId} ${reanalysis.repetitionId} ${reanalysis.interpretationId}");
+
+        // FirebaseFirestore.instance
+        //     .collection(REANALYSIS)
+        //     .doc(reanalysis.id)
+        //     .set(ReanalysisMapper.toMap(reanalysis));
+      });
+    });
+    print(a.repetitions.first.interpretations.first.id);
+  });
 }

@@ -27,10 +27,11 @@ class _FormCollectState extends State<FormCollect> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        const Expanded(
-            child: PainelPhoto(
-          photos: [],
-        )),
+        Expanded(
+          child: PainelPhoto(
+            photos: [],
+          ),
+        ),
         PainelClassification(
           widget.coleta.classification,
           onChange: onChageClassification,

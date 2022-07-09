@@ -15,6 +15,7 @@ import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/tet
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/damage_entity.dart';
+import 'package:tetrazolium/app/shared/domain/entities/index.dart';
 import 'package:tetrazolium/app/shared/domain/entities/interpretation_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/photo_entity.dart';
@@ -22,6 +23,7 @@ import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/resume_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
+import 'package:tetrazolium/app/shared/external/mappers/reanalysis_data_mapper.dart';
 import 'package:tetrazolium/app/shared/widgets/custom_line_datepicker/custom_line_date_picker_widget.dart';
 import 'package:tetrazolium/comum.dart';
 
@@ -75,10 +77,14 @@ class AppWidgetMain extends StatelessWidget {
 
     // analise = _seedAnalise(analise);
 
+    userComum = usersComum.first;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tetrazólio Digital',
-      home: const TelaListaAnalise(),
+
+      // home: const TelaListaAnalise(),
+      home: TelaReanalise(),
       // home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
       theme: ThemeData(
         primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
@@ -96,12 +102,6 @@ class TelaListaAnalise extends StatefulWidget {
 }
 
 class _TelaListaAnaliseState extends State<TelaListaAnalise> {
-  @override
-  void initState() {
-    super.initState();
-    userComum = usersComum.first;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,7 +146,6 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
             // .where('users.' + _auth.currentUser.uid, isEqualTo: true)
             .snapshots(),
         builder: (context, snapshot) {
-          // print(snapshot.connectionState);
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
@@ -259,12 +258,98 @@ class TelaReanalise extends StatefulWidget {
 }
 
 class _TelaReanaliseState extends State<TelaReanalise> {
+  Map<String, AnalysisEntity> listAnalysis = {};
+  List<ReanalysisEntity> listReanalysis = [];
+
+  //
+  Future<bool> _getRevaliacao() async {
+    var s = FirebaseFirestore.instance
+        .collection(REANALYSIS)
+        .where("u", isNotEqualTo: userComum)
+        .snapshots();
+    var f = await s.first;
+
+    listReanalysis =
+        f.docs.map((e) => ReanalysisMapper.fromMap(e.data())).toList();
+
+    for (var e in listReanalysis) {
+      if (!listAnalysis.containsKey(e.analiseId)) {
+        print(e.analiseId);
+        var d =
+            FirebaseFirestore.instance.collection(ANALYSIS).doc(e.analiseId);
+
+        var s = await d.get();
+        var a = AnalysisMapper.fromMap(s.data() ?? {});
+
+        listAnalysis[a.id] = a;
+      }
+    }
+
+    return await Future.delayed(Duration(seconds: 1), () {
+      return true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Reanálises")),
       drawer: CustomDrawer(),
-      body: Container(),
+      body: FutureBuilder(
+          future: _getRevaliacao(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return _buildList();
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+
+      // Column(
+      //   children: [
+      // PainelNumber(
+      //   onBackPressed: onBackPressed,
+      //   onForwardPressed: onForwardPressed,
+      //   atual: _atualInterpretation,
+      //   max: widget.analysis.numberSeeds.seeds,
+      // ),
+      //   ],
+      // ),
+    );
+  }
+
+  PageController pg = PageController(
+    initialPage: 0,
+    viewportFraction: 0.9,
+  );
+
+  Widget _buildList() {
+    print(listReanalysis.length);
+    return Column(
+      children: [
+        Expanded(
+          child: PageView(
+            controller: pg,
+            children: listReanalysis.map((e) {
+              var a = listAnalysis[e.analiseId];
+              var inter = a!.repetitions
+                  .firstWhere((r) => r.id == e.repetitionId)
+                  .interpretations
+                  .firstWhere((i) => i.id == e.interpretationId);
+              print(inter.photos.length);
+
+              return FormInterpretation(
+                inter,
+                reanalise: true,
+              );
+            }).toList(),
+          ),
+        ),
+        const PainelSeparator(),
+        const PainelLegend(),
+      ],
     );
   }
 }
@@ -297,8 +382,6 @@ class AddAnalysisFormPage extends StatefulWidget {
 class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
   @override
   Widget build(BuildContext context) {
-    print(widget.analysis.u);
-
     return Scaffold(
       appBar: AppBar(title: const Text("Formulário de Análise")),
       floatingActionButton: Column(
@@ -703,11 +786,13 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
 }
 
 class FormInterpretation extends StatefulWidget {
+  bool reanalise = false;
   InterpretationEntity interpretation;
   final void Function(InterpretationEntity)? onChange;
 
   FormInterpretation(
     this.interpretation, {
+    this.reanalise = false,
     Key? key,
     this.onChange,
   }) : super(key: key);
@@ -723,6 +808,7 @@ class _FormInterpretationState extends State<FormInterpretation> {
       children: <Widget>[
         Expanded(
           child: PainelPhoto(
+            reanalise: widget.reanalise,
             photos: widget.interpretation.photos,
             onChange: onPhotoChange,
           ),

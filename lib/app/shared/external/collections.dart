@@ -2,3 +2,4 @@
 
 const ANALYSIS = 'analises';
 const USERS = 'user';
+const REANALYSIS = 'reanalise';

@@ -7,13 +7,15 @@ import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 import 'package:tetrazolium/app/shared/domain/entities/photo_entity.dart';
 
 class PainelPhoto extends StatelessWidget {
+  bool reanalise;
   final List<PhotoEntity> photos;
   final void Function(PhotoEntity photo)? onChange;
 
-  const PainelPhoto({
+  PainelPhoto({
+    required this.photos,
     Key? key,
     this.onChange,
-    required this.photos,
+    this.reanalise = false,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class PainelPhoto extends StatelessWidget {
         child: Row(
           children: [
             FotoWidget(
+              reanalise: this.reanalise,
               color: FlutterFlowTheme.primaryColor,
               nome: 'Externa',
               onSave: (url) => onChangePhoto(url, PhotoType.external),
@@ -58,17 +61,19 @@ class PainelPhoto extends StatelessWidget {
 }
 
 class FotoWidget extends StatefulWidget {
+  bool reanalise;
   final Color color;
   final String nome;
   final List<PhotoEntity> photos;
   final Function(String url) onSave;
 
-  const FotoWidget({
+  FotoWidget({
     Key? key,
     required this.color,
     required this.nome,
     required this.onSave,
     required this.photos,
+    this.reanalise = false,
   }) : super(key: key);
 
   @override
