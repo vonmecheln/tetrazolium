@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/reanalysis_entity.dart';
 // import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
@@ -31,8 +32,13 @@ Future<void> main() async {
 
     var snap = FirebaseFirestore.instance.collection(ANALYSIS).snapshots();
     var f = await snap.first;
-    var d = f.docs.last;
-    var analise = AnalysisMapper.fromMap(d.data());
+
+    var analise = AnalysisEntity.empty();
+
+    if (f.docs.isNotEmpty) {
+      var d = f.docs.last;
+      analise = AnalysisMapper.fromMap(d.data());
+    }
 
     // runApp(ModularApp(module: AppModule(), child: AppWidget()));
     runApp(AppWidgetMain(analise: analise));
@@ -59,10 +65,11 @@ _createReavaliations() async {
         print(
             " ${reanalysis.id} ${reanalysis.analiseId} ${reanalysis.repetitionId} ${reanalysis.interpretationId} ${reanalysis.u}");
 
-        FirebaseFirestore.instance
-            .collection(REANALYSIS)
-            .doc(reanalysis.id)
-            .set(ReanalysisMapper.toMap(reanalysis));
+        if (i.photos.isNotEmpty)
+          FirebaseFirestore.instance
+              .collection(REANALYSIS)
+              .doc(reanalysis.id)
+              .set(ReanalysisMapper.toMap(reanalysis));
       });
     });
     print(a.repetitions.first.interpretations.first.id);

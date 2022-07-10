@@ -90,6 +90,7 @@ class FotoWidget extends StatefulWidget {
 class _FotoWidgetState extends State<FotoWidget> {
   File? _image;
   final _picker = ImagePicker();
+  bool _stateUpload = false;
 
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
@@ -102,6 +103,9 @@ class _FotoWidgetState extends State<FotoWidget> {
       _image = File(pickedImage.path);
 
       if (_image != null) {
+        setState(() {
+          _stateUpload = true;
+        });
         var task = FirebaseStorage.instance
             .ref()
             .child(DateTime.now().millisecondsSinceEpoch.toString())
@@ -110,7 +114,9 @@ class _FotoWidgetState extends State<FotoWidget> {
         task.whenComplete(() async {
           var url = await task.snapshot.ref.getDownloadURL();
           widget.onSave(url);
-          setState(() {});
+          setState(() {
+            _stateUpload = false;
+          });
         });
       }
     }
@@ -118,6 +124,8 @@ class _FotoWidgetState extends State<FotoWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print(_stateUpload);
+
     Widget? img = widget.photos.isEmpty
         ? null
         : CachedNetworkImage(
@@ -141,14 +149,18 @@ class _FotoWidgetState extends State<FotoWidget> {
             child: Container(
               color: widget.color,
               child: Center(
-                child: _image != null
-                    ? Image.file(_image!, fit: BoxFit.cover)
-                    : img != null
-                        ? img
-                        : ElevatedButton(
-                            child: Text(widget.nome),
-                            onPressed: _openImagePicker,
-                          ),
+                child: _stateUpload
+                    ? CircularProgressIndicator()
+                    : _image != null
+                        ? Image.file(_image!, fit: BoxFit.cover)
+                        : img != null
+                            ? img
+                            : widget.reanalise
+                                ? Container()
+                                : ElevatedButton(
+                                    child: Text(widget.nome),
+                                    onPressed: _openImagePicker,
+                                  ),
               ),
             ),
           ),

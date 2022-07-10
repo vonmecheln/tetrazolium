@@ -83,8 +83,8 @@ class AppWidgetMain extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tetrazólio Digital',
 
-      // home: const TelaListaAnalise(),
-      home: TelaReanalise(),
+      home: const TelaListaAnalise(),
+      // home: TelaReanalise(),
       // home: TelaResumo(analysis: this.analise ?? AnalysisEntity.empty()),
       theme: ThemeData(
         primarySwatch: createMaterialColor(FlutterFlowTheme.primaryColor),
@@ -187,7 +187,9 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
 
   void _showDetailsPage({AnalysisEntity? analysis}) {
     final AnalysisEntity analysisEntity = analysis == null
-        ? AnalysisEntity.empty()
+        ? AnalysisEntity.empty().copyWith(
+            u: userComum,
+          )
         : analysis.copyWith(
             u: userComum,
           );
@@ -341,7 +343,6 @@ class _TelaReanaliseState extends State<TelaReanalise> {
   );
 
   Widget _buildList() {
-    print(listReanalysis.length);
     return Column(
       children: [
         Expanded(
@@ -354,11 +355,37 @@ class _TelaReanaliseState extends State<TelaReanalise> {
                   .interpretations
                   .firstWhere((i) => i.id == e.interpretationId);
 
+              var interpretation = InterpretationEntity.empty().copyWith(
+                photos: inter.photos,
+              );
+
+              ReinterpretationEntity reinter =
+                  ReinterpretationEntity.empty().copyWith(
+                id: interpretation.id,
+                u: userComum,
+              );
+
               return FormInterpretation(
-                inter,
+                interpretation,
                 reanalise: true,
-                onChange: (p0) {
-                  print(p0);
+                onChange: (value) {
+                  List<ReinterpretationEntity> reinterpretations = [];
+
+                  for (var r in e.reinterpretations) {
+                    if (r.id != value.id) reinterpretations.add(r);
+                  }
+
+                  reinterpretations.add(
+                    reinter.copyWith(
+                      classification: value.classification,
+                      damages: value.damages,
+                    ),
+                  );
+
+                  e.reinterpretations.clear();
+                  e.reinterpretations.addAll(reinterpretations);
+
+                  _saveReanalysis(e);
                 },
               );
             }).toList(),
@@ -368,6 +395,31 @@ class _TelaReanaliseState extends State<TelaReanalise> {
         const PainelLegend(),
       ],
     );
+  }
+}
+
+final Map<String, RestartableTimer?> _timers = {};
+
+void _saveReanalysis(ReanalysisEntity re) {
+  RestartableTimer? _timer;
+
+  if (_timers.containsKey(re.id)) {
+    _timer = _timers[re.id];
+  }
+
+  if (_timer == null || !_timer.isActive) {
+    _timer = RestartableTimer(const Duration(seconds: 1), () {
+      FirebaseFirestore.instance
+          .collection(REANALYSIS)
+          .doc(re.id)
+          .set(ReanalysisMapper.toMap(re));
+
+      print(re);
+    });
+
+    _timers[re.id] = _timer;
+  } else {
+    _timer.reset();
   }
 }
 
@@ -407,7 +459,7 @@ class _AddAnalysiFormsPageState extends State<AddAnalysisFormPage> {
           FloatingActionButton(
             heroTag: "btn1",
             onPressed: () {
-              _initAnalise(widget.analysis);
+              widget.analysis = _initAnalise(widget.analysis);
 
               final finisheds = widget.analysis.repetitions
                   .where((r) => r.state == RepetitionState.finish)
@@ -595,6 +647,24 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
   int _atualInterpretation = 1;
 
   @override
+  void initState() {
+    super.initState();
+    var openInterp = widget
+        .analysis.repetitions[widget.currencyRepetition].interpretations
+        .where((e) => e.photos.length <= 1)
+        .toList();
+    if (openInterp.isNotEmpty) {
+      int index = int.parse(openInterp.first.id) - 1;
+      _atualInterpretation = index + 1;
+
+      pg = PageController(
+        initialPage: index,
+        viewportFraction: 0.9,
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -718,8 +788,6 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
     debugPrint('onFinishPressed');
   }
 
-  final Map<String, RestartableTimer?> _timers = {};
-
   void onChangeInterpretation(InterpretationEntity interpretation) {
     int index = int.parse(interpretation.id) - 1;
 
@@ -733,7 +801,7 @@ class _TelaRepetitionPageState extends State<TelaRepetitionPage> {
     }
 
     if (_timer == null || !_timer.isActive) {
-      _timer = RestartableTimer(const Duration(seconds: 2), () {
+      _timer = RestartableTimer(const Duration(seconds: 1), () {
         _save(widget.analysis);
       });
 
