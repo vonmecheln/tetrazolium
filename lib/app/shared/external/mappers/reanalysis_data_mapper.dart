@@ -1,5 +1,3 @@
-import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
-import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/reanalysis_entity.dart';
 import 'package:tetrazolium/app/shared/external/datasource/datasource.dart';
 import 'package:tetrazolium/app/shared/external/mappers/reinterpretation_data_mapper.dart';

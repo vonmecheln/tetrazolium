@@ -84,3 +84,10 @@ MaterialColor createMaterialColor2(Color color) {
   }
   return MaterialColor(color.value, swatch);
 }
+
+Widget separatorBuilder(BuildContext context, int index) {
+  return Container(
+    height: 0,
+    color: Colors.grey[200],
+  );
+}

@@ -13,13 +13,7 @@ import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/dis
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/painel_viabilidade.dart';
 import 'package:tetrazolium/app/modules/analysis/presenter/pages/componentes/tetra_card.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
-import 'package:tetrazolium/app/shared/domain/entities/analysis_entity.dart';
-import 'package:tetrazolium/app/shared/domain/entities/damage_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/index.dart';
-import 'package:tetrazolium/app/shared/domain/entities/interpretation_entity.dart';
-import 'package:tetrazolium/app/shared/domain/entities/number_seeds_entity.dart';
-import 'package:tetrazolium/app/shared/domain/entities/photo_entity.dart';
-import 'package:tetrazolium/app/shared/domain/entities/repetition_entity.dart';
 import 'package:tetrazolium/app/shared/domain/entities/resume_entity.dart';
 import 'package:tetrazolium/app/shared/external/collections.dart';
 import 'package:tetrazolium/app/shared/external/mappers/analysis_data_mapper.dart';
@@ -134,11 +128,7 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
         ],
       ),
       drawer: CustomDrawer(),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _showDetailsPage();
-          },
-          child: const Icon(Icons.add)),
+      floatingActionButton: _floatingActionButton(),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection(ANALYSIS)
@@ -164,22 +154,24 @@ class _TelaListaAnaliseState extends State<TelaListaAnalise> {
     );
   }
 
+  FloatingActionButton _floatingActionButton() {
+    return FloatingActionButton(
+      onPressed: () {
+        _showDetailsPage();
+      },
+      child: const Icon(Icons.add),
+    );
+  }
+
   Widget _buildList(List<AnalysisEntity> list) {
     return ListView.separated(
       physics: const AlwaysScrollableScrollPhysics(),
+      separatorBuilder: separatorBuilder,
       itemCount: list.length,
       itemBuilder: (_, index) {
         return TetraCard(
-            item: list[index],
-            onSelect: (() {
-              _showDetailsPage(analysis: list[index]);
-              // Modular.to.pushNamed('./details', arguments: list[index]);
-            }));
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return Container(
-          height: 0,
-          color: Colors.grey[200],
+          item: list[index],
+          onSelect: (() => _showDetailsPage(analysis: list[index])),
         );
       },
     );
@@ -211,11 +203,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      // Add a ListView to the drawer. This ensures the user can scroll
-      // through the options in the drawer if there isn't enough vertical
-      // space to fit everything.
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
           const DrawerHeader(
@@ -263,7 +251,6 @@ class _TelaReanaliseState extends State<TelaReanalise> {
   Map<String, AnalysisEntity> listAnalysis = {};
   List<ReanalysisEntity> listReanalysis = [];
 
-  //
   Future<bool> _getRevaliacao() async {
     var s = FirebaseFirestore.instance
         .collection(REANALYSIS)

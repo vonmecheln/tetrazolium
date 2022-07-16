@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tetrazolium/app/modules/flutter_flow/flutter_flow_theme.dart';
 import 'package:tetrazolium/app/shared/domain/entities/photo_entity.dart';
 
-class PainelPhoto extends StatelessWidget {
+class PainelPhoto extends StatefulWidget {
   bool reanalise;
   final List<PhotoEntity> photos;
   final void Function(PhotoEntity photo)? onChange;
@@ -19,14 +21,19 @@ class PainelPhoto extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<PainelPhoto> createState() => _PainelPhotoState();
+}
+
+class _PainelPhotoState extends State<PainelPhoto> {
+  @override
   Widget build(BuildContext context) {
     var children = [
       FotoWidget(
-        reanalise: this.reanalise,
+        reanalise: this.widget.reanalise,
         color: FlutterFlowTheme.primaryColor,
         nome: 'Externa',
         onSave: (url) => onChangePhoto(url, PhotoType.external),
-        photos: photos
+        photos: widget.photos
             .where(
               (p) => p.type == PhotoType.external,
             )
@@ -34,11 +41,11 @@ class PainelPhoto extends StatelessWidget {
       ),
       SizedBox(height: 10, width: 10),
       FotoWidget(
-        reanalise: this.reanalise,
+        reanalise: this.widget.reanalise,
         color: FlutterFlowTheme.primaryColor,
         nome: 'Interna',
         onSave: (url) => onChangePhoto(url, PhotoType.internal),
-        photos: photos
+        photos: widget.photos
             .where(
               (p) => p.type == PhotoType.internal,
             )
@@ -50,7 +57,7 @@ class PainelPhoto extends StatelessWidget {
       color: const Color(0xFFF2F2F2),
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: this.reanalise
+        child: this.widget.reanalise
             ? Column(
                 children: children,
               )
@@ -63,7 +70,7 @@ class PainelPhoto extends StatelessWidget {
 
   onChangePhoto(String url, PhotoType type) {
     final photo = PhotoEntity(name: url, type: type);
-    if (onChange != null) onChange!(photo);
+    if (widget.onChange != null) widget.onChange!(photo);
   }
 }
 
@@ -124,7 +131,7 @@ class _FotoWidgetState extends State<FotoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(_stateUpload);
+    // print(_stateUpload);
 
     Widget? img = widget.photos.isEmpty
         ? null

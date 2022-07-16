@@ -1,6 +1,5 @@
 import 'package:tetrazolium/app/shared/domain/entities/index.dart';
 import 'package:tetrazolium/app/shared/external/mappers/damage_data_mapper.dart';
-import 'package:tetrazolium/app/shared/external/mappers/photo_data_mapper.dart';
 
 class ReinterpretationMapper {
   static ReinterpretationEntity fromMap(Map<String, dynamic> json) =>

@@ -22,7 +22,7 @@ Future<void> main() async {
     ),
   );
 
-  var reanalise = true;
+  var reanalise = false;
   if (reanalise) {
     _createReavaliations();
   } else {
